@@ -3,556 +3,780 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mật Mã Tự Do – Affiliate x AI | Phong Menly</title>
-  <meta name="description" content="5 Cánh Cửa Định Mệnh – Làm Chủ Hệ Thống Affiliate x AI – Mở Ra Cánh Cửa Tự Do tài chính của bạn." />
+  <title>Tủ Bếp Inox Cánh Kính Thịnh Vượng | Gia Công Sắt Thép Hà Nội</title>
+  <meta name="description" content="Thịnh Vượng – chuyên thi công tủ bếp inox cánh kính, bàn ghế inox, gia công sắt thép theo yêu cầu tại Hà Nội. Chất lượng bền bỉ – Giá cả hợp lý. Hotline: 0395 326 530" />
+  <meta name="keywords" content="tủ bếp inox, cánh kính, gia công sắt thép, bàn ghế inox, Hà Nội, Thịnh Vượng" />
+  <meta property="og:title" content="Tủ Bếp Inox Cánh Kính Thịnh Vượng" />
+  <meta property="og:description" content="Chuyên thi công tủ bếp inox cánh kính, bàn ghế inox, gia công sắt thép theo yêu cầu tại Hà Nội." />
+  <meta property="og:type" content="website" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
 
-  <!-- ═══ NAV ═══ -->
-  <header class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="#" class="logo">Phong Menly</a>
-      <nav class="nav-links">
-        <a href="#academy">Học Viện</a>
-        <a href="#products">Sản Phẩm</a>
-      </nav>
-      <div class="nav-right">
-        <div class="lang-toggle">
-          <span class="lang active">VI</span>
-          <span class="sep">|</span>
-          <span class="lang">EN</span>
+  <!-- ═══════════════════ HEADER ═══════════════════ -->
+  <header class="header" id="header">
+    <!-- Top Bar -->
+    <div class="header-top">
+      <div class="container">
+        <div class="top-left">
+          <span><i class="fas fa-map-marker-alt"></i> Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội</span>
         </div>
-        <a href="#pricing" class="btn btn-yellow nav-cta">Đăng ký / Đăng nhập</a>
+        <div class="top-right">
+          <a href="tel:0389030887"><i class="fas fa-phone-alt"></i> 0389 030 887</a>
+          <a href="https://www.facebook.com/profile.php?id=61583063758166" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        </div>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
+
+    <!-- Main Header -->
+    <div class="header-main">
+      <div class="container">
+        <a href="#" class="logo">
+          <div class="logo-icon"><i class="fas fa-home"></i></div>
+          <div class="logo-text">
+            <span class="logo-name">THỊNH VƯỢNG</span>
+            <span class="logo-tagline">Tủ Bếp Inox & Gia Công Sắt Thép</span>
+          </div>
+        </a>
+        <div class="search-bar">
+          <input type="text" placeholder="Tìm kiếm sản phẩm..." id="searchInput" />
+          <button type="button" id="searchBtn"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="header-contact">
+          <div class="hotline">
+            <div class="hotline-icon"><i class="fas fa-phone-volume"></i></div>
+            <div class="hotline-text">
+              <span>Hotline tư vấn 24/7</span>
+              <a href="tel:0395326530"><strong>0395 326 530</strong></a>
+            </div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="header-nav">
+      <div class="container">
+        <button class="category-toggle" id="categoryToggle">
+          <i class="fas fa-bars"></i> DANH MỤC SẢN PHẨM <i class="fas fa-chevron-down"></i>
+        </button>
+        <ul class="main-nav" id="mainNav">
+          <li><a href="#home" class="active">Trang Chủ</a></li>
+          <li><a href="#about">Giới Thiệu</a></li>
+          <li class="has-dropdown">
+            <a href="#products">Sản Phẩm <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown">
+              <li><a href="#sp-tu-bep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
+              <li><a href="#sp-thiet-bi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
+              <li><a href="#sp-phu-kien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
+              <li><a href="#sp-ban-ghe"><i class="fas fa-chair"></i> Bàn Ghế Inox & SP Khác</a></li>
+              <li><a href="#sp-gia-cong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
+            </ul>
+          </li>
+          <li><a href="#projects">Công Trình</a></li>
+          <li><a href="#contact">Liên Hệ</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Category Sidebar -->
+    <div class="category-sidebar" id="categorySidebar">
+      <ul>
+        <li><a href="#sp-tu-bep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
+        <li><a href="#sp-thiet-bi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
+        <li><a href="#sp-phu-kien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
+        <li><a href="#sp-ban-ghe"><i class="fas fa-chair"></i> Bàn Ghế Inox & SP Khác</a></li>
+        <li><a href="#sp-gia-cong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
+      </ul>
+    </div>
+
+    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#academy">Học Viện</a>
-      <a href="#products">Sản Phẩm</a>
-      <a href="#pricing" class="btn btn-yellow">Đăng ký / Đăng nhập</a>
+      <div class="mobile-menu-header">
+        <span>Menu</span>
+        <button class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></button>
+      </div>
+      <ul>
+        <li><a href="#home">Trang Chủ</a></li>
+        <li><a href="#about">Giới Thiệu</a></li>
+        <li><a href="#sp-tu-bep">Tủ Bếp Inox Cánh Kính</a></li>
+        <li><a href="#sp-thiet-bi">Thiết Bị Nhà Bếp</a></li>
+        <li><a href="#sp-phu-kien">Phụ Kiện Tủ Bếp</a></li>
+        <li><a href="#sp-ban-ghe">Bàn Ghế Inox & SP Khác</a></li>
+        <li><a href="#sp-gia-cong">Gia Công Theo Yêu Cầu</a></li>
+        <li><a href="#projects">Công Trình</a></li>
+        <li><a href="#contact">Liên Hệ</a></li>
+      </ul>
+      <div class="mobile-contact">
+        <a href="tel:0395326530" class="btn btn-gold"><i class="fas fa-phone-alt"></i> 0395 326 530</a>
+      </div>
     </div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
   </header>
 
-  <!-- ═══ HERO ═══ -->
+  <!-- ═══════════════════ HERO ═══════════════════ -->
   <section class="hero" id="home">
-    <div class="hero-bg-glow"></div>
-    <div class="container">
-      <div class="badge">✦ MẬT MÃ TỰ DO — Affiliate x AI</div>
-      <h1 class="hero-title">
-        5 Cánh Cửa <span class="gold">Định Mệnh</span><br />
-        Làm Chủ Hệ Thống <span class="gold">Affiliate x AI</span><br />
-        Mở Ra <span class="gold">Cánh Cửa Tự Do</span>
-      </h1>
-      <p class="hero-sub">
-        Hệ thống bí mật mà 97% người làm affiliate không bao giờ biết —<br class="desktop-only" />
-        được giải mã hoàn toàn lần đầu tiên bởi Phong Menly.
-      </p>
-      <div class="hero-books">
-        <div class="book book-left">
-          <div class="book-cover">
-            <div class="book-spine"></div>
-            <div class="book-face">
-              <div class="book-label">MẬT MÃ TỰ DO</div>
-              <div class="book-sub-label">AFFILIATE × AI</div>
-              <div class="book-icon">🔐</div>
-            </div>
-          </div>
-        </div>
-        <div class="book book-stack">
-          <div class="book-cover stack">
-            <div class="book-spine"></div>
-            <div class="book-face">
-              <div class="book-label">MẬT MÃ TỰ DO</div>
-              <div class="book-sub-label">AFFILIATE × AI</div>
-              <div class="book-icon">🔐</div>
-            </div>
-          </div>
-        </div>
-        <div class="book book-right">
-          <div class="book-cover alt">
-            <div class="book-spine alt-spine"></div>
-            <div class="book-face alt-face">
-              <div class="book-label">Bạn đang sống...<br/><small>hay chỉ đang tồn tại?</small></div>
-              <div class="book-icon">🏔️</div>
+    <div class="hero-slider" id="heroSlider">
+      <div class="slide active">
+        <div class="slide-bg slide-bg-1"></div>
+        <div class="slide-content">
+          <div class="container">
+            <div class="hero-badge">✦ THỊNH VƯỢNG — Uy Tín & Chất Lượng</div>
+            <h1>Chuyên Thi Công<br><span class="gold">Tủ Bếp Inox Cánh Kính</span><br>& Gia Công Sắt Thép</h1>
+            <p class="hero-desc">Chất liệu bền bỉ – Không gỉ sét – Thiết kế sang trọng – Giá cả hợp lý</p>
+            <div class="hero-cta">
+              <a href="#contact" class="btn btn-gold btn-lg"><i class="fas fa-phone-alt"></i> Liên Hệ Ngay</a>
+              <a href="#products" class="btn btn-outline-light btn-lg"><i class="fas fa-th-large"></i> Xem Sản Phẩm</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="hero-cta">
-        <a href="#pricing" class="btn btn-yellow btn-lg pulse">Mở Khóa Ngay</a>
-        <a href="#preview" class="btn btn-outline btn-lg">📖 Đọc Thử Miễn Phí</a>
+      <div class="slide">
+        <div class="slide-bg slide-bg-2"></div>
+        <div class="slide-content">
+          <div class="container">
+            <div class="hero-badge">✦ SẢN PHẨM CAO CẤP</div>
+            <h1>Bàn Ghế Inox<br><span class="gold">Bền Đẹp Theo Thời Gian</span><br>Gia Công Mọi Yêu Cầu</h1>
+            <p class="hero-desc">Từ bàn ghế inox, máng lợn đến cửa cổng, thùng xe tải – Đáp ứng mọi nhu cầu</p>
+            <div class="hero-cta">
+              <a href="tel:0395326530" class="btn btn-gold btn-lg"><i class="fas fa-phone-alt"></i> Gọi Ngay: 0395 326 530</a>
+              <a href="#projects" class="btn btn-outline-light btn-lg"><i class="fas fa-images"></i> Xem Công Trình</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><span class="stat-num">12,000+</span><span class="stat-label">Học viên</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">Đánh giá</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">5</span><span class="stat-label">Module bí mật</span></div>
+      <div class="slide">
+        <div class="slide-bg slide-bg-3"></div>
+        <div class="slide-content">
+          <div class="container">
+            <div class="hero-badge">✦ THIẾT BỊ & PHỤ KIỆN</div>
+            <h1>Thiết Bị Nhà Bếp<br><span class="gold">Phụ Kiện Tủ Bếp Thông Minh</span><br>Đầy Đủ & Đa Dạng</h1>
+            <p class="hero-desc">Chậu rửa, vòi nước, kệ gia vị, rổ kéo – Tất cả trong một nơi</p>
+            <div class="hero-cta">
+              <a href="#contact" class="btn btn-gold btn-lg"><i class="fas fa-envelope"></i> Nhận Báo Giá</a>
+              <a href="#sp-thiet-bi" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-right"></i> Khám Phá Ngay</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="scroll-hint">
-      <span>Cuộn xuống khám phá</span>
-      <div class="scroll-arrow">↓</div>
+    <div class="slider-dots" id="sliderDots">
+      <button class="dot active" data-slide="0"></button>
+      <button class="dot" data-slide="1"></button>
+      <button class="dot" data-slide="2"></button>
     </div>
-  </section>
-
-  <!-- ═══ PAIN POINTS ═══ -->
-  <section class="pain" id="pain">
-    <div class="container">
-      <div class="section-badge">⚠️ Bạn Có Đang Mắc Kẹt?</div>
-      <h2 class="section-title">Những <span class="gold">Rào Cản</span> Ngăn Bạn<br />Đạt Tự Do Tài Chính</h2>
-      <div class="pain-grid">
-        <div class="pain-card">
-          <div class="pain-icon">😮‍💨</div>
-          <h3>Làm mãi không ra tiền</h3>
-          <p>Bạn đã thử affiliate nhiều lần nhưng thu nhập không đủ xăng xe, trong khi người khác khoe thu nhập $1,000/tháng đều đặn.</p>
-        </div>
-        <div class="pain-card">
-          <div class="pain-icon">🤯</div>
-          <h3>Không biết bắt đầu từ đâu</h3>
-          <p>Quá nhiều thông tin: SEO, ads, content, email... bạn học mãi mà vẫn lạc giữa mê cung kiến thức, không biết cái nào thật sự hiệu quả.</p>
-        </div>
-        <div class="pain-card">
-          <div class="pain-icon">⏰</div>
-          <h3>Không có thời gian</h3>
-          <p>Đi làm 8 tiếng, về nhà còn việc gia đình. Làm sao xây hệ thống tạo thu nhập thụ động khi mỗi ngày chỉ có 24 giờ?</p>
-        </div>
-        <div class="pain-card">
-          <div class="pain-icon">🤖</div>
-          <h3>AI thay thế mất việc</h3>
-          <p>AI đang thay đổi mọi thứ. Thay vì sợ hãi, tại sao không dùng AI như vũ khí để tự động hóa hệ thống tạo tiền cho mình?</p>
-        </div>
+    <button class="slider-arrow slider-prev" id="sliderPrev"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-arrow slider-next" id="sliderNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="hero-trust">
+      <div class="container">
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Chất liệu bền bỉ</div>
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Không gỉ sét</div>
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Thiết kế đa dạng</div>
+        <div class="trust-item"><i class="fas fa-check-circle"></i> Giá cả hợp lý</div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ 5 DOORS ═══ -->
-  <section class="doors" id="academy">
-    <div class="doors-glow"></div>
+  <!-- ═══════════════════ ABOUT ═══════════════════ -->
+  <section class="about" id="about">
     <div class="container">
-      <div class="section-badge gold-badge">🔑 5 Cánh Cửa Định Mệnh</div>
-      <h2 class="section-title">Lộ Trình <span class="gold">Làm Chủ</span><br />Hệ Thống Affiliate x AI</h2>
-      <p class="section-desc">Mỗi cánh cửa là một bước tiến — từ người không biết gì đến chủ hệ thống tạo thu nhập thụ động bền vững.</p>
-      <div class="doors-list">
-        <div class="door-item" data-num="01">
-          <div class="door-num">01</div>
-          <div class="door-content">
-            <h3>Cánh Cửa <span class="gold">Tư Duy</span></h3>
-            <p>Phá vỡ mọi giới hạn tư duy cũ. Hiểu cách người giàu nghĩ về tiền, về hệ thống, về tự do — trước khi bắt đầu bất kỳ hành động nào.</p>
-            <ul class="door-list">
-              <li>✦ Bản đồ tư duy người thành công</li>
-              <li>✦ Vì sao 97% thất bại với affiliate</li>
-              <li>✦ Nguyên tắc đòn bẩy tài chính</li>
-            </ul>
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-info-circle"></i> Về Chúng Tôi</span>
+        <h2 class="section-title">Giới Thiệu <span class="gold">Thịnh Vượng</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-image">
+          <div class="about-img-placeholder">
+            <i class="fas fa-building"></i>
+            <span>Ảnh cơ sở sản xuất</span>
           </div>
-          <div class="door-icon">🧠</div>
+          <div class="about-experience">
+            <span class="exp-number">10+</span>
+            <span class="exp-text">Năm Kinh Nghiệm</span>
+          </div>
         </div>
-        <div class="door-item" data-num="02">
-          <div class="door-num">02</div>
-          <div class="door-content">
-            <h3>Cánh Cửa <span class="gold">Hệ Thống</span></h3>
-            <p>Xây dựng hệ thống affiliate chạy tự động 24/7 — kể cả khi bạn đang ngủ, đi chơi hay nghỉ phép không lo mất thu nhập.</p>
-            <ul class="door-list">
-              <li>✦ Kiến trúc hệ thống 5 tầng</li>
-              <li>✦ Phễu chuyển đổi tối ưu</li>
-              <li>✦ Tự động hóa 80% công việc</li>
-            </ul>
+        <div class="about-content">
+          <h3>Thịnh Vượng – Đơn Vị Hàng Đầu Về Tủ Bếp Inox & Gia Công Sắt Thép</h3>
+          <p>Cơ sở <strong>Tủ Bếp Inox Cánh Kính Thịnh Vượng</strong> chuyên phân phối, thi công lắp đặt các sản phẩm tủ bếp inox cánh kính, thiết bị nhà bếp, phụ kiện tủ bếp cao cấp. Ngoài ra, chúng tôi còn nhận gia công các sản phẩm sắt thép, inox theo yêu cầu như: cửa, cổng, bàn ghế, thùng xe tải, máng lợn inox và nhiều sản phẩm khác.</p>
+          <p>Thịnh Vượng tự hào là một trong những đơn vị uy tín hàng đầu khu vực Hà Nội với phương châm: <em>"Chất lượng tạo niềm tin – Uy tín xây dựng thương hiệu"</em>.</p>
+          <div class="about-features">
+            <div class="about-feat"><i class="fas fa-medal"></i><span>Chất liệu cao cấp</span></div>
+            <div class="about-feat"><i class="fas fa-shield-alt"></i><span>Bảo hành dài hạn</span></div>
+            <div class="about-feat"><i class="fas fa-truck"></i><span>Giao hàng tận nơi</span></div>
+            <div class="about-feat"><i class="fas fa-tools"></i><span>Lắp đặt miễn phí</span></div>
           </div>
-          <div class="door-icon">⚙️</div>
         </div>
-        <div class="door-item" data-num="03">
-          <div class="door-num">03</div>
-          <div class="door-content">
-            <h3>Cánh Cửa <span class="gold">AI x Content</span></h3>
-            <p>Sử dụng AI như một đội content 10 người — tạo hàng trăm bài viết, video, email trong vài giờ mà không tốn chi phí nhân sự.</p>
-            <ul class="door-list">
-              <li>✦ Bộ prompt AI chuyên biệt cho affiliate</li>
-              <li>✦ Quy trình tạo content x10 tốc độ</li>
-              <li>✦ SEO AI-powered không cần chuyên gia</li>
-            </ul>
-          </div>
-          <div class="door-icon">🤖</div>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-number" data-target="10">0</div>
+          <div class="stat-label">Năm Kinh Nghiệm</div>
         </div>
-        <div class="door-item" data-num="04">
-          <div class="door-num">04</div>
-          <div class="door-content">
-            <h3>Cánh Cửa <span class="gold">Traffic & Scale</span></h3>
-            <p>Bí quyết kéo lưu lượng truy cập chất lượng cao — không cần chạy ads tốn tiền, không cần follow/unfollow tay.</p>
-            <ul class="door-list">
-              <li>✦ 7 nguồn traffic miễn phí bền vững</li>
-              <li>✦ Chiến lược viral content có hệ thống</li>
-              <li>✦ Nhân đôi thu nhập bằng partnership</li>
-            </ul>
-          </div>
-          <div class="door-icon">🚀</div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="500">0</div>
+          <div class="stat-label">Công Trình Hoàn Thành</div>
         </div>
-        <div class="door-item" data-num="05">
-          <div class="door-num">05</div>
-          <div class="door-content">
-            <h3>Cánh Cửa <span class="gold">Tự Do</span></h3>
-            <p>Bước vào vòng lặp tăng trưởng — khi hệ thống tự vận hành, tự nhân rộng và tạo ra dòng tiền ngay cả khi bạn offline.</p>
-            <ul class="door-list">
-              <li>✦ Mô hình thu nhập thụ động thật sự</li>
-              <li>✦ Xây thương hiệu cá nhân bền vững</li>
-              <li>✦ Cộng đồng & mentorship suốt đời</li>
-            </ul>
-          </div>
-          <div class="door-icon">🗝️</div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="1000">0</div>
+          <div class="stat-label">Khách Hàng Tin Tưởng</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="100">0</div>
+          <div class="stat-label">% Hài Lòng</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ WHAT YOU GET ═══ -->
-  <section class="bonuses" id="products">
+  <!-- ═══════════════════ CATEGORIES ═══════════════════ -->
+  <section class="categories" id="categories">
     <div class="container">
-      <div class="section-badge">🎁 Bạn Nhận Được Gì</div>
-      <h2 class="section-title">Trọn Bộ <span class="gold">Mật Mã Tự Do</span></h2>
-      <div class="bonus-grid">
-        <div class="bonus-card featured">
-          <div class="bonus-tag">CỐT LÕI</div>
-          <div class="bonus-icon">📘</div>
-          <h3>Sách Mật Mã Tự Do – Tập 1</h3>
-          <p>Toàn bộ nền tảng tư duy + hệ thống affiliate x AI từ con số 0. Bản in cao cấp + bản PDF.</p>
-          <div class="bonus-value">Trị giá: <span>1,200,000đ</span></div>
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-th-large"></i> Sản Phẩm & Dịch Vụ</span>
+        <h2 class="section-title">Danh Mục <span class="gold">Sản Phẩm</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+      </div>
+      <div class="categories-grid">
+        <div class="category-card" onclick="location.href='#sp-tu-bep'">
+          <div class="cat-img cat-img-1">
+            <div class="cat-overlay">
+              <i class="fas fa-sink"></i>
+            </div>
+          </div>
+          <div class="cat-info">
+            <h3>Tủ Bếp Inox Cánh Kính</h3>
+            <p>Sản phẩm chủ lực – Đa dạng mẫu mã</p>
+            <span class="cat-count">Xem sản phẩm →</span>
+          </div>
         </div>
-        <div class="bonus-card">
-          <div class="bonus-icon">🎥</div>
-          <h3>Khóa Video 50+ bài</h3>
-          <p>Hướng dẫn từng bước qua video HD — học mọi lúc, mọi nơi, xem lại không giới hạn.</p>
-          <div class="bonus-value">Trị giá: <span>2,500,000đ</span></div>
+        <div class="category-card" onclick="location.href='#sp-thiet-bi'">
+          <div class="cat-img cat-img-2">
+            <div class="cat-overlay">
+              <i class="fas fa-blender"></i>
+            </div>
+          </div>
+          <div class="cat-info">
+            <h3>Thiết Bị Nhà Bếp</h3>
+            <p>Chậu rửa, vòi nước, bếp gas, máy hút mùi</p>
+            <span class="cat-count">Xem sản phẩm →</span>
+          </div>
         </div>
-        <div class="bonus-card">
-          <div class="bonus-icon">🤖</div>
-          <h3>Kho Prompt AI 200+</h3>
-          <p>Bộ prompt chuyên biệt cho affiliate marketing — copy và dùng ngay, không cần học AI từ đầu.</p>
-          <div class="bonus-value">Trị giá: <span>800,000đ</span></div>
+        <div class="category-card" onclick="location.href='#sp-phu-kien'">
+          <div class="cat-img cat-img-3">
+            <div class="cat-overlay">
+              <i class="fas fa-cogs"></i>
+            </div>
+          </div>
+          <div class="cat-info">
+            <h3>Phụ Kiện Tủ Bếp</h3>
+            <p>Kệ gia vị, rổ kéo, bản lề, ray trượt</p>
+            <span class="cat-count">Xem sản phẩm →</span>
+          </div>
         </div>
-        <div class="bonus-card">
-          <div class="bonus-icon">📊</div>
-          <h3>Template & Swipe File</h3>
-          <p>Toàn bộ template email, landing page, content calendar đã được test và tối ưu thực tế.</p>
-          <div class="bonus-value">Trị giá: <span>600,000đ</span></div>
+        <div class="category-card" onclick="location.href='#sp-ban-ghe'">
+          <div class="cat-img cat-img-4">
+            <div class="cat-overlay">
+              <i class="fas fa-chair"></i>
+            </div>
+          </div>
+          <div class="cat-info">
+            <h3>Bàn Ghế Inox & SP Khác</h3>
+            <p>Bàn ghế inox các loại và các sản phẩm khác</p>
+            <span class="cat-count">Xem sản phẩm →</span>
+          </div>
         </div>
-        <div class="bonus-card">
-          <div class="bonus-icon">👥</div>
-          <h3>Cộng Đồng Private</h3>
-          <p>Nhóm kín hàng nghìn thành viên — hỏi đáp, chia sẻ case study, networking chất lượng cao.</p>
-          <div class="bonus-value">Trị giá: <span>vô giá</span></div>
-        </div>
-        <div class="bonus-card">
-          <div class="bonus-icon">🔴</div>
-          <h3>Live Q&A Hàng Tháng</h3>
-          <p>Phiên hỏi đáp trực tiếp với Phong Menly — đặt câu hỏi và nhận phản hồi cá nhân hóa.</p>
-          <div class="bonus-value">Trị giá: <span>1,000,000đ/tháng</span></div>
+        <div class="category-card" onclick="location.href='#sp-gia-cong'">
+          <div class="cat-img cat-img-5">
+            <div class="cat-overlay">
+              <i class="fas fa-tools"></i>
+            </div>
+          </div>
+          <div class="cat-info">
+            <h3>Gia Công Theo Yêu Cầu</h3>
+            <p>Cửa, cổng, thùng xe tải, máng lợn inox & nhiều hơn</p>
+            <span class="cat-count">Xem sản phẩm →</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ PREVIEW ═══ -->
-  <section class="preview" id="preview">
+  <!-- ═══════════════════ PRODUCTS ═══════════════════ -->
+  <section class="products" id="products">
     <div class="container">
-      <div class="preview-inner">
-        <div class="preview-text">
-          <div class="section-badge gold-badge">📖 Đọc Thử Miễn Phí</div>
-          <h2>Xem <span class="gold">3 Chương Đầu</span><br />Trước Khi Quyết Định</h2>
-          <p>Không cần thẻ tín dụng. Không cam kết. Chỉ cần email — bạn sẽ nhận ngay bản preview 40 trang của Mật Mã Tự Do Tập 1.</p>
-          <ul class="preview-list">
-            <li>✦ Chương 1: Tại sao 97% người làm affiliate thất bại</li>
-            <li>✦ Chương 2: Bản đồ hệ thống Affiliate x AI</li>
-            <li>✦ Chương 3: Cánh Cửa Tư Duy – Bước đầu tiên</li>
-          </ul>
-          <form class="preview-form" id="previewForm">
-            <input type="email" placeholder="Nhập email của bạn..." required />
-            <button type="submit" class="btn btn-yellow">Nhận Ngay Miễn Phí →</button>
+
+      <!-- ── Tủ Bếp Inox ── -->
+      <div class="product-section" id="sp-tu-bep">
+        <div class="product-section-header">
+          <h3><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</h3>
+          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pi-tubep-1"><span class="product-badge">Hot</span></div>
+            <div class="product-info">
+              <h4>Tủ Bếp Inox Cánh Kính Chữ L</h4>
+              <p>Thiết kế tối ưu không gian góc, chất liệu inox 304 kết hợp kính cường lực</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-tubep-2"></div>
+            <div class="product-info">
+              <h4>Tủ Bếp Inox Cánh Kính Chữ I</h4>
+              <p>Phù hợp không gian bếp nhỏ, thiết kế gọn gàng, hiện đại</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-tubep-3"><span class="product-badge new">Mới</span></div>
+            <div class="product-info">
+              <h4>Tủ Bếp Inox Cánh Kính Chữ U</h4>
+              <p>Không gian bếp rộng rãi, tiện nghi tối đa với 3 mặt tủ</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-tubep-4"></div>
+            <div class="product-info">
+              <h4>Tủ Bếp Inox Đảo Bếp</h4>
+              <p>Phong cách hiện đại, đảo bếp inox kết hợp cánh kính sang trọng</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Thiết Bị Nhà Bếp ── -->
+      <div class="product-section" id="sp-thiet-bi">
+        <div class="product-section-header">
+          <h3><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</h3>
+          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pi-thietbi-1"></div>
+            <div class="product-info">
+              <h4>Chậu Rửa Inox 2 Ngăn</h4>
+              <p>Inox 304 cao cấp, bề mặt nhám chống xước, chống ồn</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-thietbi-2"></div>
+            <div class="product-info">
+              <h4>Vòi Rửa Bát Inox</h4>
+              <p>Vòi rửa bát inox 304 xoay 360°, tiết kiệm nước</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-thietbi-3"></div>
+            <div class="product-info">
+              <h4>Bếp Gas Âm Kính</h4>
+              <p>Mặt kính cường lực, 2 bếp gas, đánh lửa tự động</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-thietbi-4"><span class="product-badge">Hot</span></div>
+            <div class="product-info">
+              <h4>Máy Hút Mùi Kính Cong</h4>
+              <p>Công suất lớn, lọc khói hiệu quả, thiết kế sang trọng</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Phụ Kiện Tủ Bếp ── -->
+      <div class="product-section" id="sp-phu-kien">
+        <div class="product-section-header">
+          <h3><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</h3>
+          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pi-phukien-1"></div>
+            <div class="product-info">
+              <h4>Kệ Gia Vị Tủ Bếp</h4>
+              <p>Kệ gia vị inox gắn cánh tủ, tiết kiệm không gian</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-phukien-2"><span class="product-badge new">Mới</span></div>
+            <div class="product-info">
+              <h4>Rổ Xoay Góc Tủ Bếp</h4>
+              <p>Rổ xoay inox mâm xoay 360°, tận dụng tối đa góc tủ</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-phukien-3"></div>
+            <div class="product-info">
+              <h4>Giá Để Chén Bát</h4>
+              <p>Giá úp chén bát inox 2 tầng, có khay hứng nước</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-phukien-4"></div>
+            <div class="product-info">
+              <h4>Thùng Rác Âm Tủ</h4>
+              <p>Thùng rác âm tủ 2 ngăn, gắn cánh, mở tự động</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Bàn Ghế Inox & SP Khác ── -->
+      <div class="product-section" id="sp-ban-ghe">
+        <div class="product-section-header">
+          <h3><i class="fas fa-chair"></i> Bàn Ghế Inox & Sản Phẩm Khác</h3>
+          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pi-banghe-1"><span class="product-badge">Hot</span></div>
+            <div class="product-info">
+              <h4>Bộ Bàn Ghế Inox 4 Chỗ</h4>
+              <p>Bàn ghế inox 304, mặt bàn inox dày, chân chống trượt</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-banghe-2"></div>
+            <div class="product-info">
+              <h4>Bộ Bàn Ghế Inox 6 Chỗ</h4>
+              <p>Phù hợp quán ăn, nhà hàng, bền đẹp theo thời gian</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-banghe-3"></div>
+            <div class="product-info">
+              <h4>Kệ Inox Đa Năng</h4>
+              <p>Kệ inox 3-5 tầng, chịu lực tốt, dùng trong bếp hoặc kho</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-banghe-4"></div>
+            <div class="product-info">
+              <h4>Máng Lợn Inox</h4>
+              <p>Máng lợn inox 304 bền chắc, dễ vệ sinh, chống ăn mòn</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Gia Công Theo Yêu Cầu ── -->
+      <div class="product-section" id="sp-gia-cong">
+        <div class="product-section-header">
+          <h3><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</h3>
+          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-img pi-giacong-1"></div>
+            <div class="product-info">
+              <h4>Cổng Sắt Hộp</h4>
+              <p>Cổng sắt hộp mạ kẽm, sơn tĩnh điện, bền đẹp lâu dài</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-giacong-2"></div>
+            <div class="product-info">
+              <h4>Cửa Sắt / Cửa Inox</h4>
+              <p>Cửa sắt, cửa inox các loại, gia công theo kích thước yêu cầu</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-giacong-3"><span class="product-badge">Hot</span></div>
+            <div class="product-info">
+              <h4>Thùng Xe Tải Nhỏ</h4>
+              <p>Làm thùng xe tải nhỏ, thùng xe ba gác bằng sắt/inox</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-img pi-giacong-4"></div>
+            <div class="product-info">
+              <h4>Lan Can Inox / Cầu Thang</h4>
+              <p>Lan can inox cầu thang, ban công, thiết kế theo yêu cầu</p>
+              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PROJECTS ═══════════════════ -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-images"></i> Công Trình Thực Tế</span>
+        <h2 class="section-title">Công Trình <span class="gold">Đã Thực Hiện</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+        <p class="section-desc">Những công trình thực tế đã được Thịnh Vượng thi công, lắp đặt cho khách hàng trên khắp Hà Nội</p>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-img proj-img-1"></div>
+          <div class="project-overlay">
+            <h4>Tủ Bếp Inox Cánh Kính</h4>
+            <p>Gia đình anh Hùng – Đa Phúc, Hà Nội</p>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img proj-img-2"></div>
+          <div class="project-overlay">
+            <h4>Cổng Sắt Mỹ Thuật</h4>
+            <p>Nhà chị Lan – Bắc Phú, Hà Nội</p>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img proj-img-3"></div>
+          <div class="project-overlay">
+            <h4>Bộ Bàn Ghế Inox</h4>
+            <p>Quán ăn Thành Đạt – Sóc Sơn</p>
+          </div>
+        </div>
+        <div class="project-card large">
+          <div class="project-img proj-img-4"></div>
+          <div class="project-overlay">
+            <h4>Tủ Bếp Inox Chữ U</h4>
+            <p>Biệt thự Mê Linh – Hà Nội</p>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img proj-img-5"></div>
+          <div class="project-overlay">
+            <h4>Lan Can Inox Cầu Thang</h4>
+            <p>Nhà anh Tuấn – Sóc Sơn, Hà Nội</p>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img proj-img-6"></div>
+          <div class="project-overlay">
+            <h4>Thùng Xe Tải</h4>
+            <p>Garage Phú Minh – Đông Anh</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ WHY CHOOSE US ═══════════════════ -->
+  <section class="why-us" id="why-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-trophy"></i> Cam Kết Chất Lượng</span>
+        <h2 class="section-title">Tại Sao Chọn <span class="gold">Thịnh Vượng?</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-medal"></i></div>
+          <h4>Chất Liệu Cao Cấp</h4>
+          <p>Sử dụng inox 304, sắt hộp mạ kẽm, kính cường lực – đảm bảo độ bền lâu dài</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <h4>Giá Cả Hợp Lý</h4>
+          <p>Giá xưởng, không qua trung gian – tiết kiệm chi phí tối đa cho khách hàng</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-drafting-compass"></i></div>
+          <h4>Thiết Kế Theo Yêu Cầu</h4>
+          <p>Đo đạc tận nơi, thiết kế miễn phí theo không gian và sở thích của bạn</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Bảo Hành Dài Hạn</h4>
+          <p>Cam kết bảo hành 3-5 năm, hỗ trợ bảo trì trọn đời sản phẩm</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-truck"></i></div>
+          <h4>Giao Hàng & Lắp Đặt</h4>
+          <p>Vận chuyển miễn phí trong Hà Nội, lắp đặt tận nơi bởi thợ chuyên nghiệp</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon"><i class="fas fa-headset"></i></div>
+          <h4>Tư Vấn 24/7</h4>
+          <p>Đội ngũ tư vấn nhiệt tình, sẵn sàng hỗ trợ mọi lúc qua hotline & Zalo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CONTACT ═══════════════════ -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge"><i class="fas fa-envelope"></i> Liên Hệ Với Chúng Tôi</span>
+        <h2 class="section-title">Nhận <span class="gold">Báo Giá Miễn Phí</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="ci-text">
+              <h4>Địa Chỉ</h4>
+              <p>Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+            <div class="ci-text">
+              <h4>Hotline</h4>
+              <p><a href="tel:0395326530">0395 326 530</a></p>
+              <p><a href="tel:0389030887">0389 030 887</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fab fa-facebook-f"></i></div>
+            <div class="ci-text">
+              <h4>Facebook</h4>
+              <p><a href="https://www.facebook.com/profile.php?id=61583063758166" target="_blank">Tủ Bếp Inox Thịnh Vượng</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-clock"></i></div>
+            <div class="ci-text">
+              <h4>Giờ Làm Việc</h4>
+              <p>Thứ 2 – Chủ Nhật: 7:00 – 21:00</p>
+            </div>
+          </div>
+          <div class="contact-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14895.02!2d105.85!3d21.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135007fff7e88a7%3A0x8aa2e4a37e594b7!2zxJBhIFBow7pjLCBTw7NjIFPGoW4sIEjDoCBO4buZaQ!5e0!3m2!1svi!2svn!4v1" width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="contact-form-wrap">
+          <h3>Gửi Yêu Cầu Báo Giá</h3>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name">Họ và Tên <span>*</span></label>
+              <input type="text" id="name" name="name" placeholder="Nhập họ và tên..." required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Số Điện Thoại <span>*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại..." required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Nhập email (nếu có)..." />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="service">Dịch Vụ Quan Tâm</label>
+              <select id="service" name="service">
+                <option value="">-- Chọn dịch vụ --</option>
+                <option value="tu-bep">Tủ Bếp Inox Cánh Kính</option>
+                <option value="thiet-bi">Thiết Bị Nhà Bếp</option>
+                <option value="phu-kien">Phụ Kiện Tủ Bếp</option>
+                <option value="ban-ghe">Bàn Ghế Inox & SP Khác</option>
+                <option value="gia-cong">Gia Công Theo Yêu Cầu</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Nội Dung Yêu Cầu</label>
+              <textarea id="message" name="message" rows="4" placeholder="Mô tả yêu cầu của bạn..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold btn-full"><i class="fas fa-paper-plane"></i> Gửi Yêu Cầu Báo Giá</button>
           </form>
-          <p class="form-note">🔒 Thông tin của bạn được bảo mật 100%. Không spam.</p>
-        </div>
-        <div class="preview-visual">
-          <div class="book-preview-3d">
-            <div class="bp-spine"></div>
-            <div class="bp-face">
-              <div class="bp-top">MẬT MÃ TỰ DO</div>
-              <div class="bp-icon">🔐</div>
-              <div class="bp-sub">AFFILIATE × AI</div>
-              <div class="bp-pages"></div>
-            </div>
-          </div>
-          <div class="preview-badge-float">
-            <span>FREE</span><br/>PREVIEW
-          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ TESTIMONIALS ═══ -->
-  <section class="testimonials" id="testimonials">
-    <div class="testimonials-glow"></div>
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer" id="footer">
     <div class="container">
-      <div class="section-badge">⭐ Học Viên Nói Gì</div>
-      <h2 class="section-title">Kết Quả <span class="gold">Thật Từ</span><br />Học Viên Thật</h2>
-      <div class="testi-grid">
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Sau 3 tháng áp dụng hệ thống Affiliate x AI của Phong Menly, tôi đã đạt thu nhập 45 triệu/tháng. Điều không tưởng khi tôi còn đang làm nhân viên văn phòng."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">NH</div>
-            <div>
-              <strong>Nguyễn Hải</strong>
-              <span>TP. Hồ Chí Minh · Học viên 6 tháng</span>
-            </div>
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <div class="footer-logo">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-name">THỊNH VƯỢNG</span>
+          </div>
+          <p>Chuyên thi công tủ bếp inox cánh kính, bàn ghế inox, gia công sắt thép theo yêu cầu. Chất lượng tạo niềm tin – Uy tín xây dựng thương hiệu.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/profile.php?id=61583063758166" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://zalo.me/0395326530" target="_blank" aria-label="Zalo"><span class="zalo-icon">Zalo</span></a>
+            <a href="tel:0395326530" aria-label="Phone"><i class="fas fa-phone-alt"></i></a>
           </div>
         </div>
-        <div class="testi-card featured-testi">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Tôi đã thử nhiều khóa học affiliate nhưng chưa cái nào dạy tôi cách dùng AI để scale hệ thống như Mật Mã Tự Do. Từ $0 lên $2,000/tháng chỉ trong 4 tháng."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">TL</div>
-            <div>
-              <strong>Trần Linh</strong>
-              <span>Hà Nội · Học viên 4 tháng</span>
-            </div>
-          </div>
-          <div class="testi-badge">TOP RESULT</div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Là mẹ bỉm 2 con nhỏ, tôi không có nhiều thời gian. Nhưng hệ thống AI của Phong Menly giúp tôi tạo content tự động, mỗi tháng kiếm thêm 12-15 triệu."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">MT</div>
-            <div>
-              <strong>Mai Thủy</strong>
-              <span>Đà Nẵng · Học viên 5 tháng</span>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Bộ prompt AI là thứ tôi cần nhất. Giờ tôi tạo 30 bài content/tuần chỉ mất 2 tiếng. Traffic tăng 300%, doanh thu affiliate tăng gấp đôi."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">PK</div>
-            <div>
-              <strong>Phạm Khoa</strong>
-              <span>Cần Thơ · Học viên 3 tháng</span>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Đầu tư vào Mật Mã Tự Do là quyết định đúng đắn nhất năm 2024. ROI của tôi là 1,500% sau 6 tháng. Không cần kinh nghiệm, chỉ cần làm theo hệ thống."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">ĐV</div>
-            <div>
-              <strong>Đức Việt</strong>
-              <span>Bình Dương · Học viên 6 tháng</span>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Cộng đồng của Phong Menly là nơi tôi học được nhiều nhất — từ case study thực tế đến sự hỗ trợ của mọi người. Cảm giác không bao giờ cô đơn trên hành trình."</p>
-          <div class="testi-author">
-            <div class="testi-avatar">HN</div>
-            <div>
-              <strong>Hương Ngân</strong>
-              <span>Hải Phòng · Học viên 2 tháng</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ AUTHOR ═══ -->
-  <section class="author">
-    <div class="container">
-      <div class="author-inner">
-        <div class="author-visual">
-          <div class="author-avatar-wrap">
-            <div class="author-avatar-placeholder">
-              <span>PM</span>
-            </div>
-            <div class="author-ring"></div>
-          </div>
-        </div>
-        <div class="author-text">
-          <div class="section-badge">👤 Tác Giả</div>
-          <h2><span class="gold">Phong Menly</span> — Người Viết Mật Mã Tự Do</h2>
-          <p>Từ nhân viên văn phòng với mức lương 7 triệu/tháng, Phong Menly đã xây dựng hệ thống affiliate tạo ra thu nhập 8 con số sau 3 năm. Hiện là tác giả, diễn giả và mentor cho hơn 12,000 học viên trên toàn quốc.</p>
-          <div class="author-stats">
-            <div class="a-stat"><strong>12,000+</strong><span>Học viên</span></div>
-            <div class="a-stat"><strong>8 năm</strong><span>Kinh nghiệm</span></div>
-            <div class="a-stat"><strong>$500K+</strong><span>Doanh thu affiliate</span></div>
-          </div>
-          <p class="author-quote">"Tự do không phải điều bạn tìm thấy — đó là hệ thống bạn xây dựng."</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ PRICING ═══ -->
-  <section class="pricing" id="pricing">
-    <div class="pricing-glow"></div>
-    <div class="container">
-      <div class="section-badge gold-badge">💰 Đầu Tư Vào Tự Do</div>
-      <h2 class="section-title">Chọn Gói <span class="gold">Phù Hợp</span> Với Bạn</h2>
-      <div class="pricing-grid">
-        <div class="price-card">
-          <div class="price-name">Khởi Đầu</div>
-          <div class="price-amount">497<span class="price-unit">K</span></div>
-          <div class="price-period">một lần duy nhất</div>
-          <ul class="price-features">
-            <li>✓ Sách PDF Mật Mã Tự Do Tập 1</li>
-            <li>✓ 20 bài video cốt lõi</li>
-            <li>✓ 50 Prompt AI cơ bản</li>
-            <li>✓ Cộng đồng Facebook Group</li>
-            <li class="disabled">✗ Live Q&A hàng tháng</li>
-            <li class="disabled">✗ Template & Swipe File</li>
-            <li class="disabled">✗ Mentorship 1-1</li>
+        <div class="footer-col">
+          <h4>Sản Phẩm</h4>
+          <ul>
+            <li><a href="#sp-tu-bep">Tủ Bếp Inox Cánh Kính</a></li>
+            <li><a href="#sp-thiet-bi">Thiết Bị Nhà Bếp</a></li>
+            <li><a href="#sp-phu-kien">Phụ Kiện Tủ Bếp</a></li>
+            <li><a href="#sp-ban-ghe">Bàn Ghế Inox & SP Khác</a></li>
+            <li><a href="#sp-gia-cong">Gia Công Theo Yêu Cầu</a></li>
           </ul>
-          <a href="#" class="btn btn-outline btn-full">Bắt Đầu Ngay</a>
         </div>
-        <div class="price-card featured-price">
-          <div class="price-tag">PHỔ BIẾN NHẤT</div>
-          <div class="price-name">Làm Chủ</div>
-          <div class="price-amount">1,297<span class="price-unit">K</span></div>
-          <div class="price-period">một lần duy nhất</div>
-          <ul class="price-features">
-            <li>✓ Sách in + PDF cả 2 tập</li>
-            <li>✓ 50+ bài video đầy đủ</li>
-            <li>✓ 200+ Prompt AI chuyên biệt</li>
-            <li>✓ Cộng đồng Private Group</li>
-            <li>✓ Live Q&A hàng tháng (1 năm)</li>
-            <li>✓ Toàn bộ Template & Swipe File</li>
-            <li class="disabled">✗ Mentorship 1-1</li>
+        <div class="footer-col">
+          <h4>Liên Kết</h4>
+          <ul>
+            <li><a href="#home">Trang Chủ</a></li>
+            <li><a href="#about">Giới Thiệu</a></li>
+            <li><a href="#projects">Công Trình</a></li>
+            <li><a href="#contact">Liên Hệ</a></li>
           </ul>
-          <a href="#" class="btn btn-yellow btn-full pulse">Mở Khóa Ngay →</a>
         </div>
-        <div class="price-card">
-          <div class="price-name">Tự Do Toàn Phần</div>
-          <div class="price-amount">2,997<span class="price-unit">K</span></div>
-          <div class="price-period">một lần duy nhất</div>
-          <ul class="price-features">
-            <li>✓ Tất cả gói Làm Chủ</li>
-            <li>✓ Mentorship 1-1 với Phong Menly</li>
-            <li>✓ Audit hệ thống cá nhân</li>
-            <li>✓ Ưu tiên hỗ trợ 24/7</li>
-            <li>✓ Cập nhật suốt đời</li>
-            <li>✓ Invite VIP Event offline</li>
-            <li>✓ Badge "Thành Viên Đặc Biệt"</li>
+        <div class="footer-col">
+          <h4>Liên Hệ</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:0395326530">0395 326 530</a></li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:0389030887">0389 030 887</a></li>
+            <li><i class="fas fa-clock"></i> T2 – CN: 7:00 – 21:00</li>
           </ul>
-          <a href="#" class="btn btn-outline btn-full">Tôi Muốn Tự Do Toàn Phần</a>
-        </div>
-      </div>
-      <div class="guarantee">
-        <div class="guarantee-icon">🛡️</div>
-        <div>
-          <strong>Cam Kết Hoàn Tiền 30 Ngày</strong>
-          <p>Nếu trong 30 ngày bạn không hài lòng vì bất kỳ lý do gì, chúng tôi hoàn tiền 100% — không câu hỏi, không điều kiện.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ FAQ ═══ -->
-  <section class="faq">
-    <div class="container">
-      <div class="section-badge">❓ Câu Hỏi Thường Gặp</div>
-      <h2 class="section-title">Bạn Đang <span class="gold">Thắc Mắc?</span></h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-q">Tôi chưa biết gì về affiliate, có học được không? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Hoàn toàn được! Mật Mã Tự Do được thiết kế từ con số 0 — ngay cả khi bạn chưa từng làm affiliate hay dùng AI, bạn vẫn sẽ hiểu và áp dụng được từng bước một.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Mất bao lâu để thấy kết quả? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Nhiều học viên bắt đầu thấy thu nhập đầu tiên trong 4-6 tuần nếu áp dụng đúng. Thu nhập ổn định và tăng trưởng thường đến ở tháng 2-3. Kết quả phụ thuộc vào mức độ cam kết của bạn.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Tôi cần bỏ ra bao nhiêu thời gian mỗi ngày? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Tối thiểu 1-2 giờ/ngày trong giai đoạn đầu xây hệ thống. Sau khi hệ thống chạy, bạn có thể duy trì chỉ với 30 phút/ngày hoặc ít hơn nhờ tự động hóa AI.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Nội dung có được cập nhật không? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Có. AI và affiliate marketing thay đổi liên tục — chúng tôi cập nhật nội dung theo quý và thông báo cho tất cả học viên. Gói Tự Do Toàn Phần được cập nhật suốt đời.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Có hỗ trợ sau khi mua không? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Có! Bạn được truy cập cộng đồng học viên sôi động, live Q&A hàng tháng (tùy gói), và team support qua email. Bạn không bao giờ học một mình.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Chính sách hoàn tiền như thế nào? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Chúng tôi cam kết hoàn tiền 100% trong vòng 30 ngày nếu bạn không hài lòng. Chỉ cần email cho team support — chúng tôi xử lý trong 3-5 ngày làm việc.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ FINAL CTA ═══ -->
-  <section class="final-cta">
-    <div class="final-glow"></div>
-    <div class="container">
-      <h2>Bạn Còn Chờ <span class="gold">Điều Gì?</span></h2>
-      <p>Mỗi ngày trôi qua là một ngày bạn để người khác xây hệ thống mà đáng lẽ bạn có thể làm ngay hôm nay.</p>
-      <div class="final-buttons">
-        <a href="#pricing" class="btn btn-yellow btn-xl pulse">Mở Khóa Mật Mã Tự Do →</a>
-        <a href="#preview" class="btn btn-outline btn-xl">📖 Đọc Thử Miễn Phí Trước</a>
-      </div>
-      <p class="final-note">🛡️ Bảo hành hoàn tiền 30 ngày &nbsp;·&nbsp; 🔒 Thanh toán an toàn &nbsp;·&nbsp; ⚡ Truy cập ngay lập tức</p>
-    </div>
-  </section>
-
-  <!-- ═══ FOOTER ═══ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a href="#" class="logo">Phong Menly</a>
-          <p>Hệ thống Affiliate x AI — Mở ra cánh cửa tự do tài chính cho người Việt.</p>
-          <div class="social-links">
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="YouTube">▶</a>
-            <a href="#" aria-label="Tiktok">♪</a>
-            <a href="#" aria-label="Instagram">◈</a>
-          </div>
-        </div>
-        <div class="footer-links">
-          <div class="fl-col">
-            <h4>Sản Phẩm</h4>
-            <a href="#">Mật Mã Tự Do Tập 1</a>
-            <a href="#">Mật Mã Tự Do Tập 2</a>
-            <a href="#">Khóa học Video</a>
-            <a href="#">Kho Prompt AI</a>
-          </div>
-          <div class="fl-col">
-            <h4>Học Viện</h4>
-            <a href="#">Blog</a>
-            <a href="#">Podcast</a>
-            <a href="#">Case Study</a>
-            <a href="#">YouTube</a>
-          </div>
-          <div class="fl-col">
-            <h4>Hỗ Trợ</h4>
-            <a href="#">Liên hệ</a>
-            <a href="#">FAQ</a>
-            <a href="#">Chính sách hoàn tiền</a>
-            <a href="#">Điều khoản sử dụng</a>
-          </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2024 Phong Menly AI. All rights reserved.</p>
-        <p>Kết quả không đại diện. Thu nhập phụ thuộc vào nỗ lực và thực hiện của từng cá nhân.</p>
+        <p>© 2024 Tủ Bếp Inox Cánh Kính Thịnh Vượng. All rights reserved.</p>
+        <p>Địa chỉ: Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội | Hotline: 0395 326 530</p>
       </div>
     </div>
   </footer>
+
+  <!-- ═══════════════════ FLOATING BUTTONS ═══════════════════ -->
+  <div class="floating-buttons">
+    <a href="tel:0395326530" class="float-btn phone-btn" aria-label="Gọi điện">
+      <i class="fas fa-phone-alt"></i>
+      <span class="float-label">Gọi ngay</span>
+    </a>
+    <a href="https://zalo.me/0395326530" target="_blank" class="float-btn zalo-btn" aria-label="Zalo">
+      <span class="zalo-text">Zalo</span>
+      <span class="float-label">Chat Zalo</span>
+    </a>
+    <a href="https://m.me/61583063758166" target="_blank" class="float-btn messenger-btn" aria-label="Messenger">
+      <i class="fab fa-facebook-messenger"></i>
+      <span class="float-label">Messenger</span>
+    </a>
+  </div>
+  <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
+    <i class="fas fa-chevron-up"></i>
+  </button>
 
   <script src="script.js"></script>
 </body>
