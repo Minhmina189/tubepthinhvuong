@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Thịnh Vượng CMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a2744;
+      --navy-dark: #0f1a2e;
+      --navy-light: #2a3f66;
+      --gold: #c8a45e;
+      --gold-dark: #a6863e;
+      --white: #fff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --sidebar-w: 240px;
+      --topbar-h: 60px;
+      --green: #16a34a;
+      --red: #dc2626;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      min-height: 100vh;
+    }
+
+    /* ── Top Bar ── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h);
+      background: var(--navy-dark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px 0 calc(var(--sidebar-w) + 20px);
+      z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .topbar h1 { color: var(--gold); font-size: 17px; font-weight: 700; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: all .2s; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff; }
+    .btn-gold:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--gray-300); border: 1px solid #444; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-danger { background: var(--red); color: #fff; }
+    .btn-danger:hover { opacity: .85; }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-green:hover { opacity: .85; }
+
+    #saveStatus { font-size: 13px; color: #6b7280; }
+    #saveStatus.saved { color: #4ade80; }
+    #saveStatus.saving { color: var(--gold); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: fixed; top: var(--topbar-h); left: 0; bottom: 0;
+      width: var(--sidebar-w); background: var(--navy); overflow-y: auto;
+      z-index: 100; padding: 16px 0;
+    }
+    .sidebar-group { margin-bottom: 4px; }
+    .sidebar-group-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      color: #5a7099; letter-spacing: 1px; padding: 12px 16px 6px;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 16px; color: #9bb3d4; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all .15s; border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: var(--navy-light); color: #fff; }
+    .sidebar-item.active { background: rgba(200,164,94,.15); color: var(--gold); border-left-color: var(--gold); }
+    .sidebar-item i { width: 16px; text-align: center; font-size: 13px; }
+
+    /* ── Main Content ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--topbar-h);
+      padding: 24px;
+      min-height: calc(100vh - var(--topbar-h));
+    }
+
+    .section-panel { display: none; }
+    .section-panel.active { display: block; }
+
+    .panel-title {
+      font-size: 20px; font-weight: 700; color: var(--navy);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-200);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-title i { color: var(--gold); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--white); border-radius: 12px;
+      border: 1px solid var(--gray-200); margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--gray-50); padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-header h3 { font-size: 14px; font-weight: 600; color: var(--navy); }
+    .card-header .card-badge {
+      font-size: 11px; background: var(--navy); color: var(--gold);
+      padding: 2px 8px; border-radius: 20px; font-weight: 700;
+    }
+    .card-body { padding: 16px; }
+
+    /* ── Grid layouts ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-img-text { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: start; }
+
+    @media (max-width: 900px) {
+      .grid-img-text { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── Form fields ── */
+    .form-group { margin-bottom: 12px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--gray-500); text-transform: uppercase; letter-spacing: .5px;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 9px 12px;
+      border: 1.5px solid var(--gray-200); border-radius: 8px;
+      font-size: 14px; color: var(--gray-700); background: var(--white);
+      transition: border-color .2s; resize: vertical;
+      font-family: inherit;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,164,94,.12);
+    }
+    .form-group textarea { min-height: 72px; }
+
+    /* ── Image Upload ── */
+    .img-upload-wrap { position: relative; }
+    .img-upload-box {
+      width: 100%; aspect-ratio: 4/3; border-radius: 10px;
+      border: 2px dashed var(--gray-300); background: var(--gray-50);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; cursor: pointer; transition: all .2s; position: relative;
+      overflow: hidden; min-height: 120px;
+    }
+    .img-upload-box:hover { border-color: var(--gold); background: rgba(200,164,94,.05); }
+    .img-upload-box.has-image { border-style: solid; border-color: var(--gold); }
+    .img-upload-box img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; border-radius: 8px;
+    }
+    .img-upload-box .upload-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--gray-500); pointer-events: none;
+    }
+    .img-upload-box .upload-placeholder i { font-size: 28px; color: var(--gray-300); }
+    .img-upload-box .upload-placeholder span { font-size: 12px; text-align: center; line-height: 1.4; }
+    .img-upload-box .img-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,.55);
+      display: none; align-items: center; justify-content: center; gap: 8px;
+      border-radius: 8px;
+    }
+    .img-upload-box:hover .img-overlay { display: flex; }
+    .img-upload-box .img-overlay button {
+      padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      border: none; cursor: pointer;
+    }
+    .img-upload-box .img-overlay .btn-change { background: var(--gold); color: #fff; }
+    .img-upload-box .img-overlay .btn-remove { background: var(--red); color: #fff; }
+    input[type="file"] { display: none; }
+
+    .img-hint { font-size: 11px; color: var(--gray-500); margin-top: 5px; text-align: center; }
+
+    /* ── Hero slide specific ── */
+    .hero-slide-card .grid-img-text { grid-template-columns: 280px 1fr; }
+    .slide-num {
+      font-size: 11px; font-weight: 700; color: var(--gold);
+      background: rgba(200,164,94,.15); padding: 2px 8px; border-radius: 20px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--navy-dark); color: #fff;
+      padding: 12px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transform: translateY(80px); opacity: 0;
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      z-index: 9999; display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success i { color: #4ade80; }
+    .toast.error i { color: #f87171; }
+
+    /* ── Import/Export bar ── */
+    .data-bar {
+      background: var(--white); border-radius: 10px; padding: 12px 16px;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+      border: 1px solid var(--gray-200); flex-wrap: wrap;
+    }
+    .data-bar span { font-size: 13px; color: var(--gray-500); flex: 1; }
+
+    /* ── Products grid ── */
+    .products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 700px) { .products-grid { grid-template-columns: 1fr; } }
+
+    .product-edit-card { }
+    .product-edit-card .card-body { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; }
+    @media (max-width: 600px) { .product-edit-card .card-body { grid-template-columns: 1fr; } }
+
+    /* ── Projects grid ── */
+    .projects-edit-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .projects-edit-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .projects-edit-grid { grid-template-columns: 1fr; } }
+
+    .project-edit-card .img-upload-box { aspect-ratio: 3/2; }
+
+    /* ── Categories grid ── */
+    .cats-edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .cats-edit-grid { grid-template-columns: 1fr; } }
+
+    /* ── View link ── */
+    .view-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold); font-size: 13px; text-decoration: none; font-weight: 600;
+    }
+    .view-link:hover { opacity: .8; }
+
+    /* ── Scrollbar ── */
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: #2a3f66; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <h1><i class="fas fa-cog" style="margin-right:8px;color:var(--gold)"></i>THỊNH VƯỢNG — Quản Lý Nội Dung</h1>
+  <div class="topbar-actions">
+    <span id="saveStatus"></span>
+    <a href="index.html" target="_blank" class="view-link"><i class="fas fa-external-link-alt"></i> Xem trang</a>
+    <button class="btn btn-outline" onclick="exportData()"><i class="fas fa-download"></i> Xuất JSON</button>
+    <button class="btn btn-gold" onclick="saveAll()"><i class="fas fa-save"></i> Lưu thay đổi</button>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-group">
+    <div class="sidebar-group-label">Tổng quan</div>
+    <div class="sidebar-item active" onclick="showSection('hero')" id="nav-hero">
+      <i class="fas fa-image"></i> Hero Banner
+    </div>
+    <div class="sidebar-item" onclick="showSection('about')" id="nav-about">
+      <i class="fas fa-info-circle"></i> Giới Thiệu
+    </div>
+    <div class="sidebar-item" onclick="showSection('categories')" id="nav-categories">
+      <i class="fas fa-th-large"></i> Danh Mục
+    </div>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-label">Sản phẩm</div>
+    <div class="sidebar-item" onclick="showSection('tubep')" id="nav-tubep">
+      <i class="fas fa-sink"></i> Tủ Bếp Inox
+    </div>
+    <div class="sidebar-item" onclick="showSection('thietbi')" id="nav-thietbi">
+      <i class="fas fa-blender"></i> Thiết Bị Bếp
+    </div>
+    <div class="sidebar-item" onclick="showSection('phukien')" id="nav-phukien">
+      <i class="fas fa-cogs"></i> Phụ Kiện
+    </div>
+    <div class="sidebar-item" onclick="showSection('banghe')" id="nav-banghe">
+      <i class="fas fa-chair"></i> Bàn Ghế Inox
+    </div>
+    <div class="sidebar-item" onclick="showSection('giacong')" id="nav-giacong">
+      <i class="fas fa-tools"></i> Gia Công
+    </div>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-label">Khác</div>
+    <div class="sidebar-item" onclick="showSection('projects')" id="nav-projects">
+      <i class="fas fa-images"></i> Công Trình
+    </div>
+    <div class="sidebar-item" onclick="showSection('settings')" id="nav-settings">
+      <i class="fas fa-sliders-h"></i> Cài Đặt & Dữ Liệu
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- ── HERO ── -->
+  <div class="section-panel active" id="panel-hero">
+    <div class="panel-title"><i class="fas fa-image"></i> Hero Banner (3 slide)</div>
+    <div id="hero-slides-container"></div>
+  </div>
+
+  <!-- ── ABOUT ── -->
+  <div class="section-panel" id="panel-about">
+    <div class="panel-title"><i class="fas fa-info-circle"></i> Giới Thiệu</div>
+
+    <!-- Ảnh Lợi Ích -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header">
+        <h3><i class="fas fa-star" style="color:var(--gold);margin-right:6px"></i>Ảnh "Lợi Ích Khi Làm Tủ Bếp Tại Thịnh Vượng"</h3>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--gray-500);margin-bottom:14px">
+          Upload ảnh thiết kế lợi ích (ảnh bạn đã tạo). Ảnh sẽ hiển thị thay thế nội dung mặc định trên website.
+        </p>
+        <div class="img-upload-box" id="benefits-img-box" onclick="triggerUpload('benefits-img-input')" style="aspect-ratio:16/9;max-height:320px">
+          <div class="upload-placeholder">
+            <i class="fas fa-image"></i>
+            <span>Click để tải ảnh lợi ích<br>Khuyến nghị: 1600×900px</span>
+          </div>
+          <div class="img-overlay">
+            <button class="btn-change" onclick="event.stopPropagation();triggerUpload('benefits-img-input')">Đổi ảnh</button>
+            <button class="btn-remove" onclick="event.stopPropagation();removeBenefitsImg()">Xóa</button>
+          </div>
+        </div>
+        <input type="file" id="benefits-img-input" accept="image/*" onchange="handleBenefitsImgUpload(this)">
+        <div class="img-hint" style="margin-top:8px">Ảnh sẽ hiển thị toàn bộ section "Lợi ích" trên trang chủ</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Ảnh & Nội Dung Về Chúng Tôi</h3></div>
+      <div class="card-body">
+        <div class="grid-img-text">
+          <div>
+            <div class="form-group"><label>Ảnh cơ sở sản xuất</label></div>
+            <div class="img-upload-box" id="about-img-box" onclick="triggerUpload('about-img-input')">
+              <div class="upload-placeholder">
+                <i class="fas fa-building"></i>
+                <span>Click để chọn ảnh<br>cơ sở / xưởng</span>
+              </div>
+              <div class="img-overlay">
+                <button class="btn-change" onclick="event.stopPropagation();triggerUpload('about-img-input')">Đổi ảnh</button>
+                <button class="btn-remove" onclick="event.stopPropagation();removeImage('about','image','about-img-box')">Xóa</button>
+              </div>
+            </div>
+            <input type="file" id="about-img-input" accept="image/*" onchange="handleImageUpload(this,'about','image','about-img-box')">
+            <div class="img-hint">Khuyến nghị: 800×600px</div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label>Tiêu đề</label>
+              <input type="text" id="about-title" placeholder="Tiêu đề phần giới thiệu..." oninput="setData(['about','title'],this.value)">
+            </div>
+            <div class="form-group">
+              <label>Đoạn văn 1</label>
+              <textarea id="about-content1" rows="4" placeholder="Nội dung đoạn 1..." oninput="setData(['about','content1'],this.value)"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Đoạn văn 2</label>
+              <textarea id="about-content2" rows="3" placeholder="Nội dung đoạn 2..." oninput="setData(['about','content2'],this.value)"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORIES ── -->
+  <div class="section-panel" id="panel-categories">
+    <div class="panel-title"><i class="fas fa-th-large"></i> Danh Mục Sản Phẩm</div>
+    <div class="cats-edit-grid" id="cats-container"></div>
+  </div>
+
+  <!-- ── PRODUCTS ── -->
+  <div class="section-panel" id="panel-tubep">
+    <div class="panel-title"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</div>
+    <div class="products-grid" id="products-tubep-container"></div>
+  </div>
+  <div class="section-panel" id="panel-thietbi">
+    <div class="panel-title"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</div>
+    <div class="products-grid" id="products-thietbi-container"></div>
+  </div>
+  <div class="section-panel" id="panel-phukien">
+    <div class="panel-title"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</div>
+    <div class="products-grid" id="products-phukien-container"></div>
+  </div>
+  <div class="section-panel" id="panel-banghe">
+    <div class="panel-title"><i class="fas fa-chair"></i> Bàn Ghế Inox & Sản Phẩm Khác</div>
+    <div class="products-grid" id="products-banghe-container"></div>
+  </div>
+  <div class="section-panel" id="panel-giacong">
+    <div class="panel-title"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</div>
+    <div class="products-grid" id="products-giacong-container"></div>
+  </div>
+
+  <!-- ── PROJECTS ── -->
+  <div class="section-panel" id="panel-projects">
+    <div class="panel-title"><i class="fas fa-images"></i> Công Trình Đã Thực Hiện</div>
+    <div class="projects-edit-grid" id="projects-container"></div>
+  </div>
+
+  <!-- ── SETTINGS ── -->
+  <div class="section-panel" id="panel-settings">
+    <div class="panel-title"><i class="fas fa-sliders-h"></i> Cài Đặt & Quản Lý Dữ Liệu</div>
+    <div class="card">
+      <div class="card-header"><h3>Backup & Restore</h3></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">
+          Xuất dữ liệu ra file JSON để backup, hoặc nhập lại từ file backup.
+          Tất cả ảnh và nội dung đã chỉnh sửa đều được lưu trong file này.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="exportData()"><i class="fas fa-download"></i> Xuất dữ liệu (JSON)</button>
+          <label class="btn btn-outline" style="cursor:pointer">
+            <i class="fas fa-upload"></i> Nhập dữ liệu (JSON)
+            <input type="file" accept=".json" onchange="importData(this)" style="display:none">
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-header"><h3 style="color:var(--red)">Vùng Nguy Hiểm</h3></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px">
+          Xóa toàn bộ dữ liệu đã lưu và khôi phục về nội dung mặc định ban đầu.
+        </p>
+        <button class="btn btn-danger" onclick="resetToDefault()"><i class="fas fa-trash-alt"></i> Xóa & Reset về mặc định</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-header"><h3>Hướng dẫn sử dụng</h3></div>
+      <div class="card-body" style="font-size:13px;line-height:1.8;color:var(--gray-700)">
+        <ol style="padding-left:20px">
+          <li>Chọn mục cần chỉnh sửa ở thanh bên trái</li>
+          <li>Click vào ô ảnh để upload ảnh từ máy tính</li>
+          <li>Chỉnh sửa tên, mô tả trong các ô văn bản</li>
+          <li>Nhấn <strong>Lưu thay đổi</strong> (hoặc Ctrl+S) để lưu</li>
+          <li>Nhấn <strong>Xem trang</strong> để kiểm tra kết quả</li>
+        </ol>
+        <p style="margin-top:12px;color:var(--gray-500)">
+          <i class="fas fa-info-circle"></i>
+          Ảnh được lưu trực tiếp trong trình duyệt. Dùng <em>Xuất JSON</em> để backup và chuyển sang máy khác.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+// ============================================================
+// DEFAULT DATA – nội dung mặc định từ index.html
+// ============================================================
+const DEFAULT_DATA = {
+  hero: [
+    {
+      image: null,
+      badge: "✦ THỊNH VƯỢNG — Uy Tín & Chất Lượng",
+      title: "Chuyên Thi Công\nTủ Bếp Inox Cánh Kính\n& Gia Công Sắt Thép",
+      desc: "Chất liệu bền bỉ – Không gỉ sét – Thiết kế sang trọng – Giá cả hợp lý"
+    },
+    {
+      image: null,
+      badge: "✦ SẢN PHẨM CAO CẤP",
+      title: "Bàn Ghế Inox\nBền Đẹp Theo Thời Gian\nGia Công Mọi Yêu Cầu",
+      desc: "Từ bàn ghế inox, máng lợn đến cửa cổng, thùng xe tải – Đáp ứng mọi nhu cầu"
+    },
+    {
+      image: null,
+      badge: "✦ THIẾT BỊ & PHỤ KIỆN",
+      title: "Thiết Bị Nhà Bếp\nPhụ Kiện Tủ Bếp Thông Minh\nĐầy Đủ & Đa Dạng",
+      desc: "Chậu rửa, vòi nước, kệ gia vị, rổ kéo – Tất cả trong một nơi"
+    }
+  ],
+  benefits: { image: null },
+  about: {
+    image: null,
+    title: "Thịnh Vượng – Đơn Vị Hàng Đầu Về Tủ Bếp Inox & Gia Công Sắt Thép",
+    content1: "Cơ sở Tủ Bếp Inox Cánh Kính Thịnh Vượng chuyên phân phối, thi công lắp đặt các sản phẩm tủ bếp inox cánh kính, thiết bị nhà bếp, phụ kiện tủ bếp cao cấp. Ngoài ra, chúng tôi còn nhận gia công các sản phẩm sắt thép, inox theo yêu cầu như: cửa, cổng, bàn ghế, thùng xe tải, máng lợn inox và nhiều sản phẩm khác.",
+    content2: "Thịnh Vượng tự hào là một trong những đơn vị uy tín hàng đầu khu vực Hà Nội với phương châm: \"Chất lượng tạo niềm tin – Uy tín xây dựng thương hiệu\"."
+  },
+  categories: [
+    { image: null, name: "Tủ Bếp Inox Cánh Kính", desc: "Sản phẩm chủ lực – Đa dạng mẫu mã", features: ['Chất liệu inox 304 cao cấp', 'Cánh kính cường lực 8–10mm', 'Khung inox dày, chịu lực tốt', 'Không gỉ sét, dễ vệ sinh', 'Bảo hành 5 năm'] },
+    { image: null, name: "Thiết Bị Nhà Bếp", desc: "Chậu rửa, vòi nước, bếp gas, máy hút mùi", features: ['Chất liệu inox 304 cao cấp', 'Thiết kế hiện đại, tiện dụng', 'Bề mặt nhám chống xước', 'Tiết kiệm năng lượng', 'Bảo hành chính hãng'] },
+    { image: null, name: "Phụ Kiện Tủ Bếp", desc: "Kệ gia vị, rổ kéo, bản lề, ray trượt", features: ['Inox 304 / thép mạ chrome', 'Chịu tải trọng cao', 'Lắp đặt nhanh, dễ tháo rời', 'Thiết kế tối ưu không gian', 'Độ bền vượt thời gian'] },
+    { image: null, name: "Bàn Ghế Inox & SP Khác", desc: "Bàn ghế inox các loại và các sản phẩm khác", features: ['Inox 304 nguyên chất', 'Hàn TIG kỹ thuật cao', 'Bề mặt đánh bóng mịn', 'Chân chống trượt an toàn', 'Tùy chỉnh kích thước theo yêu cầu'] },
+    { image: null, name: "Gia Công Theo Yêu Cầu", desc: "Cửa, cổng, thùng xe tải, máng lợn inox & nhiều hơn", features: ['Sắt hộp, inox 201/304', 'Sơn tĩnh điện bền màu', 'Gia công CNC chính xác', 'Lắp đặt tận nơi', 'Bảo hành chất lượng thi công'] }
+  ],
+  products: {
+    tubep: [
+      { image: null, name: "Tủ Bếp Inox Cánh Kính Chữ L", desc: "Thiết kế tối ưu không gian góc, chất liệu inox 304 kết hợp kính cường lực", badge: "Hot" },
+      { image: null, name: "Tủ Bếp Inox Cánh Kính Chữ I", desc: "Phù hợp không gian bếp nhỏ, thiết kế gọn gàng, hiện đại", badge: "" },
+      { image: null, name: "Tủ Bếp Inox Cánh Kính Chữ U", desc: "Không gian bếp rộng rãi, tiện nghi tối đa với 3 mặt tủ", badge: "Mới" },
+      { image: null, name: "Tủ Bếp Inox Đảo Bếp, Quầy Bar", desc: "Thiết kế đảo bếp độc lập hoặc quầy bar kết hợp, inox 304 kính cường lực, phù hợp không gian mở hiện đại", badge: "Mới" },
+    ],
+    thietbi: [
+      { image: null, name: "Chậu Rửa Inox", desc: "Inox 304 cao cấp, bề mặt nhám chống xước, chống ồn, đa dạng kích thước 1–2 ngăn", badge: "" },
+      { image: null, name: "Vòi Rửa Inox", desc: "Vòi rửa bát inox 304 xoay 360°, tiết kiệm nước, thiết kế hiện đại", badge: "" },
+      { image: null, name: "Bếp Từ", desc: "Bếp từ âm tủ, công suất lớn, an toàn, tiết kiệm điện, dễ vệ sinh mặt kính", badge: "" },
+      { image: null, name: "Máy Hút Mùi", desc: "Công suất lớn, lọc khói hiệu quả, thiết kế kính cong sang trọng", badge: "Hot" },
+      { image: null, name: "Máy Rửa Bát", desc: "Máy rửa bát âm tủ, tiết kiệm nước và thời gian, sát khuẩn nhiệt độ cao", badge: "Mới" }
+    ],
+    phukien: [
+      { image: null, name: "Kệ Gia Vị Tủ Bếp", desc: "Kệ gia vị inox gắn cánh tủ, tiết kiệm không gian", badge: "" },
+      { image: null, name: "Rổ Xoay Góc Tủ Bếp", desc: "Rổ xoay inox mâm xoay 360°, tận dụng tối đa góc tủ", badge: "Mới" },
+      { image: null, name: "Giá Để Chén Bát", desc: "Giá úp chén bát inox 2 tầng, có khay hứng nước", badge: "" },
+      { image: null, name: "Thùng Rác Âm Tủ", desc: "Thùng rác âm tủ 2 ngăn, gắn cánh, mở tự động", badge: "" }
+    ],
+    banghe: [
+      { image: null, name: "Bàn Ghế Inox", desc: "Bàn ghế inox 304, mặt bàn dày, chân chống trượt, đa dạng 4–6 chỗ cho gia đình và quán ăn", badge: "Hot" },
+      { image: null, name: "Máng Lợn Inox", desc: "Máng lợn inox 304 bền chắc, dễ vệ sinh, chống ăn mòn, gia công theo kích thước yêu cầu", badge: "" },
+      { image: null, name: "Bếp Biogas", desc: "Bếp biogas chuyên dụng cho trang trại, tiết kiệm năng lượng, an toàn và bền bỉ", badge: "" },
+      { image: null, name: "Bếp Gas Công Nghiệp", desc: "Bếp gas công nghiệp công suất lớn, phù hợp nhà hàng, bếp ăn tập thể, canteen", badge: "" }
+    ],
+    giacong: [
+      { image: null, name: "Cổng Sắt Hộp", desc: "Cổng sắt hộp mạ kẽm, sơn tĩnh điện, bền đẹp lâu dài", badge: "" },
+      { image: null, name: "Cửa Sắt / Cửa Inox", desc: "Cửa sắt, cửa inox các loại, gia công theo kích thước yêu cầu", badge: "" },
+      { image: null, name: "Thùng Xe Tải Nhỏ", desc: "Làm thùng xe tải nhỏ, thùng xe ba gác bằng sắt/inox", badge: "Hot" },
+      { image: null, name: "Lan Can Inox / Cầu Thang", desc: "Lan can inox cầu thang, ban công, thiết kế theo yêu cầu", badge: "" }
+    ]
+  },
+  projects: [
+    { image: null, title: "Tủ Bếp Inox Cánh Kính", subtitle: "Gia đình anh Hùng – Đa Phúc, Hà Nội" },
+    { image: null, title: "Cổng Sắt Mỹ Thuật", subtitle: "Nhà chị Lan – Bắc Phú, Hà Nội" },
+    { image: null, title: "Bộ Bàn Ghế Inox", subtitle: "Quán ăn Thành Đạt – Sóc Sơn" },
+    { image: null, title: "Tủ Bếp Inox Chữ U", subtitle: "Biệt thự Mê Linh – Hà Nội" },
+    { image: null, title: "Lan Can Inox Cầu Thang", subtitle: "Nhà anh Tuấn – Sóc Sơn, Hà Nội" },
+    { image: null, title: "Thùng Xe Tải", subtitle: "Garage Phú Minh – Đông Anh" }
+  ]
+};
+
+// ── Working data (merged default + saved) ──
+let data = {};
+
+// ── Deep clone ──
+function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+// ── IndexedDB helpers (không giới hạn dung lượng như localStorage) ──
+const _IDB = { name: 'thinhvuong_db', version: 1, store: 'cms' };
+function _openDB() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(_IDB.name, _IDB.version);
+    r.onupgradeneeded = e => e.target.result.createObjectStore(_IDB.store);
+    r.onsuccess = e => res(e.target.result);
+    r.onerror = e => rej(e.target.error);
+  });
+}
+function _idbGet(db, k) {
+  return new Promise((res, rej) => {
+    const r = db.transaction(_IDB.store, 'readonly').objectStore(_IDB.store).get(k);
+    r.onsuccess = e => res(e.target.result ?? null);
+    r.onerror = e => rej(e.target.error);
+  });
+}
+function _idbPut(db, k, v) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(_IDB.store, 'readwrite');
+    tx.objectStore(_IDB.store).put(v, k);
+    tx.oncomplete = () => res();
+    tx.onerror = e => rej(e.target.error);
+  });
+}
+function _idbDel(db, k) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction(_IDB.store, 'readwrite');
+    tx.objectStore(_IDB.store).delete(k);
+    tx.oncomplete = () => res();
+    tx.onerror = e => rej(e.target.error);
+  });
+}
+
+// ── Deep merge (saved over default) ──
+function deepMerge(def, saved) {
+  const out = deepClone(def);
+  if (!saved) return out;
+  for (const k of Object.keys(out)) {
+    if (saved[k] === undefined) continue;
+    if (Array.isArray(out[k])) {
+      out[k] = saved[k].map((item, i) => {
+        if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+          return Object.assign(deepClone(out[k][i] || {}), item);
+        }
+        return item;
+      });
+    } else if (typeof out[k] === 'object' && out[k] !== null) {
+      out[k] = deepMerge(out[k], saved[k]);
+    } else {
+      out[k] = saved[k];
+    }
+  }
+  return out;
+}
+
+// ── Normalize: đảm bảo mọi product có gallery + details, và thêm SP mới từ DEFAULT_DATA ──
+function normalizeData(d) {
+  if (d && d.products) {
+    for (const catKey of Object.keys(DEFAULT_DATA.products)) {
+      const defaultItems = DEFAULT_DATA.products[catKey];
+      const current = d.products[catKey] || [];
+      // Nếu DEFAULT_DATA có nhiều SP hơn đã lưu → thêm các SP mới vào cuối
+      if (current.length < defaultItems.length) {
+        for (let i = current.length; i < defaultItems.length; i++) {
+          current.push(JSON.parse(JSON.stringify(defaultItems[i])));
+        }
+      }
+      d.products[catKey] = current.map(item => ({
+        details: '',
+        gallery: [],
+        features: [],
+        models: [],
+        ...item,
+        gallery: Array.isArray(item.gallery) ? item.gallery : [],
+        features: Array.isArray(item.features) ? item.features : [],
+        models: Array.isArray(item.models) ? item.models.map(m => ({
+          details: '', gallery: [], features: [],
+          ...m,
+          gallery: Array.isArray(m.gallery) ? m.gallery : [],
+          features: Array.isArray(m.features) ? m.features : []
+        })) : []
+      }));
+    }
+  }
+  return d;
+}
+
+// ── Load từ IndexedDB (tự migrate từ localStorage nếu có) ──
+async function loadData() {
+  try {
+    const db = await _openDB();
+    let saved = await _idbGet(db, 'data');
+    if (!saved) {
+      const raw = localStorage.getItem('thinhvuong_cms');
+      if (raw) {
+        saved = JSON.parse(raw);
+        await _idbPut(db, 'data', saved);
+        localStorage.removeItem('thinhvuong_cms');
+      }
+    }
+    data = normalizeData(deepMerge(DEFAULT_DATA, saved));
+  } catch(e) {
+    data = normalizeData(deepClone(DEFAULT_DATA));
+  }
+}
+
+// ── Set nested value ──
+function setData(path, value) {
+  let obj = data;
+  for (let i = 0; i < path.length - 1; i++) obj = obj[path[i]];
+  obj[path[path.length - 1]] = value;
+  markUnsaved();
+}
+
+// ── Save to IndexedDB ──
+async function saveAll() {
+  try {
+    setSaveStatus('saving');
+    const db = await _openDB();
+    await _idbPut(db, 'data', data);
+    showToast('Đã lưu thay đổi thành công!', 'success');
+    setSaveStatus('saved');
+  } catch(e) {
+    showToast('Lỗi khi lưu: ' + e.message, 'error');
+  }
+}
+
+function setSaveStatus(state) {
+  const el = document.getElementById('saveStatus');
+  el.className = state;
+  if (state === 'saved') el.textContent = '✓ Đã lưu';
+  else if (state === 'saving') el.textContent = 'Đang lưu...';
+  else el.textContent = '● Chưa lưu';
+}
+
+function markUnsaved() {
+  const el = document.getElementById('saveStatus');
+  el.className = '';
+  el.textContent = '● Chưa lưu';
+}
+
+// ── Ctrl+S shortcut ──
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveAll(); }
+});
+
+// ── Export JSON ──
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'thinhvuong-cms-backup.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Đã xuất file JSON!', 'success');
+}
+
+// ── Import JSON ──
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      data = normalizeData(deepMerge(DEFAULT_DATA, imported));
+      const db = await _openDB();
+      await _idbPut(db, 'data', data);
+      showToast('Đã nhập dữ liệu thành công! Đang tải lại...', 'success');
+      setTimeout(() => location.reload(), 1200);
+    } catch(err) {
+      showToast('File JSON không hợp lệ!', 'error');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+// ── Reset to default ──
+async function resetToDefault() {
+  if (!confirm('Bạn chắc chắn muốn xóa toàn bộ thay đổi và reset về mặc định?')) return;
+  try { const db = await _openDB(); await _idbDel(db, 'data'); } catch(e) {}
+  localStorage.removeItem('thinhvuong_cms');
+  data = normalizeData(deepClone(DEFAULT_DATA));
+  showToast('Đã reset về mặc định! Đang tải lại...', 'success');
+  setTimeout(() => location.reload(), 1200);
+}
+
+// ── Image compression ──
+function compressImage(file) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX = 1200;
+      let w = img.width, h = img.height;
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(null); };
+    img.src = url;
+  });
+}
+
+// ── Trigger file input ──
+function triggerUpload(inputId) {
+  document.getElementById(inputId).click();
+}
+
+// ── Handle image upload ──
+async function handleImageUpload(input, ...pathAndBoxId) {
+  const boxId = pathAndBoxId[pathAndBoxId.length - 1];
+  const path = pathAndBoxId.slice(0, -1);
+  const file = input.files[0];
+  if (!file) return;
+
+  showToast('Đang xử lý ảnh...', 'success');
+  const b64 = await compressImage(file);
+  if (!b64) { showToast('Lỗi đọc file ảnh!', 'error'); return; }
+
+  setData(path, b64);
+  applyImageToBox(boxId, b64);
+  input.value = '';
+  markUnsaved();
+}
+
+// ── Apply image to upload box ──
+function applyImageToBox(boxId, src) {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  if (src) {
+    box.classList.add('has-image');
+    let img = box.querySelector('img.preview-img');
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'preview-img';
+      box.insertBefore(img, box.firstChild);
+    }
+    img.src = src;
+    const ph = box.querySelector('.upload-placeholder');
+    if (ph) ph.style.display = 'none';
+  } else {
+    box.classList.remove('has-image');
+    const img = box.querySelector('img.preview-img');
+    if (img) img.remove();
+    const ph = box.querySelector('.upload-placeholder');
+    if (ph) ph.style.display = '';
+  }
+}
+
+// ── Remove image ──
+function removeImage(path0, path1, boxId, path2) {
+  const pathArr = path2 !== undefined ? [path0, path1, path2] : [path0, path1];
+  setData(pathArr, null);
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+// ── Show section ──
+function showSection(name) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+  const nav = document.getElementById('nav-' + name);
+  if (nav) nav.classList.add('active');
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const toast = document.getElementById('toast');
+  const icon = toast.querySelector('i');
+  document.getElementById('toast-msg').textContent = msg;
+  icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  toast.className = 'toast ' + type + ' show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+// ── Render Hero Slides ──
+function renderHero() {
+  const container = document.getElementById('hero-slides-container');
+  container.innerHTML = '';
+  data.hero.forEach((slide, i) => {
+    const boxId = `hero-img-box-${i}`;
+    const inputId = `hero-img-input-${i}`;
+    const div = document.createElement('div');
+    div.className = 'card hero-slide-card';
+    div.style.marginBottom = '16px';
+    div.innerHTML = `
+      <div class="card-header">
+        <h3>Slide ${i + 1}</h3>
+        <span class="slide-num">SLIDE ${i + 1}/3</span>
+      </div>
+      <div class="card-body">
+        <div class="grid-img-text">
+          <div>
+            <div class="form-group"><label>Ảnh nền slide</label></div>
+            <div class="img-upload-box" id="${boxId}" onclick="triggerUpload('${inputId}')">
+              <div class="upload-placeholder">
+                <i class="fas fa-image"></i>
+                <span>Click để chọn ảnh<br>banner (1920×800px)</span>
+              </div>
+              <div class="img-overlay">
+                <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${inputId}')">Đổi ảnh</button>
+                <button class="btn-remove" onclick="event.stopPropagation();removeHeroImage(${i},'${boxId}')">Xóa</button>
+              </div>
+            </div>
+            <input type="file" id="${inputId}" accept="image/*"
+              onchange="handleHeroImageUpload(this,${i},'${boxId}')">
+            <div class="img-hint">Khuyến nghị: 1920×800px, ngang</div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label>Badge (nhãn nhỏ phía trên)</label>
+              <input type="text" value="${escHtml(slide.badge)}" placeholder="VD: ✦ THỊNH VƯỢNG — Uy Tín & Chất Lượng"
+                oninput="setData(['hero',${i},'badge'],this.value)">
+            </div>
+            <div class="form-group">
+              <label>Tiêu đề chính (mỗi dòng = 1 dòng hiển thị)</label>
+              <textarea rows="4" placeholder="Dòng 1&#10;Dòng 2&#10;Dòng 3"
+                oninput="setData(['hero',${i},'title'],this.value)">${escHtml(slide.title)}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Mô tả ngắn</label>
+              <input type="text" value="${escHtml(slide.desc)}" placeholder="Mô tả ngắn dưới tiêu đề..."
+                oninput="setData(['hero',${i},'desc'],this.value)">
+            </div>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(div);
+    if (slide.image) applyImageToBox(boxId, slide.image);
+  });
+}
+
+function handleHeroImageUpload(input, idx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('Đang xử lý ảnh...', 'success');
+  compressImage(file).then(b64 => {
+    if (!b64) { showToast('Lỗi đọc file!', 'error'); return; }
+    data.hero[idx].image = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeHeroImage(idx, boxId) {
+  data.hero[idx].image = null;
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+// ── Render Categories ──
+function renderCategories() {
+  const container = document.getElementById('cats-container');
+  container.innerHTML = '';
+  const catLabels = ['Tủ Bếp Inox Cánh Kính','Thiết Bị Nhà Bếp','Phụ Kiện Tủ Bếp','Bàn Ghế Inox & SP Khác','Gia Công Theo Yêu Cầu'];
+  data.categories.forEach((cat, i) => {
+    const boxId = `cat-img-box-${i}`;
+    const inputId = `cat-img-input-${i}`;
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="card-header">
+        <h3>${catLabels[i]}</h3>
+        <span class="card-badge">${i + 1}</span>
+      </div>
+      <div class="card-body">
+        <div class="form-group"><label>Ảnh danh mục</label></div>
+        <div class="img-upload-box" id="${boxId}" onclick="triggerUpload('${inputId}')" style="aspect-ratio:16/9;margin-bottom:12px">
+          <div class="upload-placeholder">
+            <i class="fas fa-image"></i>
+            <span>Click để chọn ảnh<br>danh mục</span>
+          </div>
+          <div class="img-overlay">
+            <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${inputId}')">Đổi</button>
+            <button class="btn-remove" onclick="event.stopPropagation();removeCatImage(${i},'${boxId}')">Xóa</button>
+          </div>
+        </div>
+        <input type="file" id="${inputId}" accept="image/*"
+          onchange="handleCatImageUpload(this,${i},'${boxId}')">
+        <div class="form-group">
+          <label>Tên danh mục</label>
+          <input type="text" value="${escHtml(cat.name)}" oninput="setData(['categories',${i},'name'],this.value)">
+        </div>
+        <div class="form-group">
+          <label>Mô tả</label>
+          <input type="text" value="${escHtml(cat.desc)}" oninput="setData(['categories',${i},'desc'],this.value)">
+        </div>
+      </div>`;
+    container.appendChild(div);
+    if (cat.image) applyImageToBox(boxId, cat.image);
+  });
+}
+
+function handleCatImageUpload(input, idx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  compressImage(file).then(b64 => {
+    if (!b64) return;
+    data.categories[idx].image = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeCatImage(idx, boxId) {
+  data.categories[idx].image = null;
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+function renderProdFeaturesHtml(groupKey, prodIdx, features) {
+  return (features || []).map((f, fi) => `
+    <div style="display:flex;gap:6px;margin-bottom:6px">
+      <input type="text" value="${escHtml(f)}"
+        style="flex:1;padding:7px 10px;border:1.5px solid #e5e7eb;border-radius:6px;font-size:13px;font-family:inherit"
+        oninput="updateProdFeature('${groupKey}',${prodIdx},${fi},this.value)">
+      <button onclick="removeProdFeature('${groupKey}',${prodIdx},${fi})"
+        style="padding:7px 10px;background:#dc2626;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>`).join('');
+}
+
+function refreshProdFeaturesContainer(groupKey, prodIdx) {
+  const el = document.getElementById(`prod-feat-${groupKey}-${prodIdx}`);
+  if (!el) return;
+  el.innerHTML = renderProdFeaturesHtml(groupKey, prodIdx, data.products[groupKey][prodIdx].features || []);
+}
+
+function updateProdFeature(groupKey, prodIdx, featIdx, value) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].features)) data.products[groupKey][prodIdx].features = [];
+  data.products[groupKey][prodIdx].features[featIdx] = value;
+  markUnsaved();
+}
+
+function addProdFeature(groupKey, prodIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].features)) data.products[groupKey][prodIdx].features = [];
+  data.products[groupKey][prodIdx].features.push('');
+  refreshProdFeaturesContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+function removeProdFeature(groupKey, prodIdx, featIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].features)) return;
+  data.products[groupKey][prodIdx].features.splice(featIdx, 1);
+  refreshProdFeaturesContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+// ── Models per product ──
+function renderProdModelsHtml(groupKey, prodIdx, models) {
+  if (!models || models.length === 0) return '<div style="color:#9ca3af;font-size:12px;padding:6px 0">Chưa có model nào. Nhấn "+ Thêm model / phiên bản" để bắt đầu.</div>';
+  return models.map((m, mi) => {
+    const mBoxId = `${groupKey}-model-img-${prodIdx}-${mi}`;
+    const mInputId = `${groupKey}-model-input-${prodIdx}-${mi}`;
+    return `
+      <div style="border:1.5px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px;background:#fff;position:relative">
+        <button onclick="removeProdModel('${groupKey}',${prodIdx},${mi})"
+          style="position:absolute;top:8px;right:8px;padding:3px 9px;background:#dc2626;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px;z-index:1">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Ảnh chính + tên + mô tả ngắn -->
+        <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #e5e7eb">
+          <div style="flex-shrink:0;width:90px">
+            <div class="img-upload-box" id="${mBoxId}" onclick="triggerUpload('${mInputId}')" style="min-height:68px;aspect-ratio:4/3">
+              <div class="upload-placeholder">
+                <i class="fas fa-image" style="font-size:14px"></i>
+                <span style="font-size:9px;margin-top:2px">Ảnh model</span>
+              </div>
+              <div class="img-overlay">
+                <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${mInputId}')">Đổi</button>
+                <button class="btn-remove" onclick="event.stopPropagation();removeModelImg('${groupKey}',${prodIdx},${mi},'${mBoxId}')">Xóa</button>
+              </div>
+            </div>
+            <input type="file" id="${mInputId}" accept="image/*"
+              onchange="handleModelImgUpload(this,'${groupKey}',${prodIdx},${mi},'${mBoxId}')">
+            <div style="font-size:9px;color:#9ca3af;text-align:center;margin-top:2px">Ảnh đại diện</div>
+          </div>
+          <div style="flex:1;min-width:0;padding-right:30px">
+            <div class="form-group" style="margin-bottom:6px">
+              <label style="font-size:11px;margin-bottom:3px">Tên model / phiên bản</label>
+              <input type="text" value="${escHtml(m.name||'')}" placeholder="VD: Bếp Từ Đôi Kính 70cm, Máy Hút Mùi Cong 90cm…"
+                oninput="setData(['products','${groupKey}',${prodIdx},'models',${mi},'name'],this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label style="font-size:11px;margin-bottom:3px">Mô tả ngắn (hiện trên thẻ danh sách)</label>
+              <textarea rows="2" placeholder="Mô tả ngắn về model này…"
+                oninput="setData(['products','${groupKey}',${prodIdx},'models',${mi},'desc'],this.value)">${escHtml(m.desc||'')}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ảnh gallery model -->
+        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #e5e7eb">
+          <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+            <i class="fas fa-images" style="color:#c8a45e;margin-right:4px"></i>Ảnh Gallery (trang chi tiết model)
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="model-gal-${groupKey}-${prodIdx}-${mi}"></div>
+          <button onclick="addModelGallerySlot('${groupKey}',${prodIdx},${mi})"
+            style="margin-top:6px;padding:5px 10px;background:rgba(200,164,94,.1);color:#a6863e;border:1.5px dashed #c8a45e;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;width:100%">
+            <i class="fas fa-plus" style="margin-right:3px"></i>Thêm ảnh gallery
+          </button>
+        </div>
+
+        <!-- Mô tả chi tiết -->
+        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #e5e7eb">
+          <div class="form-group" style="margin-bottom:0">
+            <label style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">
+              <i class="fas fa-align-left" style="color:#c8a45e;margin-right:4px"></i>Mô Tả Chi Tiết (trang riêng của model)
+            </label>
+            <textarea rows="3" placeholder="Thông số kỹ thuật, đặc điểm, công suất, kích thước, chất liệu…"
+              oninput="setData(['products','${groupKey}',${prodIdx},'models',${mi},'details'],this.value)">${escHtml(m.details||'')}</textarea>
+          </div>
+        </div>
+
+        <!-- Đặc điểm nổi bật model -->
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+            <i class="fas fa-star" style="color:#c8a45e;margin-right:4px"></i>Đặc Điểm Nổi Bật Model Này
+          </div>
+          <div id="model-feat-${groupKey}-${prodIdx}-${mi}"></div>
+          <button onclick="addModelFeature('${groupKey}',${prodIdx},${mi})"
+            style="margin-top:4px;padding:5px 10px;background:rgba(200,164,94,.1);color:#a6863e;border:1.5px dashed #c8a45e;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;width:100%">
+            <i class="fas fa-plus" style="margin-right:3px"></i>Thêm đặc điểm
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function refreshModelsContainer(groupKey, prodIdx) {
+  const el = document.getElementById(`prod-models-${groupKey}-${prodIdx}`);
+  if (!el) return;
+  const models = data.products[groupKey][prodIdx].models || [];
+  el.innerHTML = renderProdModelsHtml(groupKey, prodIdx, models);
+  models.forEach((m, mi) => {
+    if (m.image) applyImageToBox(`${groupKey}-model-img-${prodIdx}-${mi}`, m.image);
+    refreshModelGalleryContainer(groupKey, prodIdx, mi);
+    refreshModelFeaturesContainer(groupKey, prodIdx, mi);
+  });
+}
+
+function addProdModel(groupKey, prodIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].models)) {
+    data.products[groupKey][prodIdx].models = [];
+  }
+  data.products[groupKey][prodIdx].models.push({ name: '', desc: '', image: null, gallery: [], details: '', features: [] });
+  refreshModelsContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+function removeProdModel(groupKey, prodIdx, modelIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].models)) return;
+  data.products[groupKey][prodIdx].models.splice(modelIdx, 1);
+  refreshModelsContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+function handleModelImgUpload(input, groupKey, prodIdx, modelIdx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('Đang xử lý ảnh...', 'success');
+  compressImage(file).then(b64 => {
+    if (!b64) { showToast('Lỗi đọc file!', 'error'); return; }
+    data.products[groupKey][prodIdx].models[modelIdx].image = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeModelImg(groupKey, prodIdx, modelIdx, boxId) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].models)) return;
+  data.products[groupKey][prodIdx].models[modelIdx].image = null;
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+// Model gallery
+function renderModelGalleryHtml(groupKey, prodIdx, modelIdx) {
+  const gallery = (data.products[groupKey][prodIdx].models[modelIdx] || {}).gallery || [];
+  return gallery.map((src, gi) => {
+    const gBoxId = `${groupKey}-mgal-${prodIdx}-${modelIdx}-${gi}`;
+    const gInputId = `${groupKey}-mgalinput-${prodIdx}-${modelIdx}-${gi}`;
+    return `
+      <div>
+        <div class="img-upload-box" id="${gBoxId}" onclick="triggerUpload('${gInputId}')" style="min-height:60px;aspect-ratio:4/3">
+          <div class="upload-placeholder">
+            <i class="fas fa-plus" style="font-size:12px"></i>
+            <span style="font-size:9px">Ảnh ${gi+1}</span>
+          </div>
+          <div class="img-overlay">
+            <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${gInputId}')">Đổi</button>
+            <button class="btn-remove" onclick="event.stopPropagation();removeModelGallerySlot('${groupKey}',${prodIdx},${modelIdx},${gi})">Xóa</button>
+          </div>
+        </div>
+        <input type="file" id="${gInputId}" accept="image/*"
+          onchange="handleModelGalleryUpload(this,'${groupKey}',${prodIdx},${modelIdx},${gi},'${gBoxId}')">
+      </div>`;
+  }).join('');
+}
+
+function refreshModelGalleryContainer(groupKey, prodIdx, modelIdx) {
+  const el = document.getElementById(`model-gal-${groupKey}-${prodIdx}-${modelIdx}`);
+  if (!el) return;
+  el.innerHTML = renderModelGalleryHtml(groupKey, prodIdx, modelIdx);
+  const gallery = (data.products[groupKey][prodIdx].models[modelIdx] || {}).gallery || [];
+  gallery.forEach((src, gi) => {
+    if (src) applyImageToBox(`${groupKey}-mgal-${prodIdx}-${modelIdx}-${gi}`, src);
+  });
+}
+
+function addModelGallerySlot(groupKey, prodIdx, modelIdx) {
+  const m = data.products[groupKey][prodIdx].models[modelIdx];
+  if (!Array.isArray(m.gallery)) m.gallery = [];
+  m.gallery.push(null);
+  refreshModelGalleryContainer(groupKey, prodIdx, modelIdx);
+  markUnsaved();
+}
+
+function removeModelGallerySlot(groupKey, prodIdx, modelIdx, galIdx) {
+  const m = data.products[groupKey][prodIdx].models[modelIdx];
+  if (!Array.isArray(m.gallery)) return;
+  m.gallery.splice(galIdx, 1);
+  refreshModelGalleryContainer(groupKey, prodIdx, modelIdx);
+  markUnsaved();
+}
+
+function handleModelGalleryUpload(input, groupKey, prodIdx, modelIdx, galIdx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('Đang xử lý ảnh...', 'success');
+  compressImage(file).then(b64 => {
+    if (!b64) { showToast('Lỗi đọc file!', 'error'); return; }
+    data.products[groupKey][prodIdx].models[modelIdx].gallery[galIdx] = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+// Model features
+function renderModelFeaturesHtml(groupKey, prodIdx, modelIdx, features) {
+  return (features || []).map((f, fi) => `
+    <div style="display:flex;gap:6px;margin-bottom:5px">
+      <input type="text" value="${escHtml(f)}"
+        style="flex:1;padding:6px 10px;border:1.5px solid #e5e7eb;border-radius:6px;font-size:12px;font-family:inherit"
+        oninput="updateModelFeature('${groupKey}',${prodIdx},${modelIdx},${fi},this.value)">
+      <button onclick="removeModelFeature('${groupKey}',${prodIdx},${modelIdx},${fi})"
+        style="padding:6px 10px;background:#dc2626;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px;flex-shrink:0">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>`).join('');
+}
+
+function refreshModelFeaturesContainer(groupKey, prodIdx, modelIdx) {
+  const el = document.getElementById(`model-feat-${groupKey}-${prodIdx}-${modelIdx}`);
+  if (!el) return;
+  el.innerHTML = renderModelFeaturesHtml(groupKey, prodIdx, modelIdx,
+    (data.products[groupKey][prodIdx].models[modelIdx] || {}).features || []);
+}
+
+function updateModelFeature(groupKey, prodIdx, modelIdx, featIdx, value) {
+  data.products[groupKey][prodIdx].models[modelIdx].features[featIdx] = value;
+  markUnsaved();
+}
+
+function addModelFeature(groupKey, prodIdx, modelIdx) {
+  const m = data.products[groupKey][prodIdx].models[modelIdx];
+  if (!Array.isArray(m.features)) m.features = [];
+  m.features.push('');
+  refreshModelFeaturesContainer(groupKey, prodIdx, modelIdx);
+  markUnsaved();
+}
+
+function removeModelFeature(groupKey, prodIdx, modelIdx, featIdx) {
+  data.products[groupKey][prodIdx].models[modelIdx].features.splice(featIdx, 1);
+  refreshModelFeaturesContainer(groupKey, prodIdx, modelIdx);
+  markUnsaved();
+}
+
+// ── Render Products ──
+function renderProducts(groupKey, sectionLabel) {
+  const container = document.getElementById(`products-${groupKey}-container`);
+  if (!container) return;
+  container.innerHTML = '';
+  (data.products[groupKey] || []).forEach((product, i) => {
+    const boxId = `${groupKey}-img-box-${i}`;
+    const inputId = `${groupKey}-img-input-${i}`;
+    const gallery = Array.isArray(product.gallery) ? product.gallery : [];
+
+    const div = document.createElement('div');
+    div.className = 'card product-edit-card';
+    div.innerHTML = `
+      <div class="card-header">
+        <h3>Sản phẩm ${i + 1}</h3>
+        ${product.badge ? `<span class="card-badge">${escHtml(product.badge)}</span>` : ''}
+      </div>
+      <div class="card-body" style="display:block">
+        <!-- Ảnh chính + thông tin cơ bản -->
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:start">
+          <div>
+            <div class="img-upload-box" id="${boxId}" onclick="triggerUpload('${inputId}')">
+              <div class="upload-placeholder">
+                <i class="fas fa-image"></i>
+                <span>Ảnh chính<br>800×600px</span>
+              </div>
+              <div class="img-overlay">
+                <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${inputId}')">Đổi</button>
+                <button class="btn-remove" onclick="event.stopPropagation();removeProdImage('${groupKey}',${i},'${boxId}')">Xóa</button>
+              </div>
+            </div>
+            <input type="file" id="${inputId}" accept="image/*"
+              onchange="handleProdImageUpload(this,'${groupKey}',${i},'${boxId}')">
+            <div class="img-hint">Ảnh thumbnail chính</div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label>Tên sản phẩm</label>
+              <input type="text" value="${escHtml(product.name)}"
+                oninput="setData(['products','${groupKey}',${i},'name'],this.value)">
+            </div>
+            <div class="form-group">
+              <label>Mô tả ngắn (hiện trên danh sách)</label>
+              <textarea rows="2" oninput="setData(['products','${groupKey}',${i},'desc'],this.value)">${escHtml(product.desc)}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Badge (Hot / Mới / để trống)</label>
+              <input type="text" value="${escHtml(product.badge)}" placeholder="Hot hoặc Mới"
+                oninput="setData(['products','${groupKey}',${i},'badge'],this.value)">
+            </div>
+          </div>
+        </div>
+        <!-- Ảnh bổ sung -->
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+          <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">
+            <i class="fas fa-images" style="color:#c8a45e;margin-right:5px"></i>Ảnh Bổ Sung (không giới hạn – hiện gallery trang chi tiết)
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px" id="prod-gal-${groupKey}-${i}"></div>
+          <button onclick="addGallerySlot('${groupKey}',${i})" style="margin-top:8px;padding:6px 12px;background:rgba(200,164,94,.12);color:#a6863e;border:1.5px dashed #c8a45e;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;width:100%">
+            <i class="fas fa-plus" style="margin-right:4px"></i>Thêm ảnh bổ sung
+          </button>
+        </div>
+        <!-- Mô tả chi tiết -->
+        <div class="form-group" style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+          <label><i class="fas fa-align-left" style="color:#c8a45e;margin-right:5px"></i>MÔ TẢ CHI TIẾT (hiển thị đầy đủ trên trang sản phẩm)</label>
+          <textarea rows="5" placeholder="Viết mô tả đầy đủ về sản phẩm: chất liệu, kích thước, công dụng, ưu điểm..."
+            oninput="setData(['products','${groupKey}',${i},'details'],this.value)">${escHtml(product.details || '')}</textarea>
+        </div>
+        <!-- Đặc điểm nổi bật -->
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+          <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+            <i class="fas fa-star" style="color:#c8a45e;margin-right:5px"></i>Đặc Điểm Nổi Bật (hiển thị trang chi tiết sản phẩm này)
+          </div>
+          <div id="prod-feat-${groupKey}-${i}">${renderProdFeaturesHtml(groupKey, i, product.features || [])}</div>
+          <button onclick="addProdFeature('${groupKey}',${i})" style="margin-top:6px;padding:6px 12px;background:rgba(200,164,94,.12);color:#a6863e;border:1.5px dashed #c8a45e;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;width:100%">
+            <i class="fas fa-plus" style="margin-right:4px"></i>Thêm đặc điểm
+          </button>
+        </div>
+        <!-- Các Model sản phẩm -->
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+          <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">
+            <i class="fas fa-layer-group" style="color:#c8a45e;margin-right:5px"></i>Các Model / Phiên Bản Sản Phẩm (hiển thị dạng thẻ trên trang chi tiết)
+          </div>
+          <div id="prod-models-${groupKey}-${i}"></div>
+          <button onclick="addProdModel('${groupKey}',${i})" style="margin-top:6px;padding:6px 12px;background:rgba(200,164,94,.12);color:#a6863e;border:1.5px dashed #c8a45e;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;width:100%">
+            <i class="fas fa-plus" style="margin-right:4px"></i>Thêm model / phiên bản
+          </button>
+        </div>
+      </div>`;
+    container.appendChild(div);
+    if (product.image) applyImageToBox(boxId, product.image);
+    refreshGalleryContainer(groupKey, i);
+    refreshModelsContainer(groupKey, i);
+  });
+}
+
+function handleProdImageUpload(input, groupKey, idx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  compressImage(file).then(b64 => {
+    if (!b64) return;
+    data.products[groupKey][idx].image = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeProdImage(groupKey, idx, boxId) {
+  data.products[groupKey][idx].image = null;
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+function renderGalleryHtml(groupKey, prodIdx) {
+  const gallery = data.products[groupKey][prodIdx].gallery || [];
+  return gallery.map((src, gi) => {
+    const gBoxId = `${groupKey}-gal-${prodIdx}-${gi}`;
+    const gInputId = `${groupKey}-galinput-${prodIdx}-${gi}`;
+    return `
+      <div>
+        <div class="img-upload-box" id="${gBoxId}" onclick="triggerUpload('${gInputId}')" style="min-height:80px;aspect-ratio:4/3">
+          <div class="upload-placeholder">
+            <i class="fas fa-plus" style="font-size:16px"></i>
+            <span style="font-size:10px">Ảnh ${gi+1}</span>
+          </div>
+          <div class="img-overlay">
+            <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${gInputId}')">Đổi</button>
+            <button class="btn-remove" onclick="event.stopPropagation();removeGallerySlot('${groupKey}',${prodIdx},${gi})">Xóa</button>
+          </div>
+        </div>
+        <input type="file" id="${gInputId}" accept="image/*"
+          onchange="handleGalImgUpload(this,'${groupKey}',${prodIdx},${gi},'${gBoxId}')">
+      </div>`;
+  }).join('');
+}
+
+function refreshGalleryContainer(groupKey, prodIdx) {
+  const el = document.getElementById(`prod-gal-${groupKey}-${prodIdx}`);
+  if (!el) return;
+  el.innerHTML = renderGalleryHtml(groupKey, prodIdx);
+  const gallery = data.products[groupKey][prodIdx].gallery || [];
+  gallery.forEach((src, gi) => {
+    if (src) applyImageToBox(`${groupKey}-gal-${prodIdx}-${gi}`, src);
+  });
+}
+
+function addGallerySlot(groupKey, prodIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].gallery)) {
+    data.products[groupKey][prodIdx].gallery = [];
+  }
+  data.products[groupKey][prodIdx].gallery.push(null);
+  refreshGalleryContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+function removeGallerySlot(groupKey, prodIdx, galIdx) {
+  if (!Array.isArray(data.products[groupKey][prodIdx].gallery)) return;
+  data.products[groupKey][prodIdx].gallery.splice(galIdx, 1);
+  refreshGalleryContainer(groupKey, prodIdx);
+  markUnsaved();
+}
+
+function handleGalImgUpload(input, groupKey, idx, galIdx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('Đang xử lý ảnh...', 'success');
+  compressImage(file).then(b64 => {
+    if (!b64) { showToast('Lỗi đọc file!', 'error'); return; }
+    if (!Array.isArray(data.products[groupKey][idx].gallery)) {
+      data.products[groupKey][idx].gallery = [];
+    }
+    data.products[groupKey][idx].gallery[galIdx] = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+// ── Render Projects ──
+function renderProjects() {
+  const container = document.getElementById('projects-container');
+  container.innerHTML = '';
+  data.projects.forEach((proj, i) => {
+    const boxId = `proj-img-box-${i}`;
+    const inputId = `proj-img-input-${i}`;
+    const div = document.createElement('div');
+    div.className = 'card project-edit-card';
+    div.innerHTML = `
+      <div class="card-header">
+        <h3>Công trình ${i + 1}</h3>
+        <span class="card-badge">${i + 1}</span>
+      </div>
+      <div class="card-body">
+        <div class="form-group"><label>Ảnh công trình</label></div>
+        <div class="img-upload-box" id="${boxId}" onclick="triggerUpload('${inputId}')">
+          <div class="upload-placeholder">
+            <i class="fas fa-hard-hat"></i>
+            <span>Click để chọn ảnh<br>công trình thực tế</span>
+          </div>
+          <div class="img-overlay">
+            <button class="btn-change" onclick="event.stopPropagation();triggerUpload('${inputId}')">Đổi</button>
+            <button class="btn-remove" onclick="event.stopPropagation();removeProjImage(${i},'${boxId}')">Xóa</button>
+          </div>
+        </div>
+        <input type="file" id="${inputId}" accept="image/*"
+          onchange="handleProjImageUpload(this,${i},'${boxId}')">
+        <div class="form-group" style="margin-top:10px">
+          <label>Tiêu đề công trình</label>
+          <input type="text" value="${escHtml(proj.title)}"
+            oninput="setData(['projects',${i},'title'],this.value)">
+        </div>
+        <div class="form-group">
+          <label>Khách hàng / địa điểm</label>
+          <input type="text" value="${escHtml(proj.subtitle)}"
+            oninput="setData(['projects',${i},'subtitle'],this.value)">
+        </div>
+      </div>`;
+    container.appendChild(div);
+    if (proj.image) applyImageToBox(boxId, proj.image);
+  });
+}
+
+function handleProjImageUpload(input, idx, boxId) {
+  const file = input.files[0];
+  if (!file) return;
+  compressImage(file).then(b64 => {
+    if (!b64) return;
+    data.projects[idx].image = b64;
+    applyImageToBox(boxId, b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeProjImage(idx, boxId) {
+  data.projects[idx].image = null;
+  applyImageToBox(boxId, null);
+  markUnsaved();
+}
+
+// ── Render About fields ──
+function renderAbout() {
+  document.getElementById('about-title').value = data.about.title || '';
+  document.getElementById('about-content1').value = data.about.content1 || '';
+  document.getElementById('about-content2').value = data.about.content2 || '';
+  if (data.about.image) applyImageToBox('about-img-box', data.about.image);
+  if (data.benefits && data.benefits.image) applyImageToBox('benefits-img-box', data.benefits.image);
+}
+
+function handleBenefitsImgUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast('Đang xử lý ảnh...', 'success');
+  compressImage(file).then(b64 => {
+    if (!b64) { showToast('Lỗi đọc file!', 'error'); return; }
+    if (!data.benefits) data.benefits = {};
+    data.benefits.image = b64;
+    applyImageToBox('benefits-img-box', b64);
+    input.value = '';
+    markUnsaved();
+  });
+}
+
+function removeBenefitsImg() {
+  if (!data.benefits) data.benefits = {};
+  data.benefits.image = null;
+  applyImageToBox('benefits-img-box', null);
+  markUnsaved();
+}
+
+// ── Handle About image ──
+document.getElementById('about-img-input').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  compressImage(file).then(b64 => {
+    if (!b64) return;
+    data.about.image = b64;
+    applyImageToBox('about-img-box', b64);
+    this.value = '';
+    markUnsaved();
+  });
+});
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadData().then(() => {
+  renderHero();
+  renderAbout();
+  renderCategories();
+  renderProducts('tubep', 'Tủ Bếp Inox');
+  renderProducts('thietbi', 'Thiết Bị Nhà Bếp');
+  renderProducts('phukien', 'Phụ Kiện Tủ Bếp');
+  renderProducts('banghe', 'Bàn Ghế Inox');
+  renderProducts('giacong', 'Gia Công Theo Yêu Cầu');
+  renderProjects();
+  setSaveStatus('saved');
+});
+</script>
+</body>
+</html>

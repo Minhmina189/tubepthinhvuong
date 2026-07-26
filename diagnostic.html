@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <title>DIAGNOSTIC</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    body { margin: 0; padding: 20px; background: white; }
+    #output { font-family: monospace; font-size: 13px; white-space: pre; margin-top: 20px; padding: 16px; background: #111; color: #0f0; border-radius: 8px; }
+    #output .warn { color: #f90; }
+    #output .ok { color: #0f0; }
+    #output .err { color: #f00; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<!-- Cấu trúc HTML y hệt trang thật -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge"><i>i</i> Về Chúng Tôi</span>
+      <h2 class="section-title">Giới Thiệu <span class="gold">Thịnh Vượng</span></h2>
+      <div class="section-divider"><span></span><i>★</i><span></span></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-image"><div class="about-img-placeholder"></div></div>
+      <div class="about-content"><h3>Test title</h3><p>Test content</p></div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-number">10</div><div class="stat-label">Years</div></div>
+    </div>
+  </div>
+</section>
+
+<div id="output">Đang chạy diagnostic...</div>
+
+<script>
+// Simulate script.js reveal logic
+const revealSelectors = ['.category-card','.product-card','.project-card','.feature-card','.contact-item','.about-grid','.stats-bar'];
+revealSelectors.forEach(selector => {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach((el, index) => {
+    el.classList.add('reveal-on-scroll');
+    el.style.transitionDelay = index * 0.1 + 's';
+  });
+});
+
+// Simulate revealStyle injection
+const revealStyle = document.createElement('style');
+revealStyle.textContent = `
+  .reveal-on-scroll,
+  .reveal-on-scroll.revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    visibility: visible !important;
+  }
+`;
+document.head.appendChild(revealStyle);
+
+// Now check computed styles
+const out = document.getElementById('output');
+let html = '=== DIAGNOSTIC: Computed styles khi reveal chưa chạy ===\n\n';
+
+function checkEl(label, el) {
+  if (!el) { html += label + ': NOT FOUND\n'; return; }
+  const cs = window.getComputedStyle(el);
+  const op = parseFloat(cs.opacity);
+  const vis = cs.visibility;
+  const trans = cs.transform;
+  const classes = el.className || '(none)';
+  const style = el.getAttribute('style') || '(none)';
+
+  let status = op >= 0.99 ? '<span class="ok">OK</span>' : '<span class="err">FADED! opacity=' + op + '</span>';
+
+  html += status + ' | ' + label + '\n';
+  html += '   classes: ' + classes + '\n';
+  html += '   inline style: ' + style + '\n';
+  html += '   computed opacity: ' + cs.opacity + '\n';
+  html += '   computed visibility: ' + vis + '\n';
+  html += '   computed transform: ' + trans + '\n';
+  html += '\n';
+}
+
+// Check the full ancestor chain
+checkEl('section.about', document.querySelector('section.about'));
+checkEl('div.container (in about)', document.querySelector('section.about .container'));
+checkEl('div.section-header', document.querySelector('.section-header'));
+checkEl('span.section-badge', document.querySelector('.section-badge'));
+checkEl('h2.section-title', document.querySelector('.section-title'));
+checkEl('div.about-grid (reveal-on-scroll)', document.querySelector('.about-grid'));
+checkEl('div.stats-bar (reveal-on-scroll)', document.querySelector('.stats-bar'));
+
+// Check for any element in the page with opacity < 1
+html += '\n=== MỌI ELEMENT CÓ OPACITY < 1 ===\n';
+let foundFaded = false;
+document.querySelectorAll('*').forEach(el => {
+  const cs = window.getComputedStyle(el);
+  if (parseFloat(cs.opacity) < 0.99) {
+    const label = el.tagName + (el.id ? '#' + el.id : '') + (el.className ? '.' + el.className.replace(/\s+/g,'·') : '');
+    html += '<span class="warn">FADED: ' + label + ' → opacity: ' + cs.opacity + '</span>\n';
+    foundFaded = true;
+  }
+});
+if (!foundFaded) {
+  html += '<span class="ok">Không có element nào bị faded trong diagnostic page này</span>\n';
+}
+
+html += '\n=== KẾT LUẬN ===\n';
+html += 'Nếu mọi thứ OK ở đây nhưng trang thật vẫn mờ:\n';
+html += '→ Bug do JavaScript hoặc CSS rule KHÁC trên trang thật gây ra\n';
+html += '→ Kiểm tra Console của trang thật để xem [OPACITY BUG FOUND]\n';
+
+out.innerHTML = html;
+</script>
+</body>
+</html>

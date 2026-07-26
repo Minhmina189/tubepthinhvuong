@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Sản Phẩm – Thịnh Vượng</title>
+  <meta name="description" content="Chi tiết sản phẩm tủ bếp inox cánh kính, thiết bị nhà bếp, phụ kiện tủ bếp – Thịnh Vượng Hà Nội." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: #f3f4f6; border-bottom: 1px solid #e5e7eb;
+      padding: 10px 0; font-size: 13px; color: #6b7280;
+    }
+    .breadcrumb-bar .container { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .breadcrumb-bar a { color: #1a2744; text-decoration: none; font-weight: 500; }
+    .breadcrumb-bar a:hover { color: #c8a45e; }
+    .breadcrumb-bar .sep { color: #9ca3af; }
+    .breadcrumb-bar .current { color: #c8a45e; font-weight: 600; }
+
+    /* ── Product Detail Hero ── */
+    .pd-section { padding: 48px 0 56px; background: #fff; }
+    .pd-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    @media(max-width:768px){ .pd-hero { grid-template-columns: 1fr; gap: 28px; } }
+
+    .pd-gallery { position: sticky; top: 90px; }
+    .pd-main-img {
+      width: 100%; aspect-ratio: 4/3; border-radius: 16px;
+      overflow: hidden; background: #f3f4f6;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      position: relative;
+    }
+    .pd-main-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pd-main-img .pd-img-placeholder {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      color: #9ca3af; font-size: 14px;
+    }
+    .pd-main-img .pd-img-placeholder i { font-size: 3rem; color: #d1d5db; }
+    .pd-badge-wrap { position: absolute; top: 14px; left: 14px; }
+    .pd-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .pd-badge.hot { background: #ef4444; color: #fff; }
+    .pd-badge.new { background: #16a34a; color: #fff; }
+
+    /* Info panel */
+    .pd-info { padding-top: 4px; }
+    .pd-cat-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #c8a45e; font-weight: 600;
+      background: rgba(200,164,94,.1); padding: 4px 12px;
+      border-radius: 20px; margin-bottom: 14px;
+    }
+    .pd-name {
+      font-size: clamp(22px, 3.5vw, 32px); font-weight: 800;
+      color: #1a2744; line-height: 1.25; margin-bottom: 16px;
+    }
+    .pd-divider {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 18px;
+    }
+    .pd-divider span { flex: 1; height: 2px; background: linear-gradient(90deg,#c8a45e,transparent); border-radius: 2px; }
+    .pd-divider i { color: #c8a45e; font-size: 10px; }
+
+    .pd-desc { font-size: 15px; color: #4b5563; line-height: 1.7; margin-bottom: 22px; }
+
+    .pd-features { margin-bottom: 26px; }
+    .pd-features h4 {
+      font-size: 13px; font-weight: 700; color: #1a2744;
+      text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px;
+    }
+    .pd-feat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .pd-feat-list li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: #374151;
+    }
+    .pd-feat-list li i { color: #c8a45e; font-size: 12px; flex-shrink: 0; }
+
+    .pd-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pd-cta .btn-gold { font-size: 15px; padding: 13px 24px; }
+    .pd-cta .btn-zalo {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 8px; font-weight: 700; font-size: 15px;
+      background: #0068ff; color: #fff; text-decoration: none; transition: opacity .2s;
+    }
+    .pd-cta .btn-zalo:hover { opacity: .88; }
+    .pd-trust-row {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      padding-top: 18px; border-top: 1px solid #f3f4f6;
+    }
+    .pd-trust-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: #6b7280;
+    }
+    .pd-trust-item i { color: #c8a45e; }
+
+    /* ── Related Products ── */
+    .related-section { padding: 52px 0 60px; background: #f9fafb; }
+    .related-section .section-header { margin-bottom: 36px; }
+
+    /* ── Category Listing ── */
+    .cat-hero-section {
+      padding: 52px 0 48px; background: linear-gradient(135deg, #1a2744 0%, #2a3f66 100%);
+      position: relative; overflow: hidden;
+    }
+    .cat-hero-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(200,164,94,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cat-hero-content { position: relative; z-index: 1; }
+    .cat-hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #c8a45e; font-weight: 600;
+      background: rgba(200,164,94,.12); padding: 5px 14px;
+      border-radius: 20px; margin-bottom: 14px;
+    }
+    .cat-hero-title {
+      font-size: clamp(26px, 4vw, 40px); font-weight: 800;
+      color: #fff; margin-bottom: 12px; line-height: 1.2;
+    }
+    .cat-hero-title .gold { color: #c8a45e; }
+    .cat-hero-desc { font-size: 15px; color: rgba(255,255,255,.65); max-width: 540px; }
+
+    .cat-listing-section { padding: 48px 0 60px; background: #fff; }
+
+    /* Product card click style */
+    .product-card { cursor: pointer; transition: transform .2s, box-shadow .2s; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.12); }
+
+    /* Thumbnail gallery */
+    .pd-thumbs {
+      display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;
+    }
+    .pd-thumb {
+      width: 72px; height: 56px; border-radius: 8px; object-fit: cover;
+      border: 2px solid transparent; cursor: pointer; background: #f3f4f6;
+      transition: border-color .2s, opacity .2s; flex-shrink: 0;
+    }
+    .pd-thumb.active { border-color: #c8a45e; }
+    .pd-thumb:hover:not(.active) { border-color: #c8a45e; opacity: .8; }
+    #pd-main-img-el { transition: opacity .18s; }
+    #pd-main-img-el.switching { opacity: 0; }
+
+    /* Details section */
+    .pd-details-section {
+      padding: 48px 0 52px; background: #f9fafb;
+      border-top: 1px solid #f0f0f0;
+    }
+    .pd-details-inner { max-width: 860px; }
+    .pd-details-inner h3 {
+      font-size: 18px; font-weight: 700; color: #1a2744;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .pd-details-inner h3 i { color: #c8a45e; }
+    .pd-details-text {
+      font-size: 15px; color: #374151; line-height: 1.85;
+      white-space: pre-wrap;
+    }
+
+    /* Models section */
+    .pd-models-section {
+      padding: 44px 0; background: #f8f9fb;
+      border-top: 1px solid #eef0f4;
+    }
+    .pd-models-section .section-header { margin-bottom: 28px; }
+    .pd-models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .pd-model-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(26,39,68,.07);
+      transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
+    }
+    .pd-model-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(26,39,68,.13); }
+    .pd-model-card-img {
+      width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pd-model-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pd-model-card-img-placeholder { color: #c8a45e; font-size: 28px; }
+    .pd-model-card-body { padding: 14px 16px; flex: 1; }
+    .pd-model-card-body h4 {
+      font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 7px;
+      border-left: 3px solid #c8a45e; padding-left: 9px;
+    }
+    .pd-model-card-body p { font-size: 13px; color: #4b5563; line-height: 1.6; }
+
+    /* Extra image gallery section */
+    .pd-extra-gallery {
+      padding: 40px 0 48px; background: #fff;
+      border-top: 1px solid #f0f0f0;
+    }
+    .pd-extra-gallery h3 {
+      font-size: 18px; font-weight: 700; color: #1a2744;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+    }
+    .pd-extra-gallery h3 i { color: #c8a45e; }
+    .pd-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .pd-gallery-item {
+      aspect-ratio: 4/3; border-radius: 10px; overflow: hidden;
+      cursor: zoom-in; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .pd-gallery-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.14); }
+    .pd-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Lightbox */
+    .pd-lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,.88);
+      z-index: 9999; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .pd-lightbox.open { opacity: 1; pointer-events: all; }
+    .pd-lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 8px; display: block; }
+    .pd-lightbox-close {
+      position: absolute; top: 16px; right: 20px;
+      color: #fff; font-size: 28px; cursor: pointer; opacity: .7;
+      background: none; border: none; line-height: 1;
+    }
+    .pd-lightbox-close:hover { opacity: 1; }
+
+    /* Skeleton loader */
+    .skeleton { animation: skPulse 1.2s ease-in-out infinite; }
+    @keyframes skPulse {
+      0%,100% { opacity: 1; } 50% { opacity: .4; }
+    }
+
+    /* ── CTA Banner ── */
+    .pd-cta-banner {
+      padding: 48px 0; background: linear-gradient(135deg, #1a2744, #2a3f66);
+      text-align: center;
+    }
+    .pd-cta-banner h3 {
+      font-size: clamp(20px, 3vw, 28px); font-weight: 800;
+      color: #fff; margin-bottom: 8px;
+    }
+    .pd-cta-banner p { color: rgba(255,255,255,.65); margin-bottom: 24px; font-size: 15px; }
+    .pd-cta-banner .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* Logo & header overrides for this page */
+    .logo-img { height: 78px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+    @media(max-width:768px){ .logo-img { height: 54px; max-width: 160px; } }
+    @media(max-width:480px){ .logo-img { height: 44px; max-width: 140px; } }
+    .header, .header-top, .header-top *, .header-main, .header-main *,
+    .logo, .logo-name, .logo-tagline, .logo-img, .hotline, .hotline * { opacity: 1 !important; }
+    .header-nav, .main-nav > li > a { opacity: 1 !important; }
+    h1, h2, h3, h4, h5 { opacity: 1 !important; filter: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ HEADER (same as index.html) ═══════════ -->
+  <header class="header" id="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="top-left">
+          <span><i class="fas fa-map-marker-alt"></i> Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội</span>
+        </div>
+        <div class="top-right">
+          <a href="tel:0389030887"><i class="fas fa-phone-alt"></i> 0389 030 887</a>
+          <a href="https://www.facebook.com/profile.php?id=61583063758166" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Thịnh Vượng" class="logo-img" onerror="this.style.display='none'">
+          <div class="logo-text">
+            <span class="logo-name">THỊNH VƯỢNG</span>
+            <span class="logo-tagline">Tủ Bếp Inox &amp; Gia Công Sắt Thép</span>
+          </div>
+        </a>
+        <div class="search-bar">
+          <input type="text" placeholder="Tìm kiếm sản phẩm..." id="searchInput" />
+          <button type="button" id="searchBtn"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="header-contact">
+          <div class="hotline">
+            <div class="hotline-icon"><i class="fas fa-phone-volume"></i></div>
+            <div class="hotline-text">
+              <span>Hotline tư vấn 24/7</span>
+              <a href="tel:0395326530"><strong>0395 326 530</strong></a>
+            </div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <div class="container">
+        <button class="category-toggle" id="categoryToggle">
+          <i class="fas fa-bars"></i> DANH MỤC SẢN PHẨM <i class="fas fa-chevron-down"></i>
+        </button>
+        <ul class="main-nav" id="mainNav">
+          <li><a href="index.html">Trang Chủ</a></li>
+          <li><a href="index.html#about">Giới Thiệu</a></li>
+          <li class="has-dropdown">
+            <a href="index.html#products" class="active">Sản Phẩm <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown">
+              <li><a href="product.html?cat=tubep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
+              <li><a href="product.html?cat=thietbi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
+              <li><a href="product.html?cat=phukien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
+              <li><a href="product.html?cat=banghe"><i class="fas fa-chair"></i> Bàn Ghế Inox &amp; SP Khác</a></li>
+              <li><a href="product.html?cat=giacong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#projects">Công Trình</a></li>
+          <li><a href="index.html#contact">Liên Hệ</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="category-sidebar" id="categorySidebar">
+      <ul>
+        <li><a href="product.html?cat=tubep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
+        <li><a href="product.html?cat=thietbi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
+        <li><a href="product.html?cat=phukien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
+        <li><a href="product.html?cat=banghe"><i class="fas fa-chair"></i> Bàn Ghế Inox &amp; SP Khác</a></li>
+        <li><a href="product.html?cat=giacong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
+      </ul>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <span>Menu</span>
+        <button class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></button>
+      </div>
+      <ul>
+        <li><a href="index.html">Trang Chủ</a></li>
+        <li><a href="index.html#about">Giới Thiệu</a></li>
+        <li><a href="product.html?cat=tubep">Tủ Bếp Inox Cánh Kính</a></li>
+        <li><a href="product.html?cat=thietbi">Thiết Bị Nhà Bếp</a></li>
+        <li><a href="product.html?cat=phukien">Phụ Kiện Tủ Bếp</a></li>
+        <li><a href="product.html?cat=banghe">Bàn Ghế Inox &amp; SP Khác</a></li>
+        <li><a href="product.html?cat=giacong">Gia Công Theo Yêu Cầu</a></li>
+        <li><a href="index.html#projects">Công Trình</a></li>
+        <li><a href="index.html#contact">Liên Hệ</a></li>
+      </ul>
+      <div class="mobile-contact">
+        <a href="tel:0395326530" class="btn btn-gold"><i class="fas fa-phone-alt"></i> 0395 326 530</a>
+      </div>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+  </header>
+
+  <!-- ═══════════ PAGE CONTENT (rendered by JS) ═══════════ -->
+  <div id="page-root"></div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <div class="footer-logo">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-name">THỊNH VƯỢNG</span>
+          </div>
+          <p>Chuyên thi công tủ bếp inox cánh kính, bàn ghế inox, gia công sắt thép theo yêu cầu. Chất lượng tạo niềm tin – Uy tín xây dựng thương hiệu.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/profile.php?id=61583063758166" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://zalo.me/0395326530" target="_blank" aria-label="Zalo"><span class="zalo-icon">Zalo</span></a>
+            <a href="tel:0395326530" aria-label="Phone"><i class="fas fa-phone-alt"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Sản Phẩm</h4>
+          <ul>
+            <li><a href="product.html?cat=tubep">Tủ Bếp Inox Cánh Kính</a></li>
+            <li><a href="product.html?cat=thietbi">Thiết Bị Nhà Bếp</a></li>
+            <li><a href="product.html?cat=phukien">Phụ Kiện Tủ Bếp</a></li>
+            <li><a href="product.html?cat=banghe">Bàn Ghế Inox &amp; SP Khác</a></li>
+            <li><a href="product.html?cat=giacong">Gia Công Theo Yêu Cầu</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Liên Kết</h4>
+          <ul>
+            <li><a href="index.html">Trang Chủ</a></li>
+            <li><a href="index.html#about">Giới Thiệu</a></li>
+            <li><a href="index.html#projects">Công Trình</a></li>
+            <li><a href="index.html#contact">Liên Hệ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Liên Hệ</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:0395326530">0395 326 530</a></li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:0389030887">0389 030 887</a></li>
+            <li><i class="fas fa-clock"></i> T2 – CN: 7:00 – 21:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Tủ Bếp Inox Cánh Kính Thịnh Vượng. All rights reserved.</p>
+        <p>Địa chỉ: Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội | Hotline: 0395 326 530</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="floating-buttons">
+    <a href="tel:0395326530" class="float-btn phone-btn" aria-label="Gọi điện">
+      <i class="fas fa-phone-alt"></i>
+      <span class="float-label">Gọi ngay</span>
+    </a>
+    <a href="https://zalo.me/0395326530" target="_blank" class="float-btn zalo-btn" aria-label="Zalo">
+      <span class="zalo-text">Zalo</span>
+      <span class="float-label">Chat Zalo</span>
+    </a>
+    <a href="https://m.me/61583063758166" target="_blank" class="float-btn messenger-btn" aria-label="Messenger">
+      <i class="fab fa-facebook-messenger"></i>
+      <span class="float-label">Messenger</span>
+    </a>
+  </div>
+  <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+  <script>
+  // ============================================================
+  // PRODUCT PAGE DATA & RENDERER
+  // ============================================================
+
+  // Default product data — fallback khi chưa có admin data
+  const CATS_DEFAULT = {
+    tubep: {
+      label: 'Tủ Bếp Inox Cánh Kính',
+      icon: 'fas fa-sink',
+      catImg: 'images/cat-1.jpg',
+      desc: 'Sản phẩm chủ lực – Đa dạng mẫu mã – Bền bỉ theo thời gian',
+      features: ['Chất liệu inox 304 cao cấp', 'Cánh kính cường lực 8–10mm', 'Khung inox dày, chịu lực tốt', 'Không gỉ sét, dễ vệ sinh', 'Bảo hành 5 năm'],
+      items: [
+        { name: 'Tủ Bếp Inox Cánh Kính Chữ L', desc: 'Thiết kế tối ưu không gian góc, chất liệu inox 304 kết hợp kính cường lực. Phù hợp với bếp có diện tích từ 6m² trở lên.', badge: 'Hot', image: 'images/tubep-1.png' },
+        { name: 'Tủ Bếp Inox Cánh Kính Chữ I', desc: 'Phù hợp không gian bếp nhỏ, thiết kế gọn gàng, hiện đại. Tối ưu cho căn bếp có chiều dài từ 2–3m.', badge: '', image: 'images/tubep-2.jpg' },
+        { name: 'Tủ Bếp Inox Cánh Kính Chữ U', desc: 'Không gian bếp rộng rãi, tiện nghi tối đa với 3 mặt tủ. Diện tích sử dụng lớn, phù hợp bếp gia đình rộng.', badge: 'Mới', image: 'images/tubep-3.jpg' },
+        { name: 'Tủ Bếp Inox Đảo Bếp, Quầy Bar', desc: 'Thiết kế đảo bếp độc lập hoặc quầy bar kết hợp, inox 304 kính cường lực. Phong cách hiện đại, sang trọng cho không gian bếp mở.', badge: 'Mới', image: 'images/tubep-4.jpg' },
+      ]
+    },
+    thietbi: {
+      label: 'Thiết Bị Nhà Bếp',
+      icon: 'fas fa-blender',
+      catImg: 'images/cat-2.jpg',
+      desc: 'Chậu rửa, vòi nước, bếp gas, máy hút mùi – Đầy đủ thương hiệu',
+      features: ['Chất liệu inox 304 cao cấp', 'Thiết kế hiện đại, tiện dụng', 'Bề mặt nhám chống xước', 'Tiết kiệm năng lượng', 'Bảo hành chính hãng'],
+      items: [
+        { name: 'Chậu Rửa Inox', desc: 'Inox 304 cao cấp, bề mặt nhám chống xước, chống ồn. Đa dạng kích thước 1–2 ngăn, phù hợp mọi loại tủ bếp.', badge: '', image: 'images/thietbi-1.jpg' },
+        { name: 'Vòi Rửa Inox', desc: 'Vòi rửa bát inox 304 xoay 360°, tiết kiệm nước. Thiết kế cần dài dễ thao tác trong mọi góc của chậu rửa.', badge: '', image: 'images/thietbi-2.jpg' },
+        { name: 'Bếp Từ', desc: 'Bếp từ âm tủ, công suất lớn, an toàn, tiết kiệm điện. Mặt kính cường lực dễ vệ sinh, phù hợp tủ bếp hiện đại.', badge: '', image: 'images/thietbi-3.jpg' },
+        { name: 'Máy Hút Mùi', desc: 'Công suất lớn, lọc khói hiệu quả, thiết kế kính cong sang trọng. Phù hợp bếp gia đình và nhà hàng nhỏ.', badge: 'Hot', image: 'images/thietbi-4.jpg' },
+        { name: 'Máy Rửa Bát', desc: 'Máy rửa bát âm tủ hiện đại, tiết kiệm nước và thời gian. Sát khuẩn nhiệt độ cao, bảo vệ sức khỏe gia đình.', badge: 'Mới', image: 'images/thietbi-5.jpg' }
+      ]
+    },
+    phukien: {
+      label: 'Phụ Kiện Tủ Bếp',
+      icon: 'fas fa-cogs',
+      catImg: 'images/cat-3.jpg',
+      desc: 'Kệ gia vị, rổ kéo, bản lề, ray trượt – Tối ưu không gian bếp',
+      features: ['Inox 304 / thép mạ chrome', 'Chịu tải trọng cao', 'Lắp đặt nhanh, dễ tháo rời', 'Thiết kế tối ưu không gian', 'Độ bền vượt thời gian'],
+      items: [
+        { name: 'Kệ Gia Vị Tủ Bếp', desc: 'Kệ gia vị inox gắn cánh tủ, tiết kiệm không gian. Dễ dàng lắp đặt, sắp xếp gia vị gọn gàng và tiện lợi.', badge: '', image: 'images/phukien-1.jpg' },
+        { name: 'Rổ Xoay Góc Tủ Bếp', desc: 'Rổ xoay inox mâm xoay 360°, tận dụng tối đa góc tủ. Thiết kế thông minh giúp lấy đồ dễ dàng từ mọi góc độ.', badge: 'Mới', image: 'images/phukien-2.jpg' },
+        { name: 'Giá Để Chén Bát', desc: 'Giá úp chén bát inox 2 tầng, có khay hứng nước. Thông gió tốt, chén bát khô nhanh và không có mùi ẩm.', badge: '', image: 'images/phukien-3.jpg' },
+        { name: 'Thùng Rác Âm Tủ', desc: 'Thùng rác âm tủ 2 ngăn, gắn cánh, mở tự động. Giữ bếp luôn sạch sẽ, thẩm mỹ cao với thiết kế ẩn.', badge: '', image: 'images/phukien-4.jpg' }
+      ]
+    },
+    banghe: {
+      label: 'Bàn Ghế Inox & SP Khác',
+      icon: 'fas fa-chair',
+      catImg: 'images/cat-4.jpg',
+      desc: 'Bàn ghế inox 304, kệ inox, máng lợn – Bền đẹp theo thời gian',
+      features: ['Inox 304 nguyên chất', 'Hàn TIG kỹ thuật cao', 'Bề mặt đánh bóng mịn', 'Chân chống trượt an toàn', 'Tùy chỉnh kích thước theo yêu cầu'],
+      items: [
+        { name: 'Bàn Ghế Inox', desc: 'Bàn ghế inox 304, mặt bàn dày, chân chống trượt. Đa dạng 4–6 chỗ, phù hợp gia đình, quán ăn và canteen.', badge: 'Hot', image: 'images/banghe-1.png' },
+        { name: 'Máng Lợn Inox', desc: 'Máng lợn inox 304 bền chắc, dễ vệ sinh, chống ăn mòn. Gia công theo kích thước yêu cầu thực tế.', badge: '', image: 'images/banghe-2.jpg' },
+        { name: 'Bếp Biogas', desc: 'Bếp biogas chuyên dụng cho trang trại, tiết kiệm năng lượng, an toàn và bền bỉ trong mọi điều kiện.', badge: '', image: 'images/banghe-3.jpg' },
+        { name: 'Bếp Gas Công Nghiệp', desc: 'Bếp gas công nghiệp công suất lớn, phù hợp nhà hàng, bếp ăn tập thể, canteen quy mô lớn.', badge: '', image: 'images/banghe-4.jpg' }
+      ]
+    },
+    giacong: {
+      label: 'Gia Công Theo Yêu Cầu',
+      icon: 'fas fa-tools',
+      catImg: 'images/cat-5.jpg',
+      desc: 'Cổng sắt, cửa inox, thùng xe, lan can – Gia công mọi yêu cầu',
+      features: ['Sắt hộp, inox 201/304', 'Sơn tĩnh điện bền màu', 'Gia công CNC chính xác', 'Lắp đặt tận nơi', 'Bảo hành chất lượng thi công'],
+      items: [
+        { name: 'Cổng Sắt Hộp', desc: 'Cổng sắt hộp mạ kẽm, sơn tĩnh điện, bền đẹp lâu dài. Thiết kế đa dạng, gia công theo kích thước thực tế.', badge: '', image: 'images/giacong-1.jpg' },
+        { name: 'Cửa Sắt / Cửa Inox', desc: 'Cửa sắt, cửa inox các loại, gia công theo kích thước yêu cầu. Phù hợp cổng nhà, cổng kho, cửa sổ trang trại.', badge: '', image: 'images/giacong-2.jpg' },
+        { name: 'Thùng Xe Tải Nhỏ', desc: 'Làm thùng xe tải nhỏ, thùng xe ba gác bằng sắt/inox. Bền chắc, chống thấm tốt, giao hàng nhanh.', badge: 'Hot', image: 'images/giacong-3.jpg' },
+        { name: 'Lan Can Inox / Cầu Thang', desc: 'Lan can inox cầu thang, ban công, thiết kế theo yêu cầu. Kiểu dáng hiện đại, an toàn, thẩm mỹ cao.', badge: '', image: 'images/giacong-4.jpg' }
+      ]
+    }
+  };
+
+  // ── Merge với admin data từ IndexedDB ──
+  // (_IDB, _openDB, _idbGet đã được khai báo trong script.js)
+  async function getCatData(catKey) {
+    const def = CATS_DEFAULT[catKey];
+    if (!def) return null;
+    try {
+      const db = await _openDB();
+      let saved = await _idbGet(db, 'data');
+      if (!saved) {
+        const raw = localStorage.getItem('thinhvuong_cms');
+        if (raw) saved = JSON.parse(raw);
+      }
+      if (!saved) return def;
+      const savedItems = saved.products?.[catKey] || [];
+      const savedCat = saved.categories?.[Object.keys(CATS_DEFAULT).indexOf(catKey)] || {};
+      return {
+        ...def,
+        label: savedCat.name || def.label,
+        desc: savedCat.desc || def.desc,
+        catImg: savedCat.image || def.catImg,
+        features: (Array.isArray(savedCat.features) && savedCat.features.length) ? savedCat.features : def.features,
+        items: def.items.map((item, i) => {
+          const s = savedItems[i] || {};
+          return {
+            ...item,
+            name: s.name || item.name,
+            desc: s.desc || item.desc,
+            badge: s.badge !== undefined ? s.badge : item.badge,
+            image: s.image || item.image,
+            details: s.details || item.details || '',
+            gallery: Array.isArray(s.gallery) ? s.gallery : (item.gallery || []),
+            features: Array.isArray(s.features) ? s.features : (item.features || []),
+            models: Array.isArray(s.models) ? s.models.map(m => ({
+              gallery: [], details: '', features: [],
+              ...m,
+              gallery: Array.isArray(m.gallery) ? m.gallery : [],
+              features: Array.isArray(m.features) ? m.features : []
+            })) : (item.models || [])
+          };
+        })
+      };
+    } catch(e) { return def; }
+  }
+
+  // ── Escaping ──
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Badge HTML ──
+  function badgeHtml(badge) {
+    if (!badge) return '';
+    const cls = badge.toLowerCase() === 'hot' ? 'hot' : 'new';
+    return `<div class="pd-badge-wrap"><span class="pd-badge ${cls}">${esc(badge)}</span></div>`;
+  }
+
+  // ── Product image HTML ──
+  function imgHtml(src, alt) {
+    if (src) {
+      return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=pd-img-placeholder><i class=fas fa-image></i><span>Chưa có ảnh</span></div>'" />`;
+    }
+    return `<div class="pd-img-placeholder"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`;
+  }
+
+  // ── Switch main image (called by thumbnail click) ──
+  window.switchPdImg = function(src, thumbEl) {
+    const main = document.getElementById('pd-main-img-el');
+    if (!main) return;
+    main.classList.add('switching');
+    setTimeout(() => {
+      main.src = src;
+      main.classList.remove('switching');
+    }, 160);
+    document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
+    if (thumbEl) thumbEl.classList.add('active');
+  };
+
+  // ── Open lightbox ──
+  window.openLightbox = function(src) {
+    let lb = document.getElementById('pd-lightbox');
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.id = 'pd-lightbox';
+      lb.className = 'pd-lightbox';
+      lb.innerHTML = '<button class="pd-lightbox-close" onclick="closeLightbox()">✕</button><img id="pd-lb-img" />';
+      lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+      document.body.appendChild(lb);
+    }
+    document.getElementById('pd-lb-img').src = src;
+    requestAnimationFrame(() => lb.classList.add('open'));
+  };
+
+  window.closeLightbox = function() {
+    const lb = document.getElementById('pd-lightbox');
+    if (lb) lb.classList.remove('open');
+  };
+
+  // ── Render Product Detail ──
+  async function renderDetail(catKey, idx) {
+    const cat = await getCatData(catKey);
+    if (!cat || !cat.items[idx]) { renderNotFound(); return; }
+    const product = cat.items[idx];
+
+    document.title = `${product.name} – Thịnh Vượng`;
+
+    // Collect all images (main + non-null gallery)
+    const allImgs = [product.image, ...(product.gallery || [])].filter(Boolean);
+    const hasGallery = allImgs.length > 1;
+
+    // Thumbnails strip
+    const thumbsHtml = hasGallery ? `
+      <div class="pd-thumbs">
+        ${allImgs.map((src, ti) => `
+          <img class="pd-thumb ${ti===0?'active':''}" src="${esc(src)}"
+               onclick="switchPdImg('${esc(src)}', this)"
+               alt="Ảnh ${ti+1}" loading="lazy" />`).join('')}
+      </div>` : '';
+
+    // Extra gallery grid (all images, click to open lightbox)
+    const extraGalleryImgs = allImgs.filter((_, i) => i > 0);
+    const extraGalleryHtml = extraGalleryImgs.length > 0 ? `
+      <div class="pd-extra-gallery">
+        <div class="container">
+          <h3><i class="fas fa-images"></i> Ảnh Chi Tiết Sản Phẩm</h3>
+          <div class="pd-gallery-grid">
+            ${allImgs.map(src => `
+              <div class="pd-gallery-item" onclick="openLightbox('${esc(src)}')">
+                <img src="${esc(src)}" alt="${esc(product.name)}" loading="lazy" />
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>` : '';
+
+    // Models section
+    const modelsHtml = (product.models && product.models.length > 0) ? `
+      <section class="pd-models-section">
+        <div class="container">
+          <div class="section-header" style="margin-bottom:28px">
+            <span class="section-badge"><i class="fas fa-layer-group"></i> ${esc(product.name)}</span>
+            <h2 class="section-title">Các <span class="gold">Model & Phiên Bản</span></h2>
+            <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+          </div>
+          <div class="pd-models-grid">
+            ${product.models.map((m, mi) => `
+              <div class="pd-model-card" onclick="location.href='product.html?cat=${catKey}&id=${idx}&model=${mi}'" style="cursor:pointer">
+                <div class="pd-model-card-img">
+                  ${m.image
+                    ? `<img src="${esc(m.image)}" alt="${esc(m.name)}" loading="lazy" />`
+                    : `<div class="pd-model-card-img-placeholder"><i class="fas fa-box-open"></i></div>`}
+                </div>
+                <div class="pd-model-card-body">
+                  <h4>${esc(m.name || 'Model sản phẩm')}</h4>
+                  ${m.desc ? `<p>${esc(m.desc)}</p>` : ''}
+                  <span style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:12px;font-weight:600;color:#c8a45e">
+                    <i class="fas fa-eye"></i> Xem chi tiết
+                  </span>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </section>` : '';
+
+    // Details section
+    const detailsHtml = (product.details && product.details.trim()) ? `
+      <div class="pd-details-section">
+        <div class="container">
+          <div class="pd-details-inner">
+            <h3><i class="fas fa-align-left"></i> Mô Tả Chi Tiết</h3>
+            <p class="pd-details-text">${esc(product.details)}</p>
+          </div>
+        </div>
+      </div>` : '';
+
+    const others = cat.items.filter((_, i) => i !== idx);
+    const relatedCards = others.map(p => {
+      const realIdx = cat.items.indexOf(p);
+      return `
+        <div class="product-card" onclick="location.href='product.html?cat=${catKey}&id=${realIdx}'">
+          <div class="product-img" style="background-image:url('${esc(p.image)}');background-size:cover;background-position:center">
+            ${p.badge ? `<span class="product-badge${p.badge==='Mới'?' new':''}">${esc(p.badge)}</span>` : ''}
+          </div>
+          <div class="product-info">
+            <h4>${esc(p.name)}</h4>
+            <p>${esc(p.desc.substring(0, 80))}${p.desc.length > 80 ? '…' : ''}</p>
+            <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    const featList = (product.features || []).map(f => `<li><i class="fas fa-check-circle"></i>${esc(f)}</li>`).join('');
+
+    document.getElementById('page-root').innerHTML = `
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container">
+          <a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a>
+          <span class="sep">›</span>
+          <a href="product.html?cat=${catKey}">${esc(cat.label)}</a>
+          <span class="sep">›</span>
+          <span class="current">${esc(product.name)}</span>
+        </div>
+      </div>
+
+      <!-- Product Detail Hero -->
+      <section class="pd-section">
+        <div class="container">
+          <div class="pd-hero">
+            <!-- Gallery column -->
+            <div class="pd-gallery">
+              <div class="pd-main-img" onclick="openLightbox(document.getElementById('pd-main-img-el').src)" style="cursor:zoom-in">
+                ${product.image
+                  ? `<img id="pd-main-img-el" src="${esc(product.image)}" alt="${esc(product.name)}" />`
+                  : `<div class="pd-img-placeholder"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`}
+                ${badgeHtml(product.badge)}
+              </div>
+              ${thumbsHtml}
+              ${hasGallery ? `<p style="font-size:11px;color:#9ca3af;margin-top:6px;text-align:center"><i class="fas fa-search-plus"></i> Click ảnh để phóng to</p>` : ''}
+            </div>
+            <!-- Info column -->
+            <div class="pd-info">
+              <div class="pd-cat-label"><i class="${cat.icon}"></i> ${esc(cat.label)}</div>
+              <h1 class="pd-name">${esc(product.name)}</h1>
+              <div class="pd-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+              <p class="pd-desc">${esc(product.desc)}</p>
+              ${featList ? `<div class="pd-features">
+                <h4><i class="fas fa-list-check" style="color:#c8a45e;margin-right:6px"></i>Đặc Điểm Nổi Bật</h4>
+                <ul class="pd-feat-list">${featList}</ul>
+              </div>` : ''}
+              <div class="pd-cta">
+                <a href="tel:0395326530" class="btn btn-gold btn-lg">
+                  <i class="fas fa-phone-alt"></i> Gọi Ngay: 0395 326 530
+                </a>
+                <a href="https://zalo.me/0395326530" target="_blank" class="btn-zalo">
+                  <i class="fas fa-comment-dots"></i> Chat Zalo
+                </a>
+              </div>
+              <div class="pd-trust-row">
+                <span class="pd-trust-item"><i class="fas fa-shield-alt"></i> Bảo hành 5 năm</span>
+                <span class="pd-trust-item"><i class="fas fa-truck"></i> Giao &amp; lắp tận nơi</span>
+                <span class="pd-trust-item"><i class="fas fa-ruler-combined"></i> Gia công theo kích thước</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mô tả chi tiết -->
+      ${detailsHtml}
+
+      <!-- Các Model / Phiên bản -->
+      ${modelsHtml}
+
+      <!-- Ảnh bổ sung (gallery) -->
+      ${extraGalleryHtml}
+
+      <!-- Related Products -->
+      ${others.length > 0 ? `
+      <section class="related-section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-badge"><i class="${cat.icon}"></i> ${esc(cat.label)}</span>
+            <h2 class="section-title">Sản Phẩm <span class="gold">Cùng Loại</span></h2>
+            <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+          </div>
+          <div class="product-grid">${relatedCards}</div>
+          <div style="text-align:center;margin-top:28px">
+            <a href="product.html?cat=${catKey}" class="btn btn-gold">
+              <i class="fas fa-th-large"></i> Xem Tất Cả ${esc(cat.label)}
+            </a>
+          </div>
+        </div>
+      </section>` : ''}
+
+      <!-- CTA Banner -->
+      <div class="pd-cta-banner">
+        <div class="container">
+          <h3>Bạn cần tư vấn hoặc báo giá?</h3>
+          <p>Liên hệ ngay với chúng tôi – Tư vấn miễn phí, đo đạc &amp; báo giá tận nơi!</p>
+          <div class="cta-row">
+            <a href="tel:0395326530" class="btn btn-gold btn-lg">
+              <i class="fas fa-phone-alt"></i> Gọi ngay: 0395 326 530
+            </a>
+            <a href="index.html#contact" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3)">
+              <i class="fas fa-paper-plane"></i> Gửi yêu cầu báo giá
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Render Category Listing ──
+  async function renderCategory(catKey) {
+    const cat = await getCatData(catKey);
+    if (!cat) { renderNotFound(); return; }
+
+    document.title = `${cat.label} – Thịnh Vượng`;
+
+    const cards = cat.items.map((p, i) => `
+      <div class="product-card" onclick="location.href='product.html?cat=${catKey}&id=${i}'">
+        <div class="product-img" style="background-image:url('${esc(p.image)}');background-size:cover;background-position:center">
+          ${p.badge ? `<span class="product-badge${p.badge==='Mới'?' new':''}">${esc(p.badge)}</span>` : ''}
+        </div>
+        <div class="product-info">
+          <h4>${esc(p.name)}</h4>
+          <p>${esc(p.desc.substring(0, 90))}${p.desc.length > 90 ? '…' : ''}</p>
+          <span class="product-cta" style="cursor:pointer"><i class="fas fa-eye"></i> Xem chi tiết</span>
+        </div>
+      </div>`).join('');
+
+    document.getElementById('page-root').innerHTML = `
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container">
+          <a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a>
+          <span class="sep">›</span>
+          <span class="current">${esc(cat.label)}</span>
+        </div>
+      </div>
+
+      <!-- Category Hero -->
+      <div class="cat-hero-section">
+        <div class="container cat-hero-content">
+          <div class="cat-hero-badge"><i class="${cat.icon}"></i> Danh Mục Sản Phẩm</div>
+          <h1 class="cat-hero-title">${esc(cat.label)}</h1>
+          <p class="cat-hero-desc">${esc(cat.desc)}</p>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <section class="cat-listing-section">
+        <div class="container">
+          <div class="product-grid">${cards}</div>
+        </div>
+      </section>
+
+      <!-- CTA Banner -->
+      <div class="pd-cta-banner">
+        <div class="container">
+          <h3>Bạn cần tư vấn hoặc báo giá?</h3>
+          <p>Liên hệ ngay với chúng tôi – Tư vấn miễn phí, đo đạc &amp; báo giá tận nơi!</p>
+          <div class="cta-row">
+            <a href="tel:0395326530" class="btn btn-gold btn-lg">
+              <i class="fas fa-phone-alt"></i> Gọi ngay: 0395 326 530
+            </a>
+            <a href="index.html#contact" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3)">
+              <i class="fas fa-paper-plane"></i> Gửi yêu cầu báo giá
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Render Model Detail ──
+  async function renderModelDetail(catKey, prodIdx, modelIdx) {
+    const cat = await getCatData(catKey);
+    if (!cat || !cat.items[prodIdx]) { renderNotFound(); return; }
+    const product = cat.items[prodIdx];
+    const model = (product.models || [])[modelIdx];
+    if (!model) { renderNotFound(); return; }
+
+    document.title = `${model.name || 'Model'} – ${product.name} – Thịnh Vượng`;
+
+    const allImgs = [model.image, ...(model.gallery || [])].filter(Boolean);
+    const hasGallery = allImgs.length > 1;
+
+    const thumbsHtml = hasGallery ? `
+      <div class="pd-thumbs">
+        ${allImgs.map((src, ti) => `
+          <img class="pd-thumb ${ti===0?'active':''}" src="${esc(src)}"
+               onclick="switchPdImg('${esc(src)}', this)"
+               alt="Ảnh ${ti+1}" loading="lazy" />`).join('')}
+      </div>` : '';
+
+    const extraGalleryHtml = allImgs.length > 1 ? `
+      <div class="pd-extra-gallery">
+        <div class="container">
+          <h3><i class="fas fa-images"></i> Ảnh Chi Tiết</h3>
+          <div class="pd-gallery-grid">
+            ${allImgs.map(src => `
+              <div class="pd-gallery-item" onclick="openLightbox('${esc(src)}')">
+                <img src="${esc(src)}" alt="${esc(model.name)}" loading="lazy" />
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>` : '';
+
+    const detailsHtml = (model.details && model.details.trim()) ? `
+      <div class="pd-details-section">
+        <div class="container">
+          <div class="pd-details-inner">
+            <h3><i class="fas fa-align-left"></i> Mô Tả Chi Tiết</h3>
+            <p class="pd-details-text">${esc(model.details)}</p>
+          </div>
+        </div>
+      </div>` : '';
+
+    const featList = (model.features || []).map(f => `<li><i class="fas fa-check-circle"></i>${esc(f)}</li>`).join('');
+
+    // Other models of same product
+    const otherModels = (product.models || []).filter((_, i) => i !== modelIdx);
+    const relatedModelsHtml = otherModels.length > 0 ? `
+      <section class="related-section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-badge"><i class="fas fa-layer-group"></i> ${esc(product.name)}</span>
+            <h2 class="section-title">Model <span class="gold">Khác</span></h2>
+            <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+          </div>
+          <div class="product-grid">
+            ${otherModels.map(om => {
+              const realIdx = (product.models || []).indexOf(om);
+              return `
+                <div class="product-card" onclick="location.href='product.html?cat=${catKey}&id=${prodIdx}&model=${realIdx}'">
+                  <div class="product-img" style="background-image:url('${esc(om.image)}');background-size:cover;background-position:center">
+                  </div>
+                  <div class="product-info">
+                    <h4>${esc(om.name)}</h4>
+                    <p>${esc((om.desc||'').substring(0,80))}${(om.desc||'').length>80?'…':''}</p>
+                    <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
+                  </div>
+                </div>`;
+            }).join('')}
+          </div>
+          <div style="text-align:center;margin-top:28px">
+            <a href="product.html?cat=${catKey}&id=${prodIdx}" class="btn btn-gold">
+              <i class="fas fa-arrow-left"></i> Quay lại ${esc(product.name)}
+            </a>
+          </div>
+        </div>
+      </section>` : `
+      <div style="text-align:center;padding:24px 0">
+        <a href="product.html?cat=${catKey}&id=${prodIdx}" class="btn btn-gold">
+          <i class="fas fa-arrow-left"></i> Quay lại ${esc(product.name)}
+        </a>
+      </div>`;
+
+    document.getElementById('page-root').innerHTML = `
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container">
+          <a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a>
+          <span class="sep">›</span>
+          <a href="product.html?cat=${catKey}">${esc(cat.label)}</a>
+          <span class="sep">›</span>
+          <a href="product.html?cat=${catKey}&id=${prodIdx}">${esc(product.name)}</a>
+          <span class="sep">›</span>
+          <span class="current">${esc(model.name)}</span>
+        </div>
+      </div>
+
+      <!-- Model Detail Hero -->
+      <section class="pd-section">
+        <div class="container">
+          <div class="pd-hero">
+            <div class="pd-gallery">
+              <div class="pd-main-img" onclick="openLightbox(document.getElementById('pd-main-img-el').src)" style="cursor:zoom-in">
+                ${model.image
+                  ? `<img id="pd-main-img-el" src="${esc(model.image)}" alt="${esc(model.name)}" />`
+                  : `<div class="pd-img-placeholder"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`}
+              </div>
+              ${thumbsHtml}
+              ${hasGallery ? `<p style="font-size:11px;color:#9ca3af;margin-top:6px;text-align:center"><i class="fas fa-search-plus"></i> Click ảnh để phóng to</p>` : ''}
+            </div>
+            <div class="pd-info">
+              <div class="pd-cat-label"><i class="${cat.icon}"></i> ${esc(cat.label)} › ${esc(product.name)}</div>
+              <h1 class="pd-name">${esc(model.name)}</h1>
+              <div class="pd-divider"><span></span><i class="fas fa-star"></i><span></span></div>
+              <p class="pd-desc">${esc(model.desc || product.desc)}</p>
+              ${featList ? `<div class="pd-features">
+                <h4><i class="fas fa-list-check" style="color:#c8a45e;margin-right:6px"></i>Đặc Điểm Nổi Bật</h4>
+                <ul class="pd-feat-list">${featList}</ul>
+              </div>` : ''}
+              <div class="pd-cta">
+                <a href="tel:0395326530" class="btn btn-gold btn-lg">
+                  <i class="fas fa-phone-alt"></i> Gọi Ngay: 0395 326 530
+                </a>
+                <a href="https://zalo.me/0395326530" target="_blank" class="btn-zalo">
+                  <i class="fas fa-comment-dots"></i> Chat Zalo
+                </a>
+              </div>
+              <div class="pd-trust-row">
+                <span class="pd-trust-item"><i class="fas fa-shield-alt"></i> Bảo hành 5 năm</span>
+                <span class="pd-trust-item"><i class="fas fa-truck"></i> Giao &amp; lắp tận nơi</span>
+                <span class="pd-trust-item"><i class="fas fa-ruler-combined"></i> Gia công theo kích thước</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      ${detailsHtml}
+      ${extraGalleryHtml}
+      ${relatedModelsHtml}
+
+      <div class="pd-cta-banner">
+        <div class="container">
+          <h3>Bạn cần tư vấn hoặc báo giá?</h3>
+          <p>Liên hệ ngay với chúng tôi – Tư vấn miễn phí, đo đạc &amp; báo giá tận nơi!</p>
+          <div class="cta-row">
+            <a href="tel:0395326530" class="btn btn-gold btn-lg">
+              <i class="fas fa-phone-alt"></i> Gọi ngay: 0395 326 530
+            </a>
+            <a href="index.html#contact" class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3)">
+              <i class="fas fa-paper-plane"></i> Gửi yêu cầu báo giá
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── 404 ──
+  function renderNotFound() {
+    document.getElementById('page-root').innerHTML = `
+      <div style="text-align:center;padding:80px 20px;color:#6b7280">
+        <i class="fas fa-search" style="font-size:3rem;color:#d1d5db;display:block;margin-bottom:16px"></i>
+        <h2 style="color:#1a2744;margin-bottom:8px">Không tìm thấy sản phẩm</h2>
+        <p style="margin-bottom:24px">Sản phẩm bạn tìm không tồn tại hoặc đã được cập nhật.</p>
+        <a href="index.html" class="btn btn-gold"><i class="fas fa-home"></i> Về Trang Chủ</a>
+      </div>`;
+  }
+
+  // ── Init ──
+  (async function() {
+    const params = new URLSearchParams(location.search);
+    const catKey = params.get('cat') || 'tubep';
+    const idParam = params.get('id');
+    const modelParam = params.get('model');
+    if (idParam !== null && idParam !== '' && modelParam !== null && modelParam !== '') {
+      const idx = parseInt(idParam, 10);
+      const modelIdx = parseInt(modelParam, 10);
+      await renderModelDetail(catKey, isNaN(idx) ? 0 : idx, isNaN(modelIdx) ? 0 : modelIdx);
+    } else if (idParam !== null && idParam !== '') {
+      const idx = parseInt(idParam, 10);
+      await renderDetail(catKey, isNaN(idx) ? 0 : idx);
+    } else {
+      await renderCategory(catKey);
+    }
+    window.scrollTo(0, 0);
+  })();
+  </script>
+</body>
+</html>
