@@ -507,18 +507,34 @@
     }
   };
 
-  // ── Merge với admin data từ IndexedDB ──
+  // ── Tải CMS data: ưu tiên cms-data.json (GitHub), fallback IndexedDB ──
+  async function _loadSaved() {
+    // 1. Thử cms-data.json (file commit lên GitHub)
+    try {
+      const resp = await fetch('cms-data.json');
+      if (resp.ok) { const d = await resp.json(); if (d) return d; }
+    } catch(e) {}
+    // 2. Fallback: IndexedDB (local admin)
+    try {
+      const db = await _openDB();
+      const d = await _idbGet(db, 'data');
+      if (d) return d;
+    } catch(e) {}
+    // 3. Legacy localStorage
+    try {
+      const raw = localStorage.getItem('thinhvuong_cms');
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return null;
+  }
+
+  // ── Merge với admin data ──
   // (_IDB, _openDB, _idbGet đã được khai báo trong script.js)
   async function getCatData(catKey) {
     const def = CATS_DEFAULT[catKey];
     if (!def) return null;
     try {
-      const db = await _openDB();
-      let saved = await _idbGet(db, 'data');
-      if (!saved) {
-        const raw = localStorage.getItem('thinhvuong_cms');
-        if (raw) saved = JSON.parse(raw);
-      }
+      const saved = await _loadSaved();
       if (!saved) return def;
       const savedItems = saved.products?.[catKey] || [];
       const savedCat = saved.categories?.[Object.keys(CATS_DEFAULT).indexOf(catKey)] || {};

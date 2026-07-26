@@ -253,7 +253,7 @@
   <div class="topbar-actions">
     <span id="saveStatus"></span>
     <a href="index.html" target="_blank" class="view-link"><i class="fas fa-external-link-alt"></i> Xem trang</a>
-    <button class="btn btn-outline" onclick="exportData()"><i class="fas fa-download"></i> Xuất JSON</button>
+    <button class="btn btn-green" onclick="exportForDeploy()" title="Xuất cms-data.json rồi commit lên GitHub để cập nhật website"><i class="fas fa-cloud-upload-alt"></i> Xuất & Triển khai</button>
     <button class="btn btn-gold" onclick="saveAll()"><i class="fas fa-save"></i> Lưu thay đổi</button>
   </div>
 </div>
@@ -707,7 +707,54 @@ function exportData() {
   a.download = 'thinhvuong-cms-backup.json';
   a.click();
   URL.revokeObjectURL(a.href);
-  showToast('Đã xuất file JSON!', 'success');
+  showToast('Đã xuất file backup JSON!', 'success');
+}
+
+function exportForDeploy() {
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cms-data.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+
+  // Hiện hướng dẫn triển khai
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:32px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <div style="width:44px;height:44px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <i class="fas fa-check" style="color:#fff;font-size:20px"></i>
+        </div>
+        <div>
+          <h3 style="margin:0;color:#1a2744;font-size:18px">Đã tải về <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:14px">cms-data.json</code></h3>
+          <p style="margin:4px 0 0;color:#6b7280;font-size:13px">Thực hiện các bước sau để cập nhật website</p>
+        </div>
+      </div>
+      <div style="background:#f8f9fb;border-radius:10px;padding:16px;margin-bottom:20px">
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <span style="min-width:24px;height:24px;background:#1a2744;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</span>
+          <p style="margin:0;font-size:13px;color:#374151;line-height:1.5">Copy file <strong>cms-data.json</strong> vừa tải vào thư mục gốc của dự án (cùng chỗ với <code style="background:#e5e7eb;padding:1px 4px;border-radius:3px">index.html</code>)</p>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <span style="min-width:24px;height:24px;background:#1a2744;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</span>
+          <p style="margin:0;font-size:13px;color:#374151;line-height:1.5">Mở terminal tại thư mục dự án và chạy:<br>
+            <code style="display:block;background:#1a2744;color:#4ade80;padding:8px 10px;border-radius:6px;margin-top:6px;font-size:12px">git add cms-data.json<br>git commit -m "update: cms data"<br>git push</code>
+          </p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="min-width:24px;height:24px;background:#c8a45e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</span>
+          <p style="margin:0;font-size:13px;color:#374151;line-height:1.5">Sau khoảng 1–2 phút, GitHub Pages sẽ tự động cập nhật website với dữ liệu mới</p>
+        </div>
+      </div>
+      <button onclick="this.closest('[style*=fixed]').remove()"
+        style="width:100%;padding:12px;background:linear-gradient(135deg,#c8a45e,#a6863e);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">
+        <i class="fas fa-check" style="margin-right:6px"></i>Đã hiểu, đóng
+      </button>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
 
 // ── Import JSON ──

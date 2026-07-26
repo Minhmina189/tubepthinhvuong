@@ -21,16 +21,35 @@ function _idbGet(db, k) {
   });
 }
 
+// ── Tải dữ liệu CMS: ưu tiên cms-data.json (GitHub), fallback IndexedDB ──
+async function _loadCMSData() {
+  // 1. Thử đọc từ cms-data.json (file được commit lên GitHub)
+  try {
+    const resp = await fetch('cms-data.json');
+    if (resp.ok) {
+      const d = await resp.json();
+      if (d) return d;
+    }
+  } catch(e) {}
+  // 2. Fallback: IndexedDB (dữ liệu local từ admin)
+  try {
+    const db = await _openDB();
+    const d = await _idbGet(db, 'data');
+    if (d) return d;
+  } catch(e) {}
+  // 3. Legacy: localStorage
+  try {
+    const raw = localStorage.getItem('thinhvuong_cms');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
 // ── CMS Loader: áp dụng dữ liệu từ admin.html lên trang ──
 (async function applyCMSData() {
   try {
-    const db = await _openDB();
-    let d = await _idbGet(db, 'data');
-    if (!d) {
-      const raw = localStorage.getItem('thinhvuong_cms');
-      if (!raw) return;
-      d = JSON.parse(raw);
-    }
+    const d = await _loadCMSData();
+    if (!d) return;
 
     function applyBg(el, src) {
       if (!el || !src) return;
