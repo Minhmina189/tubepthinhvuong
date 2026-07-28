@@ -621,11 +621,64 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Thành công
-      alert('✅ Cảm ơn bạn đã liên hệ!\n\nChúng tôi sẽ phản hồi trong thời gian sớm nhất.\n\n— Thịnh Vượng Kitchen');
-      contactForm.reset();
+      // ── Lấy dữ liệu form ──
+      const nameVal    = (contactForm.querySelector('[name="name"],#name')?.value || '').trim();
+      const phoneVal   = (contactForm.querySelector('[name="phone"],#phone')?.value || '').trim();
+      const emailVal   = (contactForm.querySelector('[name="email"],#email')?.value || '').trim();
+      const serviceVal = (contactForm.querySelector('[name="service"],#service,select')?.value || '').trim();
+      const msgVal     = (contactForm.querySelector('[name="message"],#message,textarea')?.value || '').trim();
 
-      // Xóa tất cả class error
+      // ── Soạn tin nhắn Zalo ──
+      const zaloMsg = [
+        '📋 YÊU CẦU BÁO GIÁ - Thịnh Vượng',
+        '─────────────────────',
+        `👤 Họ tên: ${nameVal}`,
+        `📞 SĐT: ${phoneVal}`,
+        emailVal   ? `📧 Email: ${emailVal}` : '',
+        serviceVal ? `🔧 Dịch vụ: ${serviceVal}` : '',
+        msgVal     ? `💬 Nội dung: ${msgVal}` : '',
+        '─────────────────────',
+        'Kính gửi Thịnh Vượng, vui lòng tư vấn giúp tôi ạ!'
+      ].filter(Boolean).join('\n');
+
+      // ── Hiện modal Zalo ──
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+      overlay.innerHTML = `
+        <div style="background:#fff;border-radius:20px;padding:28px 24px;max-width:460px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);animation:slideUp .3s ease">
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="width:56px;height:56px;background:#0068ff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#0068ff"/><path d="M24 10C16.27 10 10 15.7 10 22.8c0 4.1 2.1 7.76 5.4 10.16l-.9 4.54 4.97-2.46A15.8 15.8 0 0024 35.6c7.73 0 14-5.7 14-12.8S31.73 10 24 10z" fill="#fff"/></svg>
+            </div>
+            <h3 style="margin:0 0 4px;color:#1a2744;font-size:18px;font-weight:700">Gửi yêu cầu qua Zalo</h3>
+            <p style="margin:0;color:#6b7280;font-size:13px">Tin nhắn đã được soạn sẵn, chỉ cần paste &amp; gửi!</p>
+          </div>
+
+          <div style="background:#f0f4ff;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#374151;line-height:1.7;white-space:pre-wrap;max-height:180px;overflow-y:auto;border:1.5px solid #dbe4ff" id="zalo-msg-preview">${zaloMsg.replace(/</g,'&lt;')}</div>
+
+          <button id="zalo-copy-btn" onclick="
+            navigator.clipboard.writeText(document.getElementById('zalo-msg-preview').innerText).then(()=>{
+              this.innerHTML='<i class=fas fa-check style=margin-right:6px></i>Đã copy!';
+              this.style.background='#16a34a';
+            });
+          " style="width:100%;padding:11px;background:#374151;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px">
+            <i class="fas fa-copy"></i> Copy tin nhắn
+          </button>
+
+          <a href="https://zalo.me/0395326530" target="_blank"
+            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:#0068ff;color:#fff;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:10px">
+            <svg width="20" height="20" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#fff" fill-opacity=".25"/><path d="M24 10C16.27 10 10 15.7 10 22.8c0 4.1 2.1 7.76 5.4 10.16l-.9 4.54 4.97-2.46A15.8 15.8 0 0024 35.6c7.73 0 14-5.7 14-12.8S31.73 10 24 10z" fill="#fff"/></svg>
+            Mở Zalo – Paste &amp; Gửi
+          </a>
+
+          <button onclick="this.closest('[style*=fixed]').remove()" style="width:100%;padding:9px;background:transparent;color:#9ca3af;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;cursor:pointer">Đóng</button>
+        </div>
+        <style>@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}</style>
+      `;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+      contactForm.reset();
       contactForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
     });
   }
