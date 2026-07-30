@@ -53,7 +53,7 @@ async function _loadCMSData() {
 
     function applyBg(el, src) {
       if (!el || !src) return;
-      el.style.backgroundImage = 'url(' + src + ')';
+      el.style.backgroundImage = 'url("' + src + '")';
       el.style.backgroundSize = 'cover';
       el.style.backgroundPosition = 'center';
     }
