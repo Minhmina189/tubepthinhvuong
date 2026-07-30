@@ -565,19 +565,19 @@
         desc: savedCat.desc || def.desc,
         catImg: savedCat.image || def.catImg,
         features: (Array.isArray(savedCat.features) && savedCat.features.length) ? savedCat.features : def.features,
-        items: def.items.map((item, i) => {
-          const s = savedItems[i] || {};
+        items: (savedItems.length > 0 ? savedItems : def.items).map((s, i) => {
+          const item = def.items[i] || {};
           return {
             ...item,
-            name: s.name || item.name,
-            desc: s.desc || item.desc,
-            badge: s.badge !== undefined ? s.badge : item.badge,
-            image: s.image || item.image,
+            name: s.name || item.name || '',
+            desc: s.desc || item.desc || '',
+            badge: s.badge !== undefined ? s.badge : (item.badge || ''),
+            image: s.image || item.image || '',
             details: s.details || item.details || '',
             gallery: Array.isArray(s.gallery) ? s.gallery : (item.gallery || []),
             features: Array.isArray(s.features) ? s.features : (item.features || []),
             models: Array.isArray(s.models) ? s.models.map(m => ({
-              gallery: [], details: '', features: [],
+              name: '', desc: '', image: null, details: '', gallery: [], features: [],
               ...m,
               gallery: Array.isArray(m.gallery) ? m.gallery : [],
               features: Array.isArray(m.features) ? m.features : []
