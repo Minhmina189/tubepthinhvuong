@@ -472,6 +472,16 @@ img {
   visibility: visible;
   transform: translateY(0);
 }
+@media (max-width: 768px) {
+  .category-sidebar {
+    width: 100%;
+    left: 0;
+    right: 0;
+    border-radius: 0 0 8px 8px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
 .category-sidebar ul li a {
   display: flex;
   align-items: center;
