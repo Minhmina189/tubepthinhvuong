@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}Bảng Tra Mã DIN - Nam An{% endblock %}
+
+{% block content %}
+<style>
+.din-card { background:#fff; border-radius:10px; box-shadow:0 2px 12px rgba(0,0,0,.08); padding:24px 28px; margin-bottom:20px; }
+.din-card h2 { color:var(--blue-dark); font-size:1.1rem; margin-bottom:4px; border-bottom:2px solid var(--blue-light); padding-bottom:10px; }
+.din-card .subtitle { font-size:.85rem; color:#666; margin-bottom:16px; }
+
+/* Table */
+.din-tbl { width:100%; border-collapse:collapse; font-size:.88rem; }
+.din-tbl th { background:var(--blue-dark); color:#fff; padding:9px 12px; text-align:left; border:1px solid var(--blue-mid); white-space:nowrap; }
+.din-tbl td { padding:7px 12px; border:1px solid var(--border); vertical-align:middle; }
+.din-tbl tr:nth-child(even) td { background:var(--blue-light); }
+.din-tbl tr:hover td { background:#daeaf8; }
+.din-tbl .td-din  { font-weight:700; color:var(--blue-dark); text-align:center; width:80px; }
+.din-tbl .td-bool { text-align:center; width:80px; }
+.din-tbl .td-act  { text-align:center; width:90px; white-space:nowrap; }
+
+/* Inline edit */
+.cell-edit { width:100%; padding:3px 6px; border:1.5px solid var(--blue-mid); border-radius:4px; font-size:.85rem; font-family:inherit; }
+
+/* Add row */
+.add-row td { background:#f0fff4 !important; }
+.add-row input, .add-row select { border-color:#1a7a4a; }
+
+/* Actions */
+.btn-icon { background:none; border:none; cursor:pointer; font-size:1rem; padding:2px 5px; border-radius:4px; transition:background .15s; }
+.btn-icon:hover { background:#e2e8f0; }
+.btn-save-row { color:#1a7a4a; }
+.btn-del-row  { color:#c0392b; }
+.btn-edit-row { color:#2E75B6; }
+
+/* Legend */
+.legend-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px 18px; font-size:.84rem; }
+.legend-box dt { font-weight:600; color:var(--blue-dark); float:left; width:160px; margin-bottom:6px; }
+.legend-box dd { margin-left:160px; color:#555; margin-bottom:6px; }
+
+.tip { font-size:.8rem; color:#64748b; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; margin-bottom:14px; }
+</style>
+
+<div class="din-card">
+  <h2>🔧 Bảng Tra Mã DIN/ISO → Tên Sản Phẩm</h2>
+  <p class="subtitle">
+    Khi file khách hàng không có cột "Ghi chú kiểm tra", hệ thống dùng bảng này để tự động chuyển
+    ký hiệu DIN sang tên hàng Nam An. Ví dụ: <strong>DIN 933 → Bu lông M14x40 (ren suốt)</strong>.
+  </p>
+
+  <div class="tip">
+    💡 <strong>Nhấn vào ô bất kỳ</strong> để sửa trực tiếp → nhấn <kbd>Enter</kbd> hoặc nút 💾 để lưu.
+    Thay đổi có hiệu lực ngay cho lần upload tiếp theo.
+  </div>
+
+  <div style="overflow-x:auto">
+  <table class="din-tbl" id="din-table">
+    <thead>
+      <tr>
+        <th>Mã DIN/ISO</th>
+        <th>Tên sản phẩm (prefix)</th>
+        <th>Có chiều dài</th>
+        <th>Ký hiệu đặc biệt</th>
+        <th>Ghi chú</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="din-body">
+      {% for din, info in mapping.items() %}
+      <tr data-din="{{ din }}">
+        <td class="td-din">{{ din }}</td>
+        <td><span class="cell-val">{{ info.ten }}</span></td>
+        <td class="td-bool"><span class="cell-val">{{ '✅' if info.co_chieu_dai else '—' }}</span></td>
+        <td><span class="cell-val">{{ info.ky_hieu or '—' }}</span></td>
+        <td><span class="cell-val">{{ info.ghi_chu or '—' }}</span></td>
+        <td class="td-act">
+          <button class="btn-icon btn-edit-row" title="Sửa" onclick="editRow(this)">✏️</button>
+          <button class="btn-icon btn-del-row"  title="Xóa" onclick="delRow(this, '{{ din }}')">🗑</button>
+        </td>
+      </tr>
+      {% endfor %}
+
+      <!-- Add new row -->
+      <tr class="add-row" id="add-row">
+        <td><input id="new-din"  class="cell-edit" placeholder="VD: 961" style="width:70px"></td>
+        <td><input id="new-ten"  class="cell-edit" placeholder="VD: Bu lông ren nhỏ lửng" style="width:220px"></td>
+        <td class="td-bool">
+          <input type="checkbox" id="new-len" title="Tích nếu sản phẩm này có chiều dài (bu lông, vít...)">
+        </td>
+        <td>
+          <select id="new-ky" class="cell-edit" style="width:80px">
+            <option value="">—</option>
+            <option value="D">D (chốt chẻ)</option>
+            <option value="A">A (đinh rút)</option>
+          </select>
+        </td>
+        <td><input id="new-ghi" class="cell-edit" placeholder="VD: ren nhỏ lửng" style="width:160px"></td>
+        <td class="td-act">
+          <button class="btn btn-success btn-sm" onclick="addRow()">➕ Thêm</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="din-card">
+  <h2>📖 Giải thích các trường</h2>
+  <dl class="legend-box">
+    <dt>Mã DIN/ISO</dt>
+    <dd>Số tiêu chuẩn quốc tế (VD: 933, 931, 125, 7380). Hệ thống nhận dạng "DIN 933" hoặc "ISO 933" đều khớp với mã <strong>933</strong>.</dd>
+    <dt>Tên sản phẩm</dt>
+    <dd>Tiền tố tên hàng theo danh mục Nam An. VD: "Bu lông", "Đệm phẳng", "Lục giác chìm trụ". Size và chiều dài được gắn tự động.</dd>
+    <dt>Có chiều dài</dt>
+    <dd>✅ = sản phẩm có chiều dài (bu lông → M14<strong>x40</strong>). — = chỉ có size (đai ốc → M14).</dd>
+    <dt>Ký hiệu đặc biệt</dt>
+    <dd><strong>D</strong>: dùng cho chốt chẻ DIN 94 (ký hiệu D2.5xL40). <strong>A</strong>: dùng cho đinh rút DIN 7337 (A5x16). Để trống cho bu lông/đệm/đai ốc thông thường.</dd>
+    <dt>Ghi chú</dt>
+    <dd>Thông tin bổ sung hiển thị trong cột ghi chú của báo giá. VD: "ren suốt", "ren lửng", "không có ren".</dd>
+  </dl>
+</div>
+
+<script>
+// ── Inline row editing ──────────────────────────────────────
+function editRow(btn) {
+  const tr = btn.closest('tr');
+  const din = tr.dataset.din;
+  const cells = tr.querySelectorAll('td');
+
+  // Read current values
+  const ten    = cells[1].querySelector('.cell-val').textContent.trim();
+  const hasLen = cells[2].querySelector('.cell-val').textContent.trim() === '✅';
+  const kyHieu = cells[3].querySelector('.cell-val').textContent.trim().replace('—','');
+  const ghiChu = cells[4].querySelector('.cell-val').textContent.trim().replace('—','');
+
+  cells[1].innerHTML = `<input class="cell-edit" value="${escH(ten)}" style="width:220px">`;
+  cells[2].innerHTML = `<input type="checkbox" ${hasLen ? 'checked' : ''}>`;
+  cells[3].innerHTML = `<select class="cell-edit" style="width:80px">
+    <option value="" ${!kyHieu ? 'selected':''}>—</option>
+    <option value="D" ${kyHieu==='D'?'selected':''}>D</option>
+    <option value="A" ${kyHieu==='A'?'selected':''}>A</option>
+  </select>`;
+  cells[4].innerHTML = `<input class="cell-edit" value="${escH(ghiChu)}" style="width:160px">`;
+  cells[5].innerHTML = `
+    <button class="btn-icon btn-save-row" title="Lưu" onclick="saveRow(this, '${din}')">💾</button>
+    <button class="btn-icon" title="Hủy" onclick="location.reload()">✖</button>`;
+}
+
+function saveRow(btn, din) {
+  const tr   = btn.closest('tr');
+  const cells = tr.querySelectorAll('td');
+  const ten    = cells[1].querySelector('input').value.trim();
+  const hasLen = cells[2].querySelector('input').checked;
+  const kyHieu = cells[3].querySelector('select').value;
+  const ghiChu = cells[4].querySelector('input').value.trim();
+
+  if (!ten) { alert('Vui lòng nhập tên sản phẩm'); return; }
+
+  fetch('/din-mapping/save', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ din, ten, co_chieu_dai: hasLen, ky_hieu: kyHieu, ghi_chu: ghiChu }),
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.ok) {
+      cells[1].innerHTML = `<span class="cell-val">${escH(ten)}</span>`;
+      cells[2].innerHTML = `<span class="cell-val">${hasLen ? '✅' : '—'}</span>`;
+      cells[3].innerHTML = `<span class="cell-val">${kyHieu || '—'}</span>`;
+      cells[4].innerHTML = `<span class="cell-val">${escH(ghiChu) || '—'}</span>`;
+      cells[5].innerHTML = `
+        <button class="btn-icon btn-edit-row" title="Sửa" onclick="editRow(this)">✏️</button>
+        <button class="btn-icon btn-del-row"  title="Xóa" onclick="delRow(this,'${din}')">🗑</button>`;
+      flash('Đã lưu DIN ' + din, 'success');
+    } else {
+      alert('Lỗi: ' + d.error);
+    }
+  });
+}
+
+function delRow(btn, din) {
+  if (!confirm(`Xóa mã DIN ${din}?`)) return;
+  fetch('/din-mapping/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ din }),
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.ok) {
+      btn.closest('tr').remove();
+      flash('Đã xóa DIN ' + din, 'info');
+    } else {
+      alert('Lỗi: ' + d.error);
+    }
+  });
+}
+
+function addRow() {
+  const din    = document.getElementById('new-din').value.trim();
+  const ten    = document.getElementById('new-ten').value.trim();
+  const hasLen = document.getElementById('new-len').checked;
+  const kyHieu = document.getElementById('new-ky').value;
+  const ghiChu = document.getElementById('new-ghi').value.trim();
+
+  if (!din)  { alert('Vui lòng nhập mã DIN'); document.getElementById('new-din').focus(); return; }
+  if (!ten)  { alert('Vui lòng nhập tên sản phẩm'); document.getElementById('new-ten').focus(); return; }
+
+  fetch('/din-mapping/save', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ din, ten, co_chieu_dai: hasLen, ky_hieu: kyHieu, ghi_chu: ghiChu }),
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.ok) {
+      // Insert new row before add-row
+      const addRowEl = document.getElementById('add-row');
+      const newTr = document.createElement('tr');
+      newTr.dataset.din = din;
+      newTr.innerHTML = `
+        <td class="td-din">${escH(din)}</td>
+        <td><span class="cell-val">${escH(ten)}</span></td>
+        <td class="td-bool"><span class="cell-val">${hasLen ? '✅' : '—'}</span></td>
+        <td><span class="cell-val">${kyHieu || '—'}</span></td>
+        <td><span class="cell-val">${escH(ghiChu) || '—'}</span></td>
+        <td class="td-act">
+          <button class="btn-icon btn-edit-row" title="Sửa" onclick="editRow(this)">✏️</button>
+          <button class="btn-icon btn-del-row"  title="Xóa" onclick="delRow(this,'${escH(din)}')">🗑</button>
+        </td>`;
+      addRowEl.parentNode.insertBefore(newTr, addRowEl);
+      // Clear inputs
+      ['new-din','new-ten','new-ghi'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('new-len').checked = false;
+      document.getElementById('new-ky').value = '';
+      flash('Đã thêm DIN ' + din, 'success');
+    } else {
+      alert('Lỗi: ' + d.error);
+    }
+  });
+}
+
+// Support Enter key in add-row inputs
+document.querySelectorAll('.add-row input, .add-row select').forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') addRow(); });
+});
+
+function flash(msg, type) {
+  const div = document.createElement('div');
+  div.className = `flash ${type}`;
+  div.textContent = msg;
+  div.style.position = 'fixed';
+  div.style.top = '70px';
+  div.style.right = '20px';
+  div.style.zIndex = 9999;
+  div.style.minWidth = '220px';
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 2500);
+}
+
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+{% endblock %}

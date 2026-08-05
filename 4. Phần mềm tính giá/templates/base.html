@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Phần Mềm Báo Giá Nam An{% endblock %}</title>
+<style>
+  :root {
+    --blue-dark:  #1F4E79;
+    --blue-mid:   #2E75B6;
+    --blue-light: #D9E1F2;
+    --yellow:     #FFD700;
+    --green:      #1a7a4a;
+    --red:        #c0392b;
+    --gray-bg:    #f4f6fb;
+    --border:     #c8d6e5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray-bg); color: #333; }
+
+  /* HEADER */
+  header {
+    background: var(--blue-dark);
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  header .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: .5px; }
+  header .sub  { font-size: .78rem; opacity: .8; margin-top: 2px; }
+  header nav   { margin-left: auto; display: flex; gap: 12px; }
+  header nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px;
+    border-radius: 4px; font-size: .88rem; transition: background .2s;
+  }
+  header nav a:hover { background: rgba(255,255,255,.18); }
+  header nav a.active { background: var(--blue-mid); }
+
+  /* MAIN CONTENT */
+  .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+
+  /* CARD */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card h2 { color: var(--blue-dark); font-size: 1.2rem; margin-bottom: 16px; border-bottom: 2px solid var(--blue-light); padding-bottom: 10px; }
+
+  /* FLASH MESSAGES */
+  .flash { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: .92rem; }
+  .flash.error   { background: #fde8e8; color: var(--red); border-left: 4px solid var(--red); }
+  .flash.success { background: #e4f7ed; color: var(--green); border-left: 4px solid var(--green); }
+  .flash.info    { background: #e8f0fb; color: var(--blue-mid); border-left: 4px solid var(--blue-mid); }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 20px; border-radius: 6px; font-size: .9rem;
+    font-weight: 600; cursor: pointer; border: none; transition: all .2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--blue-dark); color: #fff; }
+  .btn-primary:hover { background: var(--blue-mid); }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-success:hover { background: #148a52; }
+  .btn-outline { background: transparent; color: var(--blue-dark); border: 2px solid var(--blue-dark); }
+  .btn-outline:hover { background: var(--blue-light); }
+  .btn-sm { padding: 5px 12px; font-size: .82rem; }
+
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: .88rem; font-weight: 600; color: #444; margin-bottom: 5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
+    border-radius: 6px; font-size: .9rem; transition: border .2s;
+  }
+  .form-group input:focus, .form-group select:focus {
+    outline: none; border-color: var(--blue-mid);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th {
+    background: var(--blue-dark); color: #fff;
+    padding: 10px 10px; text-align: center;
+    border: 1px solid var(--blue-mid); white-space: nowrap;
+  }
+  td { padding: 8px 10px; border: 1px solid var(--border); vertical-align: middle; }
+  tr:nth-child(even) td { background: var(--blue-light); }
+  tr:hover td { background: #daeaf8; }
+  .td-right { text-align: right; }
+  .td-center { text-align: center; }
+  .td-price { font-weight: 600; color: var(--blue-dark); text-align: right; }
+  .missing-price td { background: #fff8d6 !important; }
+  .missing-price .td-price { color: var(--red); }
+
+  /* BADGE */
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .76rem; font-weight: 700; }
+  .badge-ok  { background: #c9f0d9; color: var(--green); }
+  .badge-err { background: #fde8e8; color: var(--red); }
+  .badge-warn{ background: #fff3cc; color: #b8860b; }
+
+  /* UPLOAD BOX */
+  .upload-box {
+    border: 2.5px dashed var(--blue-mid);
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .upload-box:hover { background: #eaf2fb; }
+  .upload-box .icon { font-size: 3rem; margin-bottom: 10px; }
+  .upload-box p { color: #666; font-size: .92rem; }
+  .upload-box input[type=file] { display: none; }
+
+  /* SUMMARY BOX */
+  .summary-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+  .summary-card {
+    background: var(--blue-light); border-radius: 8px; padding: 16px 20px; text-align: center;
+  }
+  .summary-card .val { font-size: 1.4rem; font-weight: 700; color: var(--blue-dark); }
+  .summary-card .lbl { font-size: .8rem; color: #555; margin-top: 4px; }
+
+  /* PRICE INPUT */
+  .price-input {
+    width: 110px; padding: 4px 7px;
+    border: 1.5px solid var(--border); border-radius: 4px; font-size: .85rem;
+    text-align: right;
+  }
+  .price-input:focus { border-color: var(--blue-mid); outline: none; }
+
+  footer {
+    text-align: center; padding: 20px;
+    font-size: .8rem; color: #888; margin-top: 30px;
+  }
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">⚙ NAM AN QUOTATION</div>
+    <div class="sub">Công ty TNHH Vật tư Công nghiệp Nam An</div>
+  </div>
+  <nav>
+    <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' }}">📤 Upload File</a>
+    <a href="{{ url_for('manual') }}" class="{{ 'active' if request.endpoint == 'manual' }}">✏️ Nhập Tay</a>
+    <a href="{{ url_for('lookup') }}" class="{{ 'active' if request.endpoint == 'lookup' }}">🔍 Tra Giá</a>
+    <a href="{{ url_for('prices') }}" class="{{ 'active' if request.endpoint == 'prices' }}">📊 Bảng Giá</a>
+    <a href="{{ url_for('din_mapping_page') }}" class="{{ 'active' if request.endpoint == 'din_mapping_page' }}">🔧 Mã DIN</a>
+    <a href="{{ url_for('history') }}" class="{{ 'active' if request.endpoint == 'history' }}">📜 Lịch sử</a>
+  </nav>
+</header>
+
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash {{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<footer>Nam An Quotation System &copy; 2026 | bulongnaman.vn</footer>
+</body>
+</html>

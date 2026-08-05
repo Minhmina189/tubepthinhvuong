@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Upload Đơn Hàng - Nam An{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>📤 Upload File Đơn Hàng Khách</h2>
+
+  <p style="color:#555; margin-bottom:20px; font-size:.92rem;">
+    Upload file chứa danh sách sản phẩm. Hệ thống sẽ tự động đọc, nhận diện tên hàng,
+    tra giá theo bảng giá 2026 và tạo file báo giá theo định dạng Nam An.
+  </p>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data" id="uploadForm"
+        onsubmit="return onSubmitUpload(this)">
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+      <div class="icon">📂</div>
+      <p><strong>Kéo thả file vào đây</strong> hoặc nhấn để chọn file</p>
+      <p style="margin-top:8px; color:#999; font-size:.82rem;">
+        Excel (.xlsx/.xls) · CSV · Word (.docx) · PDF · Ảnh (.jpg/.png...) — Tối đa 30MB
+      </p>
+      <input type="file" id="fileInput" name="file"
+             accept=".xlsx,.xls,.csv,.docx,.doc,.pdf,.jpg,.jpeg,.png,.bmp,.tiff,.tif,.webp"
+             onchange="showFileName(this)">
+    </div>
+    <p id="fileName" style="margin-top:10px; color:#2E75B6; font-size:.9rem;"></p>
+
+    <div id="aiNotice" style="display:none; margin-top:12px; background:#fff8e1;
+         border:1px solid #ffe082; border-radius:6px; padding:11px 14px; font-size:.88rem; color:#795548;">
+      ⏳ File Word / PDF / Ảnh sẽ được phân tích bằng AI — thường mất 5–15 giây.
+    </div>
+
+    <div style="margin-top:20px; text-align:center;">
+      <button type="submit" id="submitBtn" class="btn btn-primary" style="font-size:1rem; padding:11px 32px;">
+        🚀 Xử Lý Và Báo Giá
+      </button>
+      <div id="loadingMsg" style="display:none; margin-top:12px; color:#1F4E79; font-size:.9rem;">
+        ⏳ Đang xử lý file, vui lòng chờ...
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>📋 Định Dạng File Đầu Vào</h2>
+  <p style="color:#555; margin-bottom:14px; font-size:.9rem;">
+    <strong>Excel / CSV</strong> — cần có các cột (tên cột linh hoạt, không phân biệt hoa thường):
+  </p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên hàng / Sản phẩm</th>
+          <th>Chất liệu</th>
+          <th>Số lượng</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-center">1</td>
+          <td>Đệm phẳng M14</td>
+          <td>Inox 304</td>
+          <td class="td-center">6</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="td-center">2</td>
+          <td>Bu lông M14x40</td>
+          <td>Thép mạ cb 8.8 ren suốt</td>
+          <td class="td-center">4</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="td-center">3</td>
+          <td>Lục giác chìm M8x30</td>
+          <td>Inox 304</td>
+          <td class="td-center">80</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="td-center">4</td>
+          <td>Đệm vênh M10</td>
+          <td>Inox 304</td>
+          <td class="td-center">70</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="td-center">5</td>
+          <td>ECU M10</td>
+          <td>Thép 8.8</td>
+          <td class="td-center">26</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:14px; background:#f0fdf4; border:1px solid #86efac; border-radius:6px; padding:13px; font-size:.87rem;">
+    <strong>📄 Word / PDF / Ảnh:</strong> Hệ thống dùng AI để quét và trích xuất danh sách hàng hóa từ mọi định dạng —
+    không cần bảng cột cố định. Chỉ cần file có tên sản phẩm, quy cách và số lượng.
+  </div>
+
+  <div style="margin-top:12px; background:#e8f4fd; border-radius:6px; padding:14px; font-size:.87rem;">
+    <strong>💡 Gợi ý tên chất liệu:</strong><br>
+    <span style="color:#1F4E79;">Inox 304</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Inox 201</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Inox 316</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Thép 8.8 đen</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Thép mạ kẽm 8.8</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Thép 10.9 đen</span> &nbsp;|&nbsp;
+    <span style="color:#1F4E79;">Thép 12.9 đen</span>
+    <br><br>
+    <strong>⚠ Lưu ý:</strong> Hàng mạ kẽm chỉ có loại <em>Bu lông lục giác đầu ngoài</em>. Các sản phẩm khác sẽ được báo giá hàng thép đen và ghi chú rõ.
+  </div>
+
+  <div style="margin-top:16px; text-align:right;">
+    <a href="{{ url_for('manual') }}" class="btn btn-outline btn-sm">✏️ Hoặc nhập tay từng dòng</a>
+  </div>
+</div>
+
+<script>
+const AI_EXTS = new Set(['.docx', '.doc', '.pdf', '.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif', '.webp']);
+
+function showFileName(input) {
+  const p = document.getElementById('fileName');
+  const notice = document.getElementById('aiNotice');
+  if (input.files.length > 0) {
+    const name = input.files[0].name;
+    p.textContent = '✅ Đã chọn: ' + name;
+    const ext = name.substring(name.lastIndexOf('.')).toLowerCase();
+    notice.style.display = AI_EXTS.has(ext) ? 'block' : 'none';
+  }
+}
+
+function onSubmitUpload(form) {
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('loadingMsg').style.display = 'block';
+  return true;
+}
+
+// Drag & Drop
+const box = document.querySelector('.upload-box');
+box.addEventListener('dragover', e => { e.preventDefault(); box.style.background = '#daeaf8'; });
+box.addEventListener('dragleave', () => { box.style.background = ''; });
+box.addEventListener('drop', e => {
+  e.preventDefault(); box.style.background = '';
+  const fi = document.getElementById('fileInput');
+  fi.files = e.dataTransfer.files;
+  showFileName(fi);
+});
+</script>
+{% endblock %}

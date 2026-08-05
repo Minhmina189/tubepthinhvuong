@@ -1,0 +1,923 @@
+{% extends "base.html" %}
+{% block title %}Kiểm Tra Kết Quả - Nam An{% endblock %}
+
+{% block content %}
+<style>
+.summary-bar{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 4px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:.82rem;font-weight:600}
+.chip-green{background:#d1fae5;color:#065f46}.chip-orange{background:#fff3cd;color:#92400e}.chip-red{background:#fee2e2;color:#991b1b}
+
+.review-wrap{overflow-x:auto}
+.rtbl{width:100%;border-collapse:collapse;font-size:.88rem;min-width:900px}
+.rtbl th{background:var(--blue-mid);color:#fff;font-weight:600;padding:9px 8px;border:1px solid #1a5fa8;white-space:nowrap}
+.rtbl td{padding:7px 8px;border:1px solid #d0dce8;vertical-align:middle}
+.rtbl tr.row-high  td{background:#f6fff9}
+.rtbl tr.row-medium td{background:#fffbf0}
+.rtbl tr.row-low td,.rtbl tr.row-none td{background:#fff5f5}
+.rtbl tr.sugg-row td{border-top:none;background:#fafafa;padding:4px 10px 8px}
+
+.ti{width:100%;padding:5px 8px;border:1px solid #c8d6e5;border-radius:4px;font-size:.85rem;font-family:inherit;box-sizing:border-box}
+.ti:focus{outline:none;border-color:var(--blue-mid)}
+.ti-warn{border-color:#f59e0b;background:#fffbf0}
+.ti-miss{border-color:#ef4444;background:#fff5f5}
+.ti-num{text-align:right;width:100px}
+.ti-qty{text-align:center;width:56px}
+.raw-cell{color:#777;font-size:.8rem;line-height:1.4}
+.raw-cell small{display:block;color:#aaa}
+
+.badge-conf{display:inline-block;width:22px;height:22px;border-radius:50%;line-height:22px;text-align:center;font-size:.75rem;cursor:default}
+.bc-high{background:#d1fae5;color:#065f46}.bc-medium{background:#fff3cd;color:#92400e}.bc-low,.bc-none{background:#fee2e2;color:#991b1b}
+
+.sugg-box{background:#f0f4ff;border-left:3px solid var(--blue-mid);padding:6px 12px;border-radius:0 4px 4px 0;font-size:.82rem;color:#334155;line-height:1.5}
+
+.meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.meta-grid{grid-template-columns:1fr 1fr}}
+
+/* VAT selector */
+.vat-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vat-opt{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border:1.5px solid #c8d6e5;border-radius:20px;cursor:pointer;font-size:.85rem;transition:all .15s}
+.vat-opt:has(input:checked){border-color:var(--blue-mid);background:#e8f0fb;font-weight:600;color:var(--blue-dark)}
+.vat-opt input{display:none}
+
+.total-bar{display:flex;justify-content:flex-end;gap:24px;flex-wrap:wrap;background:#eef4fb;border-radius:8px;padding:14px 20px;font-size:.9rem;margin-bottom:14px}
+.total-bar .tv{font-weight:700;color:var(--blue-dark);font-size:1rem}
+.total-bar .gtv{font-size:1.1rem;color:#c0392b}
+
+.btn-preview{background:#fff;color:var(--blue-dark);border:2px solid var(--blue-dark);padding:11px 22px;border-radius:6px;cursor:pointer;font-size:.9rem;font-weight:600;transition:all .15s}
+.btn-preview:hover{background:var(--blue-dark);color:#fff}
+
+/* Set (bộ) feature */
+.btn-set{background:none;border:1px solid #c8d6e5;border-radius:4px;cursor:pointer;font-size:.82rem;padding:1px 5px;color:#475569;margin-top:3px;transition:all .12s;display:block;width:100%;text-align:center}
+.btn-set:hover{background:#e0f2fe;border-color:#2E75B6;color:#1F4E79}
+.set-panel-row td{padding:0!important;border-top:none!important}
+.set-panel-inner{background:#f0f9ff;border-left:3px solid #2E75B6;padding:10px 14px;font-size:.85rem}
+.set-comp-list{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
+.set-comp-item{display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #c8d6e5;border-radius:6px;padding:5px 12px;cursor:pointer;transition:all .12s}
+.set-comp-item:has(input:checked){border-color:#2E75B6;background:#dbeafe}
+.set-comp-item input{accent-color:#2E75B6}
+.row-set td{background:#f0fdf4!important}
+.row-set .set-tag{font-size:.75rem;color:#059669;font-weight:600;display:block}
+.btn-del{color:#ef4444!important;border-color:#fca5a5!important;margin-top:2px}
+.btn-del:hover{background:#fee2e2!important;border-color:#ef4444!important}
+.row-bundle td{background:#eff6ff!important}
+.btn-add-row{display:block;width:100%;margin-top:8px;padding:7px;background:#f8fafc;border:1.5px dashed #c8d6e5;border-radius:6px;color:#64748b;font-size:.85rem;cursor:pointer;transition:all .15s;text-align:center}
+.btn-add-row:hover{background:#e8f0fb;border-color:#2E75B6;color:#1F4E79}
+.btn-lookup{color:#2E75B6!important;border-color:#93c5fd!important;margin-top:2px}
+.btn-lookup:hover{background:#dbeafe!important;border-color:#2E75B6!important}
+</style>
+
+<!-- Summary -->
+<div class="card">
+  <h2>📋 Kiểm Tra Kết Quả Phân Tích</h2>
+  <div class="summary-bar">
+    <span class="chip chip-green">✅ {{ high }} khớp hoàn toàn</span>
+    {% if medium %}<span class="chip chip-orange">⚠ {{ medium }} cần kiểm tra</span>{% endif %}
+    {% if low    %}<span class="chip chip-red">❌ {{ low }} không nhận diện được</span>{% endif %}
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:12px;">
+    <div style="font-size:.88rem;color:#555;">
+      Tổng chưa VAT: <strong id="top-sub">{{ subtotal | currency }}</strong> ₫ &nbsp;|&nbsp;
+      Tổng gồm VAT: <strong id="top-grand" style="color:#c0392b;">{{ total | currency }}</strong> ₫
+    </div>
+    <button type="submit" form="quoteForm" formaction="/generate" class="btn btn-success btn-sm"
+            onclick="return onSubmitQuote('xlsx')" id="topGenBtn">
+      📥 Excel
+    </button>
+    <button type="submit" form="quoteForm" formaction="/generate-pdf" class="btn btn-sm"
+            onclick="return onSubmitQuote('pdf')" id="topPdfBtn"
+            style="background:#c0392b;color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;">
+      📄 PDF
+    </button>
+    <a href="{{ url_for('index') }}" class="btn btn-outline btn-sm">← Upload lại</a>
+  </div>
+</div>
+
+<form method="POST" action="/generate" id="quoteForm">
+<input type="hidden" name="item_count" value="{{ items|length }}">
+
+<!-- Quote info -->
+<div class="card">
+  <h3 style="margin-bottom:12px;color:var(--blue-dark);font-size:.95rem;">📝 Thông Tin Báo Giá</h3>
+  <div class="meta-grid">
+    <div class="form-group">
+      <label>Số báo giá</label>
+      <input class="ti" type="text" name="quote_number" placeholder="VD: BG-2026-001" id="f_qnum"
+             value="{{ prefill.quote_number if prefill else '' }}">
+    </div>
+    <div class="form-group">
+      <label>Tên khách hàng</label>
+      <input class="ti" type="text" name="receiver_name" placeholder="Tên công ty / cá nhân" id="f_rcv"
+             value="{{ prefill.receiver_name if prefill else '' }}">
+    </div>
+    <div class="form-group">
+      <label>Địa chỉ</label>
+      <input class="ti" type="text" name="receiver_address" placeholder="Địa chỉ nhận hàng" id="f_addr"
+             value="{{ prefill.receiver_address if prefill else '' }}">
+    </div>
+    <div class="form-group">
+      <label>Điện thoại</label>
+      <input class="ti" type="text" name="receiver_tel" placeholder="Số điện thoại" id="f_tel"
+             value="{{ prefill.receiver_tel if prefill else '' }}">
+    </div>
+  </div>
+  <!-- VAT -->
+  <div style="margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-weight:600;font-size:.88rem;color:var(--blue-dark);">Thuế VAT:</span>
+    <div class="vat-row">
+      {% set pf_vat = prefill.vat_rate if prefill else 8 %}
+      {% for v in [0, 5, 8, 10] %}
+      <label class="vat-opt">
+        <input type="radio" name="vat_rate" value="{{ v }}"
+               {% if v == pf_vat %}checked{% endif %}
+               onchange="updateTotals()">
+        {{ v }}%
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Items table -->
+<div class="card" style="padding-bottom:8px;">
+  <div class="review-wrap">
+    <table class="rtbl">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th style="width:160px">Tên gốc từ file</th>
+          <th style="min-width:200px">Sản phẩm Nam An</th>
+          <th style="width:120px">Chất liệu</th>
+          <th style="width:56px">SL</th>
+          <th style="width:110px">Đơn giá (₫)</th>
+          <th style="width:110px">Thành tiền</th>
+          <th style="width:100px" title="Chỉ dùng để kiểm tra — không in vào báo giá">Tồn kho ⓘ</th>
+          <th style="width:52px">TT</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% set _mat_opts = [
+        "Inox 304","Inox 201","Inox 316",
+        "Thép 8.8 đen","Thép 8.8 mạ kẽm",
+        "Thép 10.9 đen","Thép 10.9 mạ kẽm",
+        "Thép 12.9 đen","Thép 12.9 mạ kẽm",
+        "Thép mạ kẽm","Thép mạ kẽm nhúng nhựa","Thép mạ kẽm bọc nhựa"
+      ] %}
+      {% for it in items %}
+        <input type="hidden" name="raw_name_{{ it.stt }}" value="{{ it.raw_name }}">
+        <input type="hidden" name="raw_mat_{{ it.stt }}"  value="{{ it.raw_mat }}">
+
+        <tr class="row-{{ it.confidence }}{% if it.set_detail %} row-bundle{% endif %}" id="main-row-{{ it.stt }}">
+          <td style="text-align:center;font-weight:600;color:#555;"><span class="row-num">{{ it.stt }}</span></td>
+          <td class="raw-cell">
+            {{ it.raw_name }}
+            {% if it.raw_mat %}<small>{{ it.raw_mat }}</small>{% endif %}
+          </td>
+          <td>
+            <input class="ti{% if it.confidence != 'high' %} ti-warn{% endif %}"
+                   type="text" name="pname_{{ it.stt }}"
+                   value="{{ it.product_name }}">
+          </td>
+          <td>
+            <select class="ti" style="width:100%;padding:4px 6px;cursor:pointer"
+                    name="mat_{{ it.stt }}">
+              <option value="">— Chưa rõ</option>
+              {% for opt in _mat_opts %}
+              <option value="{{ opt }}"
+                      {% if it.material_display == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+              {% if it.material_display and it.material_display not in _mat_opts %}
+              <option value="{{ it.material_display }}" selected>{{ it.material_display }}</option>
+              {% endif %}
+            </select>
+          </td>
+          <td>
+            <input class="ti ti-qty" type="number"
+                   name="qty_{{ it.stt }}" value="{{ it.qty }}" min="1"
+                   oninput="calcRow({{ it.stt }})">
+          </td>
+          <td>
+            <input class="ti ti-num{% if not it.unit_price %} ti-miss{% endif %}"
+                   type="number" name="price_{{ it.stt }}"
+                   value="{{ it.unit_price or '' }}" placeholder="Nhập giá"
+                   id="price_{{ it.stt }}" oninput="calcRow({{ it.stt }})">
+          </td>
+          <td style="text-align:right;font-weight:600;padding-right:10px;"
+              id="total_{{ it.stt }}">
+            {% if it.total %}{{ it.total | currency }}{% else %}—{% endif %}
+          </td>
+          <td style="text-align:center;">
+            {# Tồn kho — chỉ để kiểm tra, không submit vào form #}
+            {% if it.in_stock is true %}
+              {% set _sv = 'yes' %}
+            {% elif it.in_stock is false %}
+              {% set _sv = 'no' %}
+            {% else %}
+              {% set _sv = '' %}
+            {% endif %}
+            <select class="stk-sel" data-stt="{{ it.stt }}"
+                    style="width:90px;padding:3px 4px;border-radius:4px;font-size:.78rem;
+                           border:1.5px solid #c8d6e5;cursor:pointer;"
+                    onchange="updateStockStyle(this)">
+              <option value=""  {% if _sv=='' %}selected{% endif %}>— Chưa rõ</option>
+              <option value="yes" {% if _sv=='yes' %}selected{% endif %}>✅ Có sẵn</option>
+              <option value="no"  {% if _sv=='no'  %}selected{% endif %}>🔄 Đặt hàng</option>
+            </select>
+          </td>
+          <td style="text-align:center;">
+            {% if it.confidence == 'high' %}
+              <span class="badge-conf bc-high" title="Đã khớp">✓</span>
+            {% elif it.confidence == 'medium' %}
+              <span class="badge-conf bc-medium" title="{{ it.note }}">⚠</span>
+            {% else %}
+              <span class="badge-conf bc-low" title="{{ it.note }}">✕</span>
+            {% endif %}
+            <button type="button" class="btn-set btn-lookup"
+                    id="lookup-btn-{{ it.stt }}"
+                    onclick="lookupPrice({{ it.stt }})"
+                    title="Tra giá theo tên hiện tại">🔍</button>
+            <button type="button" class="btn-set"
+                    data-set-btn="{{ it.stt }}"
+                    onclick="toggleSetPanel({{ it.stt }})"
+                    title="{% if it.set_detail %}Xem giá thành phần bộ{% else %}Thêm linh kiện bộ (ECU, đệm){% endif %}">
+              {% if it.set_detail %}📊{% else %}🔧{% endif %}
+            </button>
+            <button type="button" class="btn-set btn-del"
+                    onclick="deleteRow({{ it.stt }})"
+                    title="Xóa dòng này">✕</button>
+            <input type="hidden" name="note_{{ it.stt }}" value="{{ it.note }}">
+          </td>
+        </tr>
+
+        <!-- Set panel: auto-hiện nếu backend đã tính bộ, ẩn theo mặc định với bộ thủ công -->
+        <tr class="set-panel-row" id="set-panel-{{ it.stt }}"
+            style="display:{% if it.set_detail %}table-row{% else %}none{% endif %}">
+          <td></td>
+          <td colspan="7" style="padding:0;border-top:none">
+            {% if it.set_detail %}
+            <div class="set-panel-inner" id="set-inner-{{ it.stt }}" data-prerendered="1">
+              <div style="font-weight:600;color:#1F4E79;margin-bottom:8px">📦 Giá thành phần bộ #{{ it.stt }}</div>
+              <table style="border-collapse:collapse;font-size:.85rem;background:#fff;border-radius:6px;overflow:hidden;margin-bottom:10px;min-width:260px">
+                {% for comp in it.set_detail %}
+                <tr>
+                  <td style="padding:3px 14px;border-bottom:1px solid #e2e8f0">
+                    {% if comp.qty > 1 %}<span style="color:#2E75B6;font-weight:600">{{ comp.qty }}×</span> {% endif %}
+                    {{ comp.name }}
+                  </td>
+                  <td style="padding:3px 14px;text-align:right;border-bottom:1px solid #e2e8f0;font-weight:600;white-space:nowrap">
+                    {% if comp.qty > 1 %}
+                      {{ comp.qty }} × {{ comp.price | currency }} = {{ (comp.qty * comp.price) | currency }} ₫
+                    {% else %}
+                      {{ comp.price | currency }} ₫
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+                <tr style="background:#e8f0fb">
+                  <td style="padding:6px 14px;font-weight:700;color:#1F4E79">Tổng giá/bộ</td>
+                  <td style="padding:6px 14px;text-align:right;font-weight:700;color:#1F4E79;font-size:.95rem;white-space:nowrap">
+                    {{ it.unit_price | currency }} ₫
+                  </td>
+                </tr>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm"
+                      onclick="document.getElementById('set-panel-{{ it.stt }}').style.display='none'"
+                      style="font-size:.8rem">Ẩn bảng</button>
+            </div>
+            {% else %}
+            <div class="set-panel-inner" id="set-inner-{{ it.stt }}"></div>
+            {% endif %}
+          </td>
+        </tr>
+
+        {% if it.confidence != 'high' and it.suggestions %}
+        <tr class="sugg-row" id="sugg-row-{{ it.stt }}">
+          <td></td>
+          <td colspan="7">
+            <div class="sugg-box">
+              💡 {% for s in it.suggestions %}{{ s }}{% if not loop.last %} &nbsp;—&nbsp; {% endif %}{% endfor %}
+            </div>
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <button type="button" class="btn-add-row" onclick="addManualRow()">
+    ➕ Thêm dòng thủ công
+  </button>
+</div>
+
+<!-- Totals + actions -->
+<div class="card">
+  <div class="total-bar">
+    <div>Tổng chưa VAT: <span class="tv" id="disp-sub">{{ subtotal | currency }}</span> ₫</div>
+    <div>VAT (<span id="disp-vr">8</span>%): <span class="tv" id="disp-vat">{{ vat | currency }}</span> ₫</div>
+    <div>Tổng gồm VAT: <span class="tv gtv" id="disp-grand">{{ total | currency }}</span> ₫</div>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+    <button type="button" class="btn-preview" onclick="openPreview()">
+      👁 Xem Trước
+    </button>
+    <button type="submit" id="genBtn" formaction="/generate" class="btn btn-primary"
+            style="font-size:1rem;padding:12px 28px;"
+            onclick="return onSubmitQuote('xlsx')">
+      📥 Tải Excel
+    </button>
+    <button type="submit" id="pdfBtn" formaction="/generate-pdf" class="btn"
+            style="font-size:1rem;padding:12px 28px;background:#c0392b;color:#fff;"
+            onclick="return onSubmitQuote('pdf')">
+      📄 Tải PDF
+    </button>
+    <a href="{{ url_for('index') }}" class="btn btn-outline">← Upload lại</a>
+    <span id="genMsg" style="display:none;color:#1F4E79;font-size:.88rem;">⏳ Đang tạo file...</span>
+  </div>
+</div>
+</form>
+
+<script>
+// ── Row state cache ──────────────────────────
+const _rows = {};
+{% for it in items %}
+_rows[{{ it.stt }}] = [{{ it.qty }}, {{ it.unit_price or 'null' }}];
+{% endfor %}
+
+function calcRow(stt) {
+  const qEl = document.querySelector(`[name="qty_${stt}"]`);
+  const pEl = document.getElementById(`price_${stt}`);
+  const tEl = document.getElementById(`total_${stt}`);
+  const qty   = parseInt(qEl.value)  || 0;
+  const price = parseInt(pEl.value)  || 0;
+  _rows[stt] = [qty, price || null];
+  if (qty > 0 && price > 0) {
+    tEl.textContent = fmtVN(qty * price);
+    pEl.classList.remove('ti-miss');
+  } else {
+    tEl.textContent = '—';
+    if (!pEl.value.trim()) pEl.classList.add('ti-miss');
+  }
+  updateTotals();
+}
+
+function updateTotals() {
+  let sub = 0;
+  for (const [qty, price] of Object.values(_rows)) {
+    if (qty && price) sub += qty * price;
+  }
+  const vr    = parseFloat(document.querySelector('[name="vat_rate"]:checked')?.value ?? '8');
+  const vat   = Math.round(sub * vr / 100);
+  const grand = sub + vat;
+  const fmt   = fmtVN;
+  document.getElementById('disp-sub').textContent   = fmt(sub);
+  document.getElementById('disp-vat').textContent   = fmt(vat);
+  document.getElementById('disp-grand').textContent = fmt(grand);
+  document.getElementById('disp-vr').textContent    = vr;
+  // Also update top summary
+  const ts = document.getElementById('top-sub');
+  const tg = document.getElementById('top-grand');
+  if (ts) ts.textContent = fmt(sub);
+  if (tg) tg.textContent = fmt(grand);
+}
+
+function fmtVN(n) {
+  return n > 0 ? n.toLocaleString('vi-VN') : '0';
+}
+
+function updateStockStyle(sel) {
+  const v = sel.value;
+  if (v === 'yes') {
+    sel.style.borderColor = '#22c55e'; sel.style.background = '#f0fdf4';
+    sel.style.color = '#16a34a'; sel.style.fontWeight = '600';
+  } else if (v === 'no') {
+    sel.style.borderColor = '#c8d6e5'; sel.style.background = '#fff';
+    sel.style.color = '#111'; sel.style.fontWeight = '';
+  } else {
+    sel.style.borderColor = '#c8d6e5'; sel.style.background = '#fff';
+    sel.style.color = '#94a3b8'; sel.style.fontWeight = '';
+  }
+}
+// Apply styles on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.stk-sel').forEach(updateStockStyle);
+});
+
+function escH(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function onSubmitQuote(fmt) {
+  const msg = document.getElementById('genMsg');
+  if (msg) {
+    msg.textContent = fmt === 'pdf' ? '⏳ Đang tạo PDF...' : '⏳ Đang tạo Excel...';
+    msg.style.display = 'inline';
+  }
+  const btns = ['genBtn','pdfBtn','topGenBtn','topPdfBtn'];
+  // Defer disable so browser still knows which button triggered submit (formaction)
+  setTimeout(() => {
+    btns.forEach(id => { const el = document.getElementById(id); if (el) el.disabled = true; });
+    // Auto re-enable after 12s — file download doesn't navigate the page
+    setTimeout(() => {
+      btns.forEach(id => { const el = document.getElementById(id); if (el) el.disabled = false; });
+      if (msg) msg.style.display = 'none';
+    }, 12000);
+  }, 150);
+  return true;
+}
+
+// ── Set (Bộ) feature — gộp 1 dòng ─────────
+function toggleSetPanel(stt) {
+  const panel = document.getElementById(`set-panel-${stt}`);
+  if (!panel) return;
+  if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+  document.querySelectorAll('.set-panel-row').forEach(p => p.style.display = 'none');
+
+  const inner = document.getElementById(`set-inner-${stt}`);
+  // Nếu đã có nội dung pre-render từ server (bộ tự động), chỉ hiện lại
+  if (inner?.dataset.prerendered) {
+    panel.style.display = '';
+    panel.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    return;
+  }
+
+  const tr = document.getElementById(`main-row-${stt}`);
+  const bundleData = tr?.dataset.bundle;
+  if (bundleData) {
+    try { _showBundleDetail(stt, JSON.parse(bundleData)); }
+    catch(e) { _showSetSelector(stt); }
+  } else {
+    _showSetSelector(stt);
+  }
+  panel.style.display = '';
+  panel.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}
+
+function _showSetSelector(stt) {
+  const pname = document.querySelector(`[name="pname_${stt}"]`)?.value || '';
+  const mat   = document.querySelector(`[name="mat_${stt}"]`)?.value  || '';
+  const qty   = document.querySelector(`[name="qty_${stt}"]`)?.value  || '1';
+  const sizeM = pname.match(/\bM(\d+)/i);
+  const size  = sizeM ? parseInt(sizeM[1]) : 0;
+
+  const _qi = s => `style="width:52px;border:1px solid #c8d6e5;border-radius:4px;padding:2px 6px;font-size:.85rem;text-align:center"`;
+  document.getElementById(`set-inner-${stt}`).innerHTML = `
+    <div style="font-weight:600;color:#1F4E79;margin-bottom:10px">
+      🔧 Thêm bộ cho: <span style="color:#1a5fa8">${escH(pname)}</span>
+      ${size
+        ? `&nbsp;—&nbsp;<span style="color:#059669">M${size}</span>`
+        : `&nbsp;<span style="color:#ef4444;font-size:.8rem">⚠ Không nhận ra kích thước M?</span>`}
+    </div>
+    <table style="border-collapse:collapse;font-size:.85rem;margin-bottom:10px">
+      <tr style="color:#64748b;font-size:.78rem">
+        <th style="font-weight:500;padding:0 10px 4px 0;text-align:left">Chọn</th>
+        <th style="font-weight:500;padding:0 10px 4px 0;text-align:left">Linh kiện</th>
+        <th style="font-weight:500;padding:0 0 4px 0">SL/bộ</th>
+      </tr>
+      <tr>
+        <td style="padding:4px 10px 4px 0"><input type="checkbox" id="sc-ecu-${stt}" checked style="accent-color:#2E75B6"></td>
+        <td style="padding:4px 10px 4px 0;min-width:160px">ECU M${size || '?'}</td>
+        <td><input type="number" id="sc-ecu-qty-${stt}" value="1" min="1" ${_qi()}></td>
+      </tr>
+      <tr>
+        <td style="padding:4px 10px 4px 0"><input type="checkbox" id="sc-venh-${stt}" checked style="accent-color:#2E75B6"></td>
+        <td style="padding:4px 10px 4px 0">Đệm vênh M${size || '?'}</td>
+        <td><input type="number" id="sc-venh-qty-${stt}" value="1" min="1" ${_qi()}></td>
+      </tr>
+      <tr>
+        <td style="padding:4px 10px 4px 0"><input type="checkbox" id="sc-phang-${stt}" checked style="accent-color:#2E75B6"></td>
+        <td style="padding:4px 10px 4px 0">Đệm phẳng M${size || '?'}</td>
+        <td><input type="number" id="sc-phang-qty-${stt}" value="1" min="1" ${_qi()}></td>
+      </tr>
+    </table>
+    <div style="font-size:.82rem;color:#555;margin-bottom:10px">
+      Chất liệu: <strong>${escH(mat) || '—'}</strong>
+      &nbsp;|&nbsp; SL bu lông: <strong>${escH(qty)}</strong>
+    </div>
+    <p style="font-size:.79rem;color:#64748b;margin-bottom:8px">
+      💡 Giá bộ = đơn giá bu lông + (SL/bộ × đơn giá linh kiện). Nhấn 📊 sau để xem chi tiết.
+    </p>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="btn btn-primary btn-sm"
+              onclick="addSetComponents(${stt})">🔧 Gộp vào bộ</button>
+      <button type="button" class="btn btn-outline btn-sm"
+              onclick="document.getElementById('set-panel-${stt}').style.display='none'">Đóng</button>
+    </div>`;
+}
+
+function _showBundleDetail(stt, bd) {
+  const boltRow = `<tr>
+    <td style="padding:3px 14px;border-bottom:1px solid #e2e8f0">${escH(bd.bolt_name || 'Bu lông')}</td>
+    <td style="padding:3px 14px;text-align:right;border-bottom:1px solid #e2e8f0;font-weight:600">
+      ${bd.bolt_price > 0 ? fmtVN(bd.bolt_price) + ' ₫' : '<span style="color:#ef4444">Chưa có giá</span>'}
+    </td></tr>`;
+  const compRows = (bd.comps || []).map(c => {
+    const cq   = c.cQty || 1;
+    const uP   = c.unit_price || c.price || 0;
+    const sub  = c.subtotal || uP * cq;
+    const label = escH(c.name || '');
+    const priceStr = uP > 0
+      ? (cq > 1 ? `${cq} × ${fmtVN(uP)} = ${fmtVN(sub)} ₫` : `${fmtVN(uP)} ₫`)
+      : '<span style="color:#ef4444">Chưa có giá</span>';
+    return `<tr>
+      <td style="padding:3px 14px;border-bottom:1px solid #e2e8f0">${cq > 1 ? `<span style="color:#2E75B6;font-weight:600">${cq}×</span> ` : ''}${label}</td>
+      <td style="padding:3px 14px;text-align:right;border-bottom:1px solid #e2e8f0;font-weight:600">${priceStr}</td>
+    </tr>`;
+  }).join('');
+  const detailRows = boltRow + compRows;
+
+  document.getElementById(`set-inner-${stt}`).innerHTML = `
+    <div style="font-weight:600;color:#1F4E79;margin-bottom:10px">📊 Giá thành phần bộ #${stt}</div>
+    <table style="border-collapse:collapse;font-size:.85rem;background:#fff;border-radius:6px;overflow:hidden;margin-bottom:10px;min-width:260px">
+      ${detailRows}
+      <tr style="background:#e8f0fb">
+        <td style="padding:6px 14px;font-weight:700;color:#1F4E79">Tổng giá/bộ</td>
+        <td style="padding:6px 14px;text-align:right;font-weight:700;color:#1F4E79;font-size:.95rem">
+          ${fmtVN(bd.bundle_price)} ₫
+        </td>
+      </tr>
+    </table>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="btn btn-outline btn-sm"
+              onclick="resetBundle(${stt})" style="color:#c0392b;border-color:#e74c3c">
+        🔄 Xóa bộ — trả về giá gốc
+      </button>
+      <button type="button" class="btn btn-outline btn-sm"
+              onclick="document.getElementById('set-panel-${stt}').style.display='none'">Đóng</button>
+    </div>`;
+}
+
+async function addSetComponents(stt) {
+  const pname = document.querySelector(`[name="pname_${stt}"]`)?.value || '';
+  const mat   = document.querySelector(`[name="mat_${stt}"]`)?.value  || '';
+  const sizeM = pname.match(/\bM(\d+)/i);
+  const size  = sizeM ? parseInt(sizeM[1]) : 0;
+  if (!size) {
+    alert('Không nhận ra kích thước (M10, M14...). Vui lòng chỉnh tên sản phẩm có kích thước, VD: "Bu lông M10x30".');
+    return;
+  }
+
+  const rowQty = parseInt(document.querySelector(`[name="qty_${stt}"]`)?.value) || 1;
+  const gq     = id => Math.max(1, parseInt(document.getElementById(id)?.value) || 1);
+
+  const comps = [];
+  if (document.getElementById(`sc-ecu-${stt}`)?.checked)
+    comps.push({name: `ECU M${size}`, material: mat, qty: 1, cQty: gq(`sc-ecu-qty-${stt}`)});
+  if (document.getElementById(`sc-venh-${stt}`)?.checked)
+    comps.push({name: `Đệm vênh M${size}`, material: mat, qty: 1, cQty: gq(`sc-venh-qty-${stt}`)});
+  if (document.getElementById(`sc-phang-${stt}`)?.checked)
+    comps.push({name: `Đệm phẳng M${size}`, material: mat, qty: 1, cQty: gq(`sc-phang-qty-${stt}`)});
+  if (!comps.length) { alert('Chưa chọn linh kiện nào.'); return; }
+
+  const btn = event.currentTarget, orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '⏳ Đang tra giá...';
+
+  try {
+    const resp = await fetch('/api/set-price', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({components: comps}),
+    });
+    const data = await resp.json();
+    if (!data.ok) { alert('Lỗi: ' + (data.error || '?')); return; }
+
+    const boltPrice = parseInt(document.getElementById(`price_${stt}`)?.value) || 0;
+
+    // Bundle unit price = bolt_price + sum(cQty × comp_unit_price)
+    let compSum = 0;
+    const compDetails = [];
+    for (let i = 0; i < data.items.length; i++) {
+      const item  = data.items[i];
+      const cQty  = comps[i].cQty;
+      const uPrice = item.unit_price || 0;
+      const sub   = uPrice * cQty;
+      compSum += sub;
+      compDetails.push({name: item.name, unit_price: uPrice, cQty, subtotal: sub});
+    }
+    const bundleUnitPrice = boltPrice + compSum;
+
+    // Bundle product name: prefix >1 qty, skip "1 "
+    const bundleName = pname + comps.map((c, i) => {
+      const cq = c.cQty;
+      return ` + ${cq > 1 ? cq + ' ' : ''}${c.name}`;
+    }).join('');
+    document.querySelector(`[name="pname_${stt}"]`).value = bundleName;
+
+    const priceEl = document.getElementById(`price_${stt}`);
+    if (bundleUnitPrice > 0) { priceEl.value = bundleUnitPrice; priceEl.classList.remove('ti-miss'); }
+
+    const tr = document.getElementById(`main-row-${stt}`);
+    const breakdown = {bolt_name: pname, bolt_price: boltPrice, comps: compDetails, bundle_price: bundleUnitPrice};
+    tr.dataset.bundle = JSON.stringify(breakdown);
+    tr.classList.add('row-bundle');
+
+    _rows[stt] = [rowQty, bundleUnitPrice || null];
+    calcRow(stt);
+
+    const setBtn = document.querySelector(`[data-set-btn="${stt}"]`);
+    if (setBtn) { setBtn.textContent = '📊'; setBtn.title = 'Xem giá thành phần bộ'; }
+
+    _showBundleDetail(stt, breakdown);
+
+  } catch (err) {
+    alert('Lỗi kết nối: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+function resetBundle(stt) {
+  const tr = document.getElementById(`main-row-${stt}`);
+  if (!tr?.dataset.bundle) return;
+  const bd = JSON.parse(tr.dataset.bundle);
+
+  document.querySelector(`[name="pname_${stt}"]`).value = bd.bolt_name || '';
+  const priceEl = document.getElementById(`price_${stt}`);
+  if (bd.bolt_price > 0) { priceEl.value = bd.bolt_price; priceEl.classList.remove('ti-miss'); }
+  else { priceEl.value = ''; priceEl.classList.add('ti-miss'); }
+
+  delete tr.dataset.bundle;
+  tr.classList.remove('row-bundle');
+
+  const qty = parseInt(document.querySelector(`[name="qty_${stt}"]`)?.value) || 1;
+  _rows[stt] = [qty, bd.bolt_price || null];
+  calcRow(stt);
+
+  const setBtn = document.querySelector(`[data-set-btn="${stt}"]`);
+  if (setBtn) { setBtn.textContent = '🔧'; setBtn.title = 'Thêm linh kiện bộ (ECU, đệm)'; }
+
+  document.getElementById(`set-panel-${stt}`).style.display = 'none';
+}
+
+function deleteRow(stt) {
+  const tr    = document.getElementById(`main-row-${stt}`);
+  const panel = document.getElementById(`set-panel-${stt}`);
+  const sugg  = document.getElementById(`sugg-row-${stt}`);
+  if (tr)    tr.remove();
+  if (panel) panel.remove();
+  if (sugg)  sugg.remove();
+  delete _rows[stt];
+  renumberRows();
+  updateTotals();
+}
+
+async function lookupPrice(stt) {
+  const pEl  = document.querySelector(`[name="pname_${stt}"]`);
+  const mEl  = document.querySelector(`[name="mat_${stt}"]`);
+  const prEl = document.getElementById(`price_${stt}`);
+  const btn  = document.getElementById(`lookup-btn-${stt}`);
+
+  const name = pEl?.value.trim() || '';
+  if (!name) { alert('Vui lòng nhập tên sản phẩm trước.'); return; }
+
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = '⏳';
+
+  try {
+    const resp = await fetch('/api/lookup-price', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, material: mEl?.value.trim() || ''}),
+    });
+    const data = await resp.json();
+    if (!data.ok) throw new Error(data.error || '?');
+
+    if (data.product_name) pEl.value = data.product_name;
+    if (data.material)     mEl.value = data.material;
+    if (data.unit_price) {
+      prEl.value = data.unit_price;
+      prEl.classList.remove('ti-miss');
+      calcRow(stt);
+    }
+
+    // Cập nhật trạng thái Tồn kho nếu API trả về kết quả rõ ràng
+    if (data.in_stock !== null && data.in_stock !== undefined) {
+      const stkSel = document.querySelector(`.stk-sel[data-stt="${stt}"]`);
+      if (stkSel) {
+        stkSel.value = data.in_stock ? 'yes' : 'no';
+        updateStockStyle(stkSel);
+      }
+    }
+
+    const found = !!data.unit_price;
+    btn.textContent = found ? '✅' : '❓';
+    if (!found) alert('Không tìm thấy giá trong bảng giá. Vui lòng nhập thủ công.');
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1500);
+  } catch (err) {
+    alert('Lỗi: ' + err.message);
+    btn.textContent = orig;
+    btn.disabled = false;
+  }
+}
+
+function renumberRows() {
+  let n = 1;
+  document.querySelectorAll('.rtbl tbody tr[id^="main-row-"]').forEach(tr => {
+    const span = tr.querySelector('.row-num');
+    if (span) span.textContent = n;
+    n++;
+  });
+}
+
+function addManualRow() {
+  const icEl = document.querySelector('[name="item_count"]');
+  const max  = parseInt(icEl.value) + 1;
+  icEl.value = max;
+  _rows[max] = [1, null];
+
+  const tr = document.createElement('tr');
+  tr.className = 'row-none';
+  tr.id = `main-row-${max}`;
+  tr.innerHTML = `
+    <td style="text-align:center;font-weight:600;color:#555">
+      <span class="row-num">${max}</span>
+      <input type="hidden" name="raw_name_${max}" value="">
+      <input type="hidden" name="raw_mat_${max}"  value="">
+    </td>
+    <td class="raw-cell" style="color:#aaa;font-size:.78rem">nhập tay</td>
+    <td><input class="ti ti-warn" type="text" name="pname_${max}" placeholder="Tên sản phẩm..." value=""></td>
+    <td><select class="ti" style="width:100%;padding:4px 6px;cursor:pointer" name="mat_${max}">
+      <option value="">— Chưa rõ</option>
+      <option value="Inox 304">Inox 304</option>
+      <option value="Inox 201">Inox 201</option>
+      <option value="Inox 316">Inox 316</option>
+      <option value="Thép 8.8 đen">Thép 8.8 đen</option>
+      <option value="Thép 8.8 mạ kẽm">Thép 8.8 mạ kẽm</option>
+      <option value="Thép 10.9 đen">Thép 10.9 đen</option>
+      <option value="Thép 10.9 mạ kẽm">Thép 10.9 mạ kẽm</option>
+      <option value="Thép 12.9 đen">Thép 12.9 đen</option>
+      <option value="Thép 12.9 mạ kẽm">Thép 12.9 mạ kẽm</option>
+      <option value="Thép mạ kẽm">Thép mạ kẽm</option>
+      <option value="Thép mạ kẽm nhúng nhựa">Thép mạ kẽm nhúng nhựa</option>
+      <option value="Thép mạ kẽm bọc nhựa">Thép mạ kẽm bọc nhựa</option>
+    </select></td>
+    <td><input class="ti ti-qty" type="number" name="qty_${max}" value="1" min="1"
+               oninput="calcRow(${max})"></td>
+    <td><input class="ti ti-num ti-miss" type="number" name="price_${max}" id="price_${max}"
+               value="" placeholder="Nhập giá" oninput="calcRow(${max})"></td>
+    <td style="text-align:right;font-weight:600;padding-right:10px" id="total_${max}">—</td>
+    <td style="text-align:center">
+      <select class="stk-sel" style="width:90px;padding:3px 4px;border-radius:4px;font-size:.78rem;border:1.5px solid #c8d6e5;" onchange="updateStockStyle(this)">
+        <option value="">— Chưa rõ</option>
+        <option value="yes">✅ Có sẵn</option>
+        <option value="no">🔄 Đặt hàng</option>
+      </select>
+    </td>
+    <td style="text-align:center">
+      <button type="button" class="btn-set btn-lookup" id="lookup-btn-${max}"
+              onclick="lookupPrice(${max})" title="Tra giá theo tên hiện tại">🔍</button>
+      <button type="button" class="btn-set btn-del" onclick="deleteRow(${max})"
+              title="Xóa dòng này">✕</button>
+      <input type="hidden" name="note_${max}" value="">
+    </td>`;
+
+  document.querySelector('.rtbl tbody').appendChild(tr);
+  tr.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  tr.querySelector(`[name="pname_${max}"]`).focus();
+}
+
+// ── Xem trước (client-side HTML preview) ────
+function openPreview() {
+  const count  = parseInt(document.querySelector('[name="item_count"]').value);
+  const qnum   = document.getElementById('f_qnum').value.trim();
+  const rcv    = document.getElementById('f_rcv').value.trim();
+  const addr   = document.getElementById('f_addr').value.trim();
+  const tel    = document.getElementById('f_tel').value.trim();
+  const vr     = parseFloat(document.querySelector('[name="vat_rate"]:checked')?.value ?? '8');
+
+  const d = new Date();
+  const dateStr = `Ngày ${String(d.getDate()).padStart(2,'0')} tháng ${String(d.getMonth()+1).padStart(2,'0')} năm ${d.getFullYear()}`;
+
+  let rows = '', sub = 0;
+  for (let i = 1; i <= count; i++) {
+    const pname = document.querySelector(`[name="pname_${i}"]`)?.value || '';
+    if (!pname.trim()) continue;
+    const mat   = document.querySelector(`[name="mat_${i}"]`)?.value    || '';
+    const qty   = parseInt(document.querySelector(`[name="qty_${i}"]`)?.value)   || 0;
+    const price = parseInt(document.querySelector(`[name="price_${i}"]`)?.value) || 0;
+    const rowT  = qty * price;
+    sub += rowT;
+    rows += `<tr>
+      <td class="tc">${i}</td>
+      <td>${escH(pname)}</td>
+      <td>${escH(mat)}</td>
+      <td class="tc">Cái</td>
+      <td class="tc">${qty}</td>
+      <td class="tr">${price>0?fmtVN(price):'—'}</td>
+      <td class="tr">${rowT>0?fmtVN(rowT):'—'}</td>
+      <td></td>
+    </tr>`;
+  }
+  const vat   = Math.round(sub * vr / 100);
+  const grand = sub + vat;
+
+  const html = `<!DOCTYPE html><html lang="vi"><head>
+<meta charset="UTF-8">
+<title>Báo Giá${qnum?' – '+escH(qnum):''} – Nam An</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Times New Roman',serif;font-size:11pt;padding:16px 20px;color:#111}
+.cn{text-align:center;font-size:13pt;font-weight:bold;color:#1F4E79;margin-bottom:4px}
+.ci{text-align:center;font-size:10pt;color:#555;line-height:1.7;margin-bottom:12px}
+.qt{text-align:center;font-size:18pt;font-weight:bold;margin:14px 0 4px}
+.qn{text-align:center;font-size:11pt;margin-bottom:4px}
+.dt{text-align:right;font-size:10pt;color:#555;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th,td{border:1px solid #888;padding:5px 7px;font-size:10pt;word-wrap:break-word;overflow-wrap:break-word;vertical-align:middle}
+th{background:#2E75B6;color:#fff;font-weight:bold;text-align:center}
+.pt th{background:#d9e1f2;color:#111}
+.pt td{word-wrap:break-word;overflow-wrap:break-word}
+tr:nth-child(even) td{background:#ebf3fb}
+.tr-row td{background:#d9e1f2!important;font-weight:bold}
+.tc{text-align:center}.tr{text-align:right}.tl{text-align:left}
+.intro{font-size:10pt;margin:8px 0;line-height:1.6}
+.cond{font-size:10pt;line-height:2.2;margin-top:10px}
+.sig{display:flex;justify-content:space-around;margin-top:28px;text-align:center}
+.sig div{width:40%}
+.sn{margin-top:42px;font-weight:bold;font-size:10pt}
+.prt{text-align:center;margin-top:16px}
+@media print{body{padding:8mm 10mm}.prt{display:none}}
+</style></head><body>
+<div class="cn">CÔNG TY TNHH VẬT TƯ CÔNG NGHIỆP NAM AN</div>
+<div class="ci">
+  Tổng kho/VPGD: Số 68 khu đất DV Vân Canh, KĐT mới Vân Canh, Hoài Đức, Hà Nội<br>
+  Tel: 098 334 41 63 – 098 350 63 89 | Email: bulongocvitnaman@gmail.com | Web: bulongnaman.vn
+</div>
+<div class="qt">THƯ BÁO GIÁ</div>
+${qnum?`<div class="qn">${escH(qnum)}</div>`:''}
+<div class="dt">${dateStr}</div>
+
+<table class="pt" style="margin-bottom:10px">
+  <tr>
+    <th colspan="2" style="width:50%">Bên giao</th>
+    <th colspan="2" style="width:50%">Bên nhận</th>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;width:15%">Đại diện</td><td style="width:35%">Lê Ngọc Dũng</td>
+    <td style="font-weight:bold;width:15%">Tên</td><td>${escH(rcv)}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold">Địa chỉ</td><td>Số 68 khu đất DV Vân Canh, Hoài Đức, HN</td>
+    <td style="font-weight:bold">Địa chỉ</td><td>${escH(addr)}</td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold">Tel</td><td>098 334 41 63</td>
+    <td style="font-weight:bold">Tel</td><td>${escH(tel)}</td>
+  </tr>
+</table>
+
+<p class="intro">Công ty TNHH Vật Tư Công Nghiệp Nam An xin gửi đến quý công ty lời chào trân trọng nhất.
+Theo như đơn đặt hàng đã được phê duyệt, hai bên tiến hành giao nhận số lượng hàng hóa như sau:</p>
+
+<table style="margin-top:8px;table-layout:fixed;width:100%">
+  <colgroup>
+    <col style="width:40px">
+    <col style="width:auto">
+    <col style="width:120px">
+    <col style="width:48px">
+    <col style="width:48px">
+    <col style="width:100px">
+    <col style="width:110px">
+    <col style="width:80px">
+  </colgroup>
+  <tr>
+    <th>STT</th><th>Sản phẩm</th>
+    <th>Chất liệu</th><th>ĐVT</th>
+    <th>SL</th><th>Đơn giá</th>
+    <th>Thành tiền</th><th>Ghi chú</th>
+  </tr>
+  ${rows}
+  <tr class="tr-row"><td colspan="6" class="tr">Tổng chưa VAT</td><td class="tr">${fmtVN(sub)}</td><td></td></tr>
+  <tr class="tr-row"><td colspan="6" class="tr">VAT (${vr}%)</td><td class="tr">${fmtVN(vat)}</td><td class="tc">VND</td></tr>
+  <tr class="tr-row"><td colspan="6" class="tr">Tổng gồm VAT</td><td class="tr">${fmtVN(grand)}</td><td class="tc">VND</td></tr>
+</table>
+
+<div class="cond">
+  Tình trạng hàng hóa: Chưa qua sử dụng, đầy đủ phụ kiện<br>
+  Thanh toán: Thanh toán 100% trước khi nhận hàng.<br>
+  Thời gian giao hàng: 20–25 ngày kể từ khi có xác nhận đơn hàng.<br>
+  Thời gian bảo hành: 30 ngày khi có lỗi từ bên cung cấp.<br>
+  Giao hàng tại: Tại kho Nam An
+</div>
+<div class="sig">
+  <div>
+    <strong>Đại diện bên giao</strong><br>
+    Công Ty TNHH Vật Tư Công Nghiệp Nam An
+    <div class="sn">Lê Ngọc Dũng</div>
+  </div>
+  <div>
+    <strong>Đại diện bên nhận</strong><br>
+    ${escH(rcv)}
+    <div class="sn">&nbsp;</div>
+  </div>
+</div>
+<div class="prt">
+  <button onclick="window.print()"
+    style="margin-top:14px;padding:8px 22px;background:#1F4E79;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10pt;">
+    🖨 In báo giá
+  </button>
+</div>
+</body></html>`;
+
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  window.open(URL.createObjectURL(blob), '_blank');
+}
+</script>
+{% endblock %}
