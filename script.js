@@ -3,6 +3,171 @@
 // Script chính - Tất cả tính năng tương tác
 // ============================================================
 
+// ── IndexedDB helpers (đồng bộ với admin.html) ──
+const _IDB = { name: 'thinhvuong_db', version: 1, store: 'cms' };
+function _openDB() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(_IDB.name, _IDB.version);
+    r.onupgradeneeded = e => e.target.result.createObjectStore(_IDB.store);
+    r.onsuccess = e => res(e.target.result);
+    r.onerror = e => rej(e.target.error);
+  });
+}
+function _idbGet(db, k) {
+  return new Promise((res, rej) => {
+    const r = db.transaction(_IDB.store, 'readonly').objectStore(_IDB.store).get(k);
+    r.onsuccess = e => res(e.target.result ?? null);
+    r.onerror = e => rej(e.target.error);
+  });
+}
+
+// ── Tải dữ liệu CMS: ưu tiên cms-data.json (GitHub), fallback IndexedDB ──
+async function _loadCMSData() {
+  // 1. Thử đọc từ cms-data.json (file được commit lên GitHub)
+  try {
+    const resp = await fetch('cms-data.json');
+    if (resp.ok) {
+      const d = await resp.json();
+      if (d) return d;
+    }
+  } catch(e) {}
+  // 2. Fallback: IndexedDB (dữ liệu local từ admin)
+  try {
+    const db = await _openDB();
+    const d = await _idbGet(db, 'data');
+    if (d) return d;
+  } catch(e) {}
+  // 3. Legacy: localStorage
+  try {
+    const raw = localStorage.getItem('thinhvuong_cms');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+// ── CMS Loader: áp dụng dữ liệu từ admin.html lên trang ──
+(async function applyCMSData() {
+  try {
+    const d = await _loadCMSData();
+    if (!d) return;
+
+    function applyBg(el, src) {
+      if (!el || !src) return;
+      el.style.backgroundImage = 'url("' + src + '")';
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+    }
+
+    // Benefits image
+    if (d.benefits && d.benefits.image) {
+      var bImg = document.getElementById('benefits-custom-img');
+      var bHtml = document.getElementById('benefits-html-wrap');
+      var bSec = document.getElementById('benefits');
+      if (bImg) { bImg.src = d.benefits.image; bImg.style.display = 'block'; }
+      if (bHtml) bHtml.style.display = 'none';
+      if (bSec) bSec.style.padding = '0';
+    }
+
+    // Hero slides
+    if (d.hero) {
+      const slides = document.querySelectorAll('.hero-slider .slide');
+      d.hero.forEach((slide, i) => {
+        if (!slides[i]) return;
+        applyBg(slides[i].querySelector('.slide-bg'), slide.image);
+        const badge = slides[i].querySelector('.hero-badge');
+        if (badge && slide.badge) badge.textContent = slide.badge;
+        const desc = slides[i].querySelector('.hero-desc');
+        if (desc && slide.desc) desc.textContent = slide.desc;
+        if (slide.title) {
+          const h1 = slides[i].querySelector('h1');
+          if (h1) {
+            const lines = slide.title.split('\n');
+            h1.innerHTML = lines.map((l, li) =>
+              li === 1 ? '<span class="gold">' + l + '</span>' : l
+            ).join('<br>');
+          }
+        }
+      });
+    }
+
+    // About
+    if (d.about) {
+      const ph = document.querySelector('.about-img-placeholder');
+      if (ph && d.about.image) {
+        applyBg(ph, d.about.image);
+        ph.style.borderRadius = '12px';
+        const icon = ph.querySelector('i');
+        const span = ph.querySelector('span');
+        if (icon) icon.style.display = 'none';
+        if (span) span.style.display = 'none';
+      }
+      const h3 = document.querySelector('.about-content h3');
+      if (h3 && d.about.title) h3.textContent = d.about.title;
+      const paras = document.querySelectorAll('.about-content > p');
+      if (paras[0] && d.about.content1) paras[0].textContent = d.about.content1;
+      if (paras[1] && d.about.content2) paras[1].textContent = d.about.content2;
+    }
+
+    // Categories
+    if (d.categories) {
+      const catImgs = document.querySelectorAll('.cat-img');
+      const catNames = document.querySelectorAll('.cat-info h3');
+      const catDescs = document.querySelectorAll('.cat-info p');
+      d.categories.forEach((cat, i) => {
+        applyBg(catImgs[i], cat.image);
+        if (cat.name && catNames[i]) catNames[i].textContent = cat.name;
+        if (cat.desc && catDescs[i]) catDescs[i].textContent = cat.desc;
+      });
+    }
+
+    // Products
+    const productMap = {
+      tubep: '#sp-tu-bep',
+      thietbi: '#sp-thiet-bi',
+      phukien: '#sp-phu-kien',
+      banghe: '#sp-ban-ghe',
+      giacong: '#sp-gia-cong'
+    };
+    if (d.products) {
+      Object.entries(productMap).forEach(([key, sel]) => {
+        const section = document.querySelector(sel);
+        if (!section || !d.products[key]) return;
+        const cards = section.querySelectorAll('.product-card');
+        d.products[key].forEach((prod, i) => {
+          if (!cards[i]) return;
+          const img = cards[i].querySelector('.product-img');
+          applyBg(img, prod.image);
+          const h4 = cards[i].querySelector('h4');
+          if (h4 && prod.name) h4.textContent = prod.name;
+          const p = cards[i].querySelector('p');
+          if (p && prod.desc) p.textContent = prod.desc;
+          const badge = cards[i].querySelector('.product-badge');
+          if (badge && prod.badge !== undefined) {
+            if (prod.badge) { badge.textContent = prod.badge; badge.style.display = ''; }
+            else badge.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Projects
+    if (d.projects) {
+      const projCards = document.querySelectorAll('.project-card');
+      d.projects.forEach((proj, i) => {
+        if (!projCards[i]) return;
+        applyBg(projCards[i].querySelector('.project-img'), proj.image);
+        const h4 = projCards[i].querySelector('.project-overlay h4');
+        if (h4 && proj.title) h4.textContent = proj.title;
+        const p = projCards[i].querySelector('.project-overlay p');
+        if (p && proj.subtitle) p.textContent = proj.subtitle;
+      });
+    }
+
+  } catch (e) {
+    console.warn('CMS load error:', e);
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
@@ -456,11 +621,64 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Thành công
-      alert('✅ Cảm ơn bạn đã liên hệ!\n\nChúng tôi sẽ phản hồi trong thời gian sớm nhất.\n\n— Thịnh Vượng Kitchen');
-      contactForm.reset();
+      // ── Lấy dữ liệu form ──
+      const nameVal    = (contactForm.querySelector('[name="name"],#name')?.value || '').trim();
+      const phoneVal   = (contactForm.querySelector('[name="phone"],#phone')?.value || '').trim();
+      const emailVal   = (contactForm.querySelector('[name="email"],#email')?.value || '').trim();
+      const serviceVal = (contactForm.querySelector('[name="service"],#service,select')?.value || '').trim();
+      const msgVal     = (contactForm.querySelector('[name="message"],#message,textarea')?.value || '').trim();
 
-      // Xóa tất cả class error
+      // ── Soạn tin nhắn Zalo ──
+      const zaloMsg = [
+        '📋 YÊU CẦU BÁO GIÁ - Thịnh Vượng',
+        '─────────────────────',
+        `👤 Họ tên: ${nameVal}`,
+        `📞 SĐT: ${phoneVal}`,
+        emailVal   ? `📧 Email: ${emailVal}` : '',
+        serviceVal ? `🔧 Dịch vụ: ${serviceVal}` : '',
+        msgVal     ? `💬 Nội dung: ${msgVal}` : '',
+        '─────────────────────',
+        'Kính gửi Thịnh Vượng, vui lòng tư vấn giúp tôi ạ!'
+      ].filter(Boolean).join('\n');
+
+      // ── Hiện modal Zalo ──
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+      overlay.innerHTML = `
+        <div style="background:#fff;border-radius:20px;padding:28px 24px;max-width:460px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.3);animation:slideUp .3s ease">
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="width:56px;height:56px;background:#0068ff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#0068ff"/><path d="M24 10C16.27 10 10 15.7 10 22.8c0 4.1 2.1 7.76 5.4 10.16l-.9 4.54 4.97-2.46A15.8 15.8 0 0024 35.6c7.73 0 14-5.7 14-12.8S31.73 10 24 10z" fill="#fff"/></svg>
+            </div>
+            <h3 style="margin:0 0 4px;color:#1a2744;font-size:18px;font-weight:700">Gửi yêu cầu qua Zalo</h3>
+            <p style="margin:0;color:#6b7280;font-size:13px">Tin nhắn đã được soạn sẵn, chỉ cần paste &amp; gửi!</p>
+          </div>
+
+          <div style="background:#f0f4ff;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#374151;line-height:1.7;white-space:pre-wrap;max-height:180px;overflow-y:auto;border:1.5px solid #dbe4ff" id="zalo-msg-preview">${zaloMsg.replace(/</g,'&lt;')}</div>
+
+          <button id="zalo-copy-btn" onclick="
+            navigator.clipboard.writeText(document.getElementById('zalo-msg-preview').innerText).then(()=>{
+              this.innerHTML='<i class=fas fa-check style=margin-right:6px></i>Đã copy!';
+              this.style.background='#16a34a';
+            });
+          " style="width:100%;padding:11px;background:#374151;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px">
+            <i class="fas fa-copy"></i> Copy tin nhắn
+          </button>
+
+          <a href="https://zalo.me/0395326530" target="_blank"
+            style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:#0068ff;color:#fff;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:10px">
+            <svg width="20" height="20" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#fff" fill-opacity=".25"/><path d="M24 10C16.27 10 10 15.7 10 22.8c0 4.1 2.1 7.76 5.4 10.16l-.9 4.54 4.97-2.46A15.8 15.8 0 0024 35.6c7.73 0 14-5.7 14-12.8S31.73 10 24 10z" fill="#fff"/></svg>
+            Mở Zalo – Paste &amp; Gửi
+          </a>
+
+          <button onclick="this.closest('[style*=fixed]').remove()" style="width:100%;padding:9px;background:transparent;color:#9ca3af;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;cursor:pointer">Đóng</button>
+        </div>
+        <style>@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}</style>
+      `;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+      contactForm.reset();
       contactForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
     });
   }
@@ -728,15 +946,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Chỉ áp dụng parallax khi hero section còn trong viewport
     if (scrolled <= heroHeight) {
-      const parallaxValue = scrolled * 0.4; // Tốc độ parallax (0.4 = nhẹ)
+      const parallaxValue = scrolled * 0.4;
       heroSection.style.backgroundPositionY = `${parallaxValue}px`;
 
-      // Parallax cho nội dung bên trong hero (nếu có)
+      // Giữ nội dung hero luôn hiện rõ khi cuộn
       const heroContent = heroSection.querySelector('.hero-content, .hero-text, .slide-content');
       if (heroContent) {
-        const contentParallax = scrolled * 0.2;
-        heroContent.style.transform = `translateY(${contentParallax}px)`;
-        heroContent.style.opacity = 1 - scrolled / heroHeight;
+        heroContent.style.transform = '';
+        heroContent.style.opacity = 1;
       }
     }
   };
@@ -759,30 +976,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((el, index) => {
       el.classList.add('reveal-on-scroll');
-      // Thêm delay stagger cho các card để tạo hiệu ứng cascade
       el.style.transitionDelay = `${index * 0.1}s`;
+      // Nếu element đã trong viewport khi trang tải → reveal ngay, không chờ scroll
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('revealed');
+      }
     });
   });
 
-  // Inject CSS cho reveal animation
+  // Tắt hoàn toàn reveal animation - đảm bảo content luôn hiện rõ
   const revealStyle = document.createElement('style');
   revealStyle.textContent = `
-    .reveal-on-scroll {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
+    .reveal-on-scroll,
     .reveal-on-scroll.revealed {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      visibility: visible !important;
     }
   `;
   document.head.appendChild(revealStyle);
 
   // Bắt đầu observe sau khi đã thêm class
   observeRevealElements();
+
+  // Force reveal tất cả elements trong viewport sau 1 frame để chắc chắn
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal-on-scroll:not(.revealed)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('revealed');
+      }
+    });
+  });
+
+  // ============================================================
+  // 16. FORCE VISIBLE - Ép hiện rõ section-header và about
+  // Debug + fix mọi phần tử bị mờ trong section about
+  // ============================================================
+  const forceAboutVisible = () => {
+    const aboutSection = document.querySelector('section.about');
+    if (!aboutSection) return;
+    const toFix = [aboutSection, ...aboutSection.querySelectorAll('*')];
+    toFix.forEach(el => {
+      if (!el.classList.contains('dropdown') &&
+          !el.classList.contains('lightbox-overlay') &&
+          !el.classList.contains('mobile-overlay')) {
+        el.style.setProperty('opacity', '1', 'important');
+        el.style.setProperty('filter', 'none', 'important');
+      }
+    });
+  };
+
+  // Chạy ngay và sau mỗi scroll lần đầu để đảm bảo
+  forceAboutVisible();
+  window.addEventListener('scroll', forceAboutVisible, { passive: true, once: true });
 
   // ============================================================
   // SCROLL EVENT HANDLER - Xử lý tổng hợp sự kiện cuộn

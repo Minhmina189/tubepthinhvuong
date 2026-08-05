@@ -36,7 +36,7 @@
     <div class="header-main">
       <div class="container">
         <a href="#" class="logo">
-          <div class="logo-icon"><i class="fas fa-home"></i></div>
+          <img src="images/logo.png" alt="Thịnh Vượng" class="logo-img" onerror="this.style.display='none'">
           <div class="logo-text">
             <span class="logo-name">THỊNH VƯỢNG</span>
             <span class="logo-tagline">Tủ Bếp Inox & Gia Công Sắt Thép</span>
@@ -84,18 +84,16 @@
           <li><a href="#contact">Liên Hệ</a></li>
         </ul>
       </div>
+      <div class="category-sidebar" id="categorySidebar">
+        <ul>
+          <li><a href="#sp-tu-bep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
+          <li><a href="#sp-thiet-bi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
+          <li><a href="#sp-phu-kien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
+          <li><a href="#sp-ban-ghe"><i class="fas fa-chair"></i> Bàn Ghế Inox & SP Khác</a></li>
+          <li><a href="#sp-gia-cong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
+        </ul>
+      </div>
     </nav>
-
-    <!-- Category Sidebar -->
-    <div class="category-sidebar" id="categorySidebar">
-      <ul>
-        <li><a href="#sp-tu-bep"><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</a></li>
-        <li><a href="#sp-thiet-bi"><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</a></li>
-        <li><a href="#sp-phu-kien"><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</a></li>
-        <li><a href="#sp-ban-ghe"><i class="fas fa-chair"></i> Bàn Ghế Inox & SP Khác</a></li>
-        <li><a href="#sp-gia-cong"><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</a></li>
-      </ul>
-    </div>
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
@@ -199,7 +197,7 @@
             <span>Ảnh cơ sở sản xuất</span>
           </div>
           <div class="about-experience">
-            <span class="exp-number">10+</span>
+            <span class="exp-number">15+</span>
             <span class="exp-text">Năm Kinh Nghiệm</span>
           </div>
         </div>
@@ -217,11 +215,11 @@
       </div>
       <div class="stats-bar">
         <div class="stat-item">
-          <div class="stat-number" data-target="10">0</div>
+          <div class="stat-number" data-target="15">0</div>
           <div class="stat-label">Năm Kinh Nghiệm</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number" data-target="500">0</div>
+          <div class="stat-number" data-target="1500">0</div>
           <div class="stat-label">Công Trình Hoàn Thành</div>
         </div>
         <div class="stat-item">
@@ -230,10 +228,56 @@
         </div>
         <div class="stat-item">
           <div class="stat-number" data-target="100">0</div>
-          <div class="stat-label">% Hài Lòng</div>
+          <div class="stat-label">% Làm Đến Khi Khách Hài Lòng</div>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ═══════════════════ BENEFITS ═══════════════════ -->
+  <section class="benefits-section" id="benefits">
+    <!-- Ảnh upload từ admin (hiển thị khi có, ẩn HTML mặc định) -->
+    <img id="benefits-custom-img" src="" alt="Lợi ích khi làm tủ bếp tại Thịnh Vượng"
+      style="display:none;width:100%;max-width:1200px;margin:0 auto;display:none;border-radius:0">
+    <div id="benefits-html-wrap" class="container">
+      <div class="section-header">
+        <span class="section-badge" style="color:#c8a45e;background:rgba(200,164,94,.15)"><i class="fas fa-star"></i> Cam Kết Của Chúng Tôi</span>
+        <h2 class="section-title" style="color:#fff">Lợi Ích Khi Làm Tủ Bếp <span class="gold">Tại Thịnh Vượng</span></h2>
+        <div class="section-divider"><span></span><i class="fas fa-star" style="color:#c8a45e"></i><span></span></div>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <div class="benefit-num">1</div>
+          <div class="benefit-icon"><i class="fas fa-comments"></i></div>
+          <div class="benefit-text">Tư vấn, thiết kế miễn phí</div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-num">2</div>
+          <div class="benefit-icon"><i class="fas fa-clipboard-list"></i></div>
+          <div class="benefit-text">Báo giá chi tiết, rõ ràng</div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-num">3</div>
+          <div class="benefit-icon"><i class="fas fa-hard-hat"></i></div>
+          <div class="benefit-text">Thi công đảm bảo, chất lượng</div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-num">4</div>
+          <div class="benefit-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div class="benefit-text">Không phát sinh chi phí</div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-num">5</div>
+          <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+          <div class="benefit-text">Bảo hành khung tủ lên đến 10 năm</div>
+        </div>
+      </div>
+      <div class="benefits-trust">
+        <div class="benefits-trust-item"><i class="fas fa-award"></i> Uy Tín</div>
+        <div class="benefits-trust-item"><i class="fas fa-gem"></i> Chất Lượng</div>
+        <div class="benefits-trust-item"><i class="fas fa-crown"></i> Tận Tâm</div>
+      </div>
+    </div><!-- /benefits-html-wrap -->
   </section>
 
   <!-- ═══════════════════ CATEGORIES ═══════════════════ -->
@@ -245,7 +289,7 @@
         <div class="section-divider"><span></span><i class="fas fa-star"></i><span></span></div>
       </div>
       <div class="categories-grid">
-        <div class="category-card" onclick="location.href='#sp-tu-bep'">
+        <div class="category-card" onclick="location.href='product.html?cat=tubep'">
           <div class="cat-img cat-img-1">
             <div class="cat-overlay">
               <i class="fas fa-sink"></i>
@@ -257,7 +301,7 @@
             <span class="cat-count">Xem sản phẩm →</span>
           </div>
         </div>
-        <div class="category-card" onclick="location.href='#sp-thiet-bi'">
+        <div class="category-card" onclick="location.href='product.html?cat=thietbi'">
           <div class="cat-img cat-img-2">
             <div class="cat-overlay">
               <i class="fas fa-blender"></i>
@@ -269,7 +313,7 @@
             <span class="cat-count">Xem sản phẩm →</span>
           </div>
         </div>
-        <div class="category-card" onclick="location.href='#sp-phu-kien'">
+        <div class="category-card" onclick="location.href='product.html?cat=phukien'">
           <div class="cat-img cat-img-3">
             <div class="cat-overlay">
               <i class="fas fa-cogs"></i>
@@ -281,7 +325,7 @@
             <span class="cat-count">Xem sản phẩm →</span>
           </div>
         </div>
-        <div class="category-card" onclick="location.href='#sp-ban-ghe'">
+        <div class="category-card" onclick="location.href='product.html?cat=banghe'">
           <div class="cat-img cat-img-4">
             <div class="cat-overlay">
               <i class="fas fa-chair"></i>
@@ -293,7 +337,7 @@
             <span class="cat-count">Xem sản phẩm →</span>
           </div>
         </div>
-        <div class="category-card" onclick="location.href='#sp-gia-cong'">
+        <div class="category-card" onclick="location.href='product.html?cat=giacong'">
           <div class="cat-img cat-img-5">
             <div class="cat-overlay">
               <i class="fas fa-tools"></i>
@@ -314,210 +358,210 @@
     <div class="container">
 
       <!-- ── Tủ Bếp Inox ── -->
-      <div class="product-section" id="sp-tu-bep">
+      <div class="product-section" id="sp-tu-bep" data-cat="tubep">
         <div class="product-section-header">
           <h3><i class="fas fa-sink"></i> Tủ Bếp Inox Cánh Kính</h3>
-          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+          <a href="product.html?cat=tubep" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
         </div>
         <div class="product-grid">
-          <div class="product-card">
+          <div class="product-card" data-id="0" onclick="location.href='product.html?cat=tubep&id=0'">
             <div class="product-img pi-tubep-1"><span class="product-badge">Hot</span></div>
             <div class="product-info">
               <h4>Tủ Bếp Inox Cánh Kính Chữ L</h4>
               <p>Thiết kế tối ưu không gian góc, chất liệu inox 304 kết hợp kính cường lực</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="1" onclick="location.href='product.html?cat=tubep&id=1'">
             <div class="product-img pi-tubep-2"></div>
             <div class="product-info">
               <h4>Tủ Bếp Inox Cánh Kính Chữ I</h4>
               <p>Phù hợp không gian bếp nhỏ, thiết kế gọn gàng, hiện đại</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="2" onclick="location.href='product.html?cat=tubep&id=2'">
             <div class="product-img pi-tubep-3"><span class="product-badge new">Mới</span></div>
             <div class="product-info">
               <h4>Tủ Bếp Inox Cánh Kính Chữ U</h4>
               <p>Không gian bếp rộng rãi, tiện nghi tối đa với 3 mặt tủ</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
-            <div class="product-img pi-tubep-4"></div>
+          <div class="product-card" data-id="3" onclick="location.href='product.html?cat=tubep&id=3'">
+            <div class="product-img pi-tubep-4"><span class="product-badge new">Mới</span></div>
             <div class="product-info">
-              <h4>Tủ Bếp Inox Đảo Bếp</h4>
-              <p>Phong cách hiện đại, đảo bếp inox kết hợp cánh kính sang trọng</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <h4>Tủ Bếp Inox Đảo Bếp, Quầy Bar</h4>
+              <p>Thiết kế đảo bếp độc lập hoặc quầy bar kết hợp, inox 304 kính cường lực, sang trọng</p>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── Thiết Bị Nhà Bếp ── -->
-      <div class="product-section" id="sp-thiet-bi">
+      <div class="product-section" id="sp-thiet-bi" data-cat="thietbi">
         <div class="product-section-header">
           <h3><i class="fas fa-blender"></i> Thiết Bị Nhà Bếp</h3>
-          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+          <a href="product.html?cat=thietbi" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
         </div>
         <div class="product-grid">
-          <div class="product-card">
+          <div class="product-card" data-id="0" onclick="location.href='product.html?cat=thietbi&id=0'">
             <div class="product-img pi-thietbi-1"></div>
             <div class="product-info">
               <h4>Chậu Rửa Inox 2 Ngăn</h4>
               <p>Inox 304 cao cấp, bề mặt nhám chống xước, chống ồn</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="1" onclick="location.href='product.html?cat=thietbi&id=1'">
             <div class="product-img pi-thietbi-2"></div>
             <div class="product-info">
               <h4>Vòi Rửa Bát Inox</h4>
               <p>Vòi rửa bát inox 304 xoay 360°, tiết kiệm nước</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="2" onclick="location.href='product.html?cat=thietbi&id=2'">
             <div class="product-img pi-thietbi-3"></div>
             <div class="product-info">
               <h4>Bếp Gas Âm Kính</h4>
               <p>Mặt kính cường lực, 2 bếp gas, đánh lửa tự động</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="3" onclick="location.href='product.html?cat=thietbi&id=3'">
             <div class="product-img pi-thietbi-4"><span class="product-badge">Hot</span></div>
             <div class="product-info">
               <h4>Máy Hút Mùi Kính Cong</h4>
               <p>Công suất lớn, lọc khói hiệu quả, thiết kế sang trọng</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── Phụ Kiện Tủ Bếp ── -->
-      <div class="product-section" id="sp-phu-kien">
+      <div class="product-section" id="sp-phu-kien" data-cat="phukien">
         <div class="product-section-header">
           <h3><i class="fas fa-cogs"></i> Phụ Kiện Tủ Bếp</h3>
-          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+          <a href="product.html?cat=phukien" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
         </div>
         <div class="product-grid">
-          <div class="product-card">
+          <div class="product-card" data-id="0" onclick="location.href='product.html?cat=phukien&id=0'">
             <div class="product-img pi-phukien-1"></div>
             <div class="product-info">
               <h4>Kệ Gia Vị Tủ Bếp</h4>
               <p>Kệ gia vị inox gắn cánh tủ, tiết kiệm không gian</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="1" onclick="location.href='product.html?cat=phukien&id=1'">
             <div class="product-img pi-phukien-2"><span class="product-badge new">Mới</span></div>
             <div class="product-info">
               <h4>Rổ Xoay Góc Tủ Bếp</h4>
               <p>Rổ xoay inox mâm xoay 360°, tận dụng tối đa góc tủ</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="2" onclick="location.href='product.html?cat=phukien&id=2'">
             <div class="product-img pi-phukien-3"></div>
             <div class="product-info">
               <h4>Giá Để Chén Bát</h4>
               <p>Giá úp chén bát inox 2 tầng, có khay hứng nước</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="3" onclick="location.href='product.html?cat=phukien&id=3'">
             <div class="product-img pi-phukien-4"></div>
             <div class="product-info">
               <h4>Thùng Rác Âm Tủ</h4>
               <p>Thùng rác âm tủ 2 ngăn, gắn cánh, mở tự động</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── Bàn Ghế Inox & SP Khác ── -->
-      <div class="product-section" id="sp-ban-ghe">
+      <div class="product-section" id="sp-ban-ghe" data-cat="banghe">
         <div class="product-section-header">
           <h3><i class="fas fa-chair"></i> Bàn Ghế Inox & Sản Phẩm Khác</h3>
-          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+          <a href="product.html?cat=banghe" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
         </div>
         <div class="product-grid">
-          <div class="product-card">
+          <div class="product-card" data-id="0" onclick="location.href='product.html?cat=banghe&id=0'">
             <div class="product-img pi-banghe-1"><span class="product-badge">Hot</span></div>
             <div class="product-info">
               <h4>Bộ Bàn Ghế Inox 4 Chỗ</h4>
               <p>Bàn ghế inox 304, mặt bàn inox dày, chân chống trượt</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="1" onclick="location.href='product.html?cat=banghe&id=1'">
             <div class="product-img pi-banghe-2"></div>
             <div class="product-info">
               <h4>Bộ Bàn Ghế Inox 6 Chỗ</h4>
               <p>Phù hợp quán ăn, nhà hàng, bền đẹp theo thời gian</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="2" onclick="location.href='product.html?cat=banghe&id=2'">
             <div class="product-img pi-banghe-3"></div>
             <div class="product-info">
               <h4>Kệ Inox Đa Năng</h4>
               <p>Kệ inox 3-5 tầng, chịu lực tốt, dùng trong bếp hoặc kho</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="3" onclick="location.href='product.html?cat=banghe&id=3'">
             <div class="product-img pi-banghe-4"></div>
             <div class="product-info">
               <h4>Máng Lợn Inox</h4>
               <p>Máng lợn inox 304 bền chắc, dễ vệ sinh, chống ăn mòn</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ── Gia Công Theo Yêu Cầu ── -->
-      <div class="product-section" id="sp-gia-cong">
+      <div class="product-section" id="sp-gia-cong" data-cat="giacong">
         <div class="product-section-header">
           <h3><i class="fas fa-tools"></i> Gia Công Theo Yêu Cầu</h3>
-          <a href="#contact" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
+          <a href="product.html?cat=giacong" class="view-more">Xem thêm <i class="fas fa-chevron-right"></i></a>
         </div>
         <div class="product-grid">
-          <div class="product-card">
+          <div class="product-card" data-id="0" onclick="location.href='product.html?cat=giacong&id=0'">
             <div class="product-img pi-giacong-1"></div>
             <div class="product-info">
               <h4>Cổng Sắt Hộp</h4>
               <p>Cổng sắt hộp mạ kẽm, sơn tĩnh điện, bền đẹp lâu dài</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="1" onclick="location.href='product.html?cat=giacong&id=1'">
             <div class="product-img pi-giacong-2"></div>
             <div class="product-info">
               <h4>Cửa Sắt / Cửa Inox</h4>
               <p>Cửa sắt, cửa inox các loại, gia công theo kích thước yêu cầu</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="2" onclick="location.href='product.html?cat=giacong&id=2'">
             <div class="product-img pi-giacong-3"><span class="product-badge">Hot</span></div>
             <div class="product-info">
               <h4>Thùng Xe Tải Nhỏ</h4>
               <p>Làm thùng xe tải nhỏ, thùng xe ba gác bằng sắt/inox</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
-          <div class="product-card">
+          <div class="product-card" data-id="3" onclick="location.href='product.html?cat=giacong&id=3'">
             <div class="product-img pi-giacong-4"></div>
             <div class="product-info">
               <h4>Lan Can Inox / Cầu Thang</h4>
               <p>Lan can inox cầu thang, ban công, thiết kế theo yêu cầu</p>
-              <a href="#contact" class="product-cta"><i class="fas fa-phone-alt"></i> Liên hệ báo giá</a>
+              <span class="product-cta"><i class="fas fa-eye"></i> Xem chi tiết</span>
             </div>
           </div>
         </div>
@@ -665,7 +709,17 @@
             </div>
           </div>
           <div class="contact-map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14895.02!2d105.85!3d21.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135007fff7e88a7%3A0x8aa2e4a37e594b7!2zxJBhIFBow7pjLCBTw7NjIFPGoW4sIEjDoCBO4buZaQ!5e0!3m2!1svi!2svn!4v1" width="100%" height="200" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe
+              src="https://maps.google.com/maps?q=21.2733487,105.8868992&z=17&output=embed&hl=vi"
+              width="100%" height="260"
+              style="border:0; border-radius: 12px; display:block;"
+              allowfullscreen="" loading="lazy"
+              title="Bản đồ Cửa hàng INOX Thịnh Vượng"></iframe>
+            <a href="https://www.google.com/maps/place/C%E1%BB%ADa+h%C3%A0ng+INOX+Th%E1%BB%8Bnh+V%C6%B0%E1%BB%A3ng/@21.2733487,105.8868992,17z"
+               target="_blank" rel="noopener"
+               style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:#c8a45e;font-weight:600;text-decoration:none">
+              <i class="fas fa-map-marker-alt"></i> Xem bản đồ lớn hơn trên Google Maps
+            </a>
           </div>
         </div>
         <div class="contact-form-wrap">
@@ -755,6 +809,9 @@
       <div class="footer-bottom">
         <p>© 2024 Tủ Bếp Inox Cánh Kính Thịnh Vượng. All rights reserved.</p>
         <p>Địa chỉ: Chân cầu vượt 3B, Bắc Phú - Đa Phúc - Hà Nội | Hotline: 0395 326 530</p>
+        <p style="margin-top:8px;font-size:12px;opacity:.5">
+          <a href="admin.html" style="color:inherit;text-decoration:none" title="Quản lý nội dung"><i class="fas fa-cog"></i> Quản lý</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -778,6 +835,201 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
+  <!-- ═══ IMAGE MAPPING ═══ -->
+  <style>
+    /* Hero slides */
+    .slide-bg-1 { background-image: url('images/hero-1.jpg'); background-size: cover; background-position: center; }
+    .slide-bg-2 { background-image: url('images/hero-2.png'); background-size: cover; background-position: center; }
+    .slide-bg-3 { background-image: url('images/hero-3.jpg'); background-size: cover; background-position: center; }
+
+    /* About */
+    .about-img-placeholder {
+      background-image: url('images/about.jpeg');
+      background-size: cover;
+      background-position: center top;
+    }
+    .about-img-placeholder i,
+    .about-img-placeholder span { display: none; }
+
+    /* Categories */
+    .cat-img-1 { background-image: url('images/cat-1.jpg'); background-size: cover; background-position: center; }
+    .cat-img-2 { background-image: url('images/cat-2.jpg'); background-size: cover; background-position: center; }
+    .cat-img-3 { background-image: url('images/cat-3.jpg'); background-size: cover; background-position: center; }
+    .cat-img-4 { background-image: url('images/cat-4.jpg'); background-size: cover; background-position: center; }
+    .cat-img-5 { background-image: url('images/cat-5.jpg'); background-size: cover; background-position: center; }
+
+    /* Products – Tủ bếp */
+    .pi-tubep-1 { background-image: url('images/tubep-1.png'); background-size: cover; background-position: center; }
+    .pi-tubep-2 { background-image: url('images/tubep-2.jpg'); background-size: cover; background-position: center; }
+    .pi-tubep-3 { background-image: url('images/tubep-3.jpg'); background-size: cover; background-position: center; }
+    .pi-tubep-4 { background-image: url('images/tubep-4.jpg'); background-size: cover; background-position: center; }
+
+    /* Products – Thiết bị */
+    .pi-thietbi-1 { background-image: url('images/thietbi-1.jpg'); background-size: cover; background-position: center; }
+    .pi-thietbi-2 { background-image: url('images/thietbi-2.jpg'); background-size: cover; background-position: center; }
+    .pi-thietbi-3 { background-image: url('images/thietbi-3.jpg'); background-size: cover; background-position: center; }
+    .pi-thietbi-4 { background-image: url('images/thietbi-4.jpg'); background-size: cover; background-position: center; }
+
+    /* Products – Phụ kiện */
+    .pi-phukien-1 { background-image: url('images/phukien-1.jpg'); background-size: cover; background-position: center; }
+    .pi-phukien-2 { background-image: url('images/phukien-2.jpg'); background-size: cover; background-position: center; }
+    .pi-phukien-3 { background-image: url('images/phukien-3.jpg'); background-size: cover; background-position: center; }
+    .pi-phukien-4 { background-image: url('images/phukien-4.jpg'); background-size: cover; background-position: center; }
+
+    /* Products – Bàn ghế */
+    .pi-banghe-1 { background-image: url('images/banghe-1.png'); background-size: cover; background-position: center; }
+    .pi-banghe-2 { background-image: url('images/banghe-2.jpg'); background-size: cover; background-position: center; }
+    .pi-banghe-3 { background-image: url('images/banghe-3.jpg'); background-size: cover; background-position: center; }
+    .pi-banghe-4 { background-image: url('images/banghe-4.jpg'); background-size: cover; background-position: center; }
+
+    /* Products – Gia công */
+    .pi-giacong-1 { background-image: url('images/giacong-1.jpg'); background-size: cover; background-position: center; }
+    .pi-giacong-2 { background-image: url('images/giacong-2.jpg'); background-size: cover; background-position: center; }
+    .pi-giacong-3 { background-image: url('images/giacong-3.jpg'); background-size: cover; background-position: center; }
+    .pi-giacong-4 { background-image: url('images/giacong-4.jpg'); background-size: cover; background-position: center; }
+
+    /* Projects */
+    .proj-img-1 { background-image: url('images/proj-1.png'); background-size: cover; background-position: center; }
+    .proj-img-2 { background-image: url('images/proj-2.jpg'); background-size: cover; background-position: center; }
+    .proj-img-3 { background-image: url('images/proj-3.jpg'); background-size: cover; background-position: center; }
+    .proj-img-4 { background-image: url('images/proj-4.png'); background-size: cover; background-position: center; }
+    .proj-img-5 { background-image: url('images/proj-5.jpg'); background-size: cover; background-position: center; }
+    .proj-img-6 { background-image: url('images/proj-6.jpg'); background-size: cover; background-position: center; }
+
+
+
+    /* ── Benefits Section ── */
+    .benefits-section {
+      padding: 64px 0;
+      background: linear-gradient(135deg, #1a2744 0%, #2a3f66 100%);
+    }
+    .benefits-section .section-divider span {
+      background: linear-gradient(90deg, #c8a45e, transparent);
+    }
+    .benefits-list {
+      display: flex; flex-direction: column; gap: 14px;
+      max-width: 700px; margin: 0 auto 40px;
+    }
+    .benefit-item {
+      display: flex; align-items: center; gap: 18px;
+      background: rgba(255,255,255,.06); border-radius: 14px;
+      padding: 18px 24px; border: 1px solid rgba(200,164,94,.2);
+      transition: background .2s, border-color .2s;
+    }
+    .benefit-item:hover { background: rgba(255,255,255,.1); border-color: rgba(200,164,94,.45); }
+    .benefit-num {
+      min-width: 46px; height: 46px; border-radius: 50%;
+      background: #1a2744; border: 2.5px solid #c8a45e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; font-weight: 800; color: #c8a45e; flex-shrink: 0;
+    }
+    .benefit-icon {
+      width: 46px; height: 46px; border-radius: 10px;
+      background: rgba(200,164,94,.15);
+      display: flex; align-items: center; justify-content: center;
+      color: #c8a45e; font-size: 19px; flex-shrink: 0;
+    }
+    .benefit-text { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.4; }
+    .benefits-trust {
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      padding-top: 32px; border-top: 1px solid rgba(200,164,94,.25);
+    }
+    .benefits-trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 700; color: #c8a45e;
+    }
+    @media(max-width:600px){
+      .benefit-item { padding: 14px 16px; gap: 12px; }
+      .benefit-text { font-size: 14px; }
+      .benefits-trust { gap: 20px; }
+    }
+
+    /* Logo image */
+    .logo-img { height: 78px; width: auto; max-width: 220px; object-fit: contain; display: block; }
+    @media(max-width:768px){ .logo-img { height: 54px; max-width: 160px; } }
+    @media(max-width:480px){ .logo-img { height: 44px; max-width: 140px; } }
+
+    /* ══ KHÔNG LÀM MỜ BẤT KỲ PHẦN NÀO ══ */
+    /* Header luôn hiện rõ - KHÔNG dùng visibility:visible để tránh dropdown luôn mở */
+    .header, .header-top, .header-top *,
+    .header-main, .header-main *,
+    .logo, .logo-name, .logo-tagline, .logo-img,
+    .hotline, .hotline * { opacity: 1 !important; }
+    /* Nav links trực tiếp - KHÔNG áp cho .dropdown con */
+    .header-nav, .main-nav > li > a { opacity: 1 !important; }
+    /* Section headers luôn hiện rõ */
+    .section-header, .section-header *,
+    .section-title, .section-badge, .section-divider,
+    .product-section-header, .product-section-header * { opacity: 1 !important; }
+    /* Tất cả nội dung text chính luôn hiện rõ */
+    h1, h2, h3, h4, h5 { opacity: 1 !important; }
+    /* Hero content không bao giờ mờ */
+    .slide-content, .slide-content * { opacity: 1 !important; }
+
+  </style>
+
+
   <script src="script.js"></script>
+
+  <!-- ══ ANTI-CACHE NUCLEAR FIX: inline trong HTML, không bao giờ bị cache ══ -->
+  <script>
+  (function() {
+    // Override BẤT KỲ revealStyle nào được inject bởi script.js
+    var overrideStyle = document.createElement('style');
+    overrideStyle.id = 'nuclear-override-inline';
+    overrideStyle.textContent = [
+      '.reveal-on-scroll, .reveal-on-scroll.revealed {',
+      '  opacity: 1 !important; transform: none !important;',
+      '  transition: none !important; visibility: visible !important; filter: none !important;',
+      '}',
+      '.section-header, .section-header *, .section-title, .section-badge,',
+      '.section-divider, h1, h2, h3, h4, h5 {',
+      '  opacity: 1 !important; filter: none !important;',
+      '}',
+      'section.about, section.about * {',
+      '  filter: none !important;',
+      '}'
+    ].join('\n');
+    document.head.appendChild(overrideStyle);
+
+    function makeVisible() {
+      var about = document.querySelector('section.about');
+      if (!about) return;
+      var allInAbout = [about].concat(Array.prototype.slice.call(about.querySelectorAll('*')));
+      allInAbout.forEach(function(el) {
+        if (!el.classList.contains('dropdown') &&
+            !el.classList.contains('lightbox-overlay') &&
+            !el.classList.contains('mobile-overlay')) {
+          el.style.setProperty('opacity', '1', 'important');
+          el.style.setProperty('filter', 'none', 'important');
+        }
+      });
+      var title = document.querySelector('.section-title');
+      if (title) {
+        var cs = window.getComputedStyle(title);
+        console.log('[FIX] opacity:', cs.opacity, '| filter:', cs.filter, '| color:', cs.color);
+        var el = title;
+        while (el && el !== document.body) {
+          var cs2 = window.getComputedStyle(el);
+          if (cs2.filter && cs2.filter !== 'none') {
+            console.warn('[FILTER BUG]', el.tagName + '.' + el.className, 'filter:', cs2.filter);
+          }
+          el = el.parentElement;
+        }
+      }
+    }
+
+    // Chạy ngay sau DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', makeVisible);
+    } else {
+      makeVisible();
+    }
+    // Chạy thêm sau 100ms để đảm bảo script.js đã chạy xong
+    setTimeout(makeVisible, 100);
+    // Chạy khi scroll lần đầu
+    window.addEventListener('scroll', makeVisible, { passive: true, once: true });
+  })();
+  </script>
 </body>
 </html>
